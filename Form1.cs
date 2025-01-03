@@ -25,6 +25,9 @@ public partial class Form1 : Form
     private ArrayList ids = new ArrayList();
     private bool _finalizandoMusica = false;
     private bool playlistsOcultas = true;
+    private int repetir = 0;
+    private int aleatorio = 0;
+    private List<int> aleatorioSemRepeticao = new List<int>();
     private FlowLayoutPanel flwpnlPlaylistsAdicionar;
     private int flwpnlPlaylistsHeight;
     string tempFilePath;
@@ -351,6 +354,34 @@ public partial class Form1 : Form
         lblCRUDTodasMusicas.ImgPrincipalClick += (s, e) => DefinirPlaylist(0);
         lblCRUDTodasMusicas.LabelClick += (s, e) => DefinirPlaylist(0);
         lblCRUDTodasMusicas.Click += (s, e) => DefinirPlaylist(0);
+
+        picBtnAleatorioMusic.Click += (s,e) =>{
+            switch(aleatorio){
+                case 0:
+                    aleatorio = 1;
+                    break;
+                case 1:
+                    aleatorio = 2;
+                    break;
+                case 2:
+                    aleatorio = 0;
+                    break;
+            }
+        };
+
+        picBtnRepetirMusic.Click += (s, e) => {
+            switch(repetir){
+                case 0:
+                    repetir = 1;
+                    break;
+                case 1:
+                    repetir = 2;
+                    break;
+                case 2:
+                    repetir = 0;
+                    break;
+            }
+        };
     }
     private async void MusicaAtual(){
         try{
@@ -359,8 +390,8 @@ public partial class Form1 : Form
             {
                 InitializeAudio();
             }
-            picImgMusic.Image = musicaAtual.getImgMusica();
             Referencias.PicDefinirCorDeFundo(musicaAtual.getImgMusica(), picImgMusic);
+            picImgMusic.Image = musicaAtual.getImgMusica();
             lblNomeMusic.Text = musicaAtual.getNomeMusica();
             lblArtistaMusic.Text = musicaAtual.getNomeArtistaMusica();
             lblDuracaoMusic.Text = TimeSpan.FromSeconds(Math.Round(_audioSource.GetLength().TotalSeconds)).ToString(@"mm\:ss");
@@ -449,24 +480,55 @@ public partial class Form1 : Form
     private async Task<bool> NextMusic(){
         try{
             int indiceAtual = ids.IndexOf(idAtual);
-            if (indiceAtual < ids.Count - 1)
+            int proximoIndice = indiceAtual + 1;
+
+            int Randomic(int valorpadrao){
+                Random random = new Random();
+                if(aleatorio == 1){
+                    return random.Next(1, ids.Count);
+                } else
+                if(aleatorio == 2){
+                    if(aleatorioSemRepeticao.Count == 0){
+                        aleatorioSemRepeticao = Enumerable.Range(0, ids.Count).ToList();
+                    }
+                    int indiceAleatorio = random.Next(aleatorioSemRepeticao.Count);
+                    aleatorioSemRepeticao.RemoveAt(indiceAleatorio);
+                    return aleatorioSemRepeticao[indiceAleatorio];
+                }
+                return valorpadrao;
+            }
+            
+            if (indiceAtual < ids.Count - 1 && repetir != 2)
             {
+                proximoIndice = Randomic(indiceAtual + 1);
                 if (_soundOut != null)
                 {
                     await finalizarMusica();
                 }
-                idAtual = (int)ids[indiceAtual + 1];
+                idAtual = (int)ids[proximoIndice];
                 PlayPauseButton_Click();
                 return true;
-            } else {
-                if (_soundOut != null)
-                {
-                    await finalizarMusica();
-                }
-                idAtual = (int)ids[0];
-                PlayPauseButton_Click();
+            } 
+
+            if(repetir == 1 || aleatorio != 0){
+                    proximoIndice = Randomic(0);
+                    if (_soundOut != null)
+                    {
+                        await finalizarMusica();
+                    }
+                    idAtual = (int)ids[proximoIndice];
+                    PlayPauseButton_Click();
                 return true;
             }
+            if(repetir == 2){
+                    if (_soundOut != null)
+                    {
+                        await finalizarMusica();
+                    }
+                    PlayPauseButton_Click();
+                return true;
+            }
+
         } catch (Exception e){
             MessageBox.Show($"Erro ao passar uma musica: {e.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -540,10 +602,15 @@ public partial class Form1 : Form
             lblAtual.BackColor = Color.AliceBlue;
         }
     }
-    private void PerformActionWhileMusicPlays(object state)
+    private async void PerformActionWhileMusicPlays(object state)
     {
         if (_soundOut != null)
         {
+            if (_audioSource.GetPosition().TotalSeconds >= _audioSource.GetLength().TotalSeconds - 0.5f)
+            {
+                await NextMusic();
+                return;
+            } else 
             if (_soundOut.PlaybackState == PlaybackState.Playing)
             {
                 sldTimelineMusic.Value = (int)_audioSource.GetPosition().TotalSeconds;
