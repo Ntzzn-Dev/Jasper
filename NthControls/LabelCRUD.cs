@@ -20,10 +20,14 @@ namespace Jasper.NthControls
         private bool _withExpand = true;
         private string _texto = "Texto";
         private int _id = 0;
+        private float _diferencaCor = 0.9f;
         private Image _imgPrc;
         private Image _imgEdt;
         private Image _imgDlt;
         private Image _imgExp;
+        private Color _corBackground = Color.DarkGray;
+        private Color _corFontBackground = Color.Black;
+
         public event EventHandler TextoChanged;
         public event EventHandler LabelClick;
         public event EventHandler ImgPrincipalClick;
@@ -98,6 +102,16 @@ namespace Jasper.NthControls
                 Invalidate();
             }
         }
+
+        public float DiferencaCor
+        {
+            get => _diferencaCor;
+            set
+            {
+                _diferencaCor = value;
+                Invalidate();
+            }
+        }
         public Image ImgPrincipal
         {
             get => _imgPrc;
@@ -139,15 +153,48 @@ namespace Jasper.NthControls
                 Invalidate();
             }
         }
+        public Color CorBackGround
+        {
+            get => _corBackground;
+            set
+            {
+                _corBackground = value;
+                this.BackColor = _corBackground;
+                Color darkerColor = PicDarkenColor(CorBackGround, DiferencaCor);
+                picEditar.BackColor = darkerColor;
+                picDeletar.BackColor = darkerColor;
+                picExpandir.BackColor = darkerColor;
+                Invalidate();
+            }
+        }
+        public Color CorFontBackGround
+        {
+            get => _corFontBackground;
+            set
+            {
+                _corFontBackground = value;
+                label1.ForeColor = _corFontBackground;
+                Invalidate();
+            }
+        }
 
         public LabelCRUD()
         {
             InitializeComponent();
-            PicArredondarBordas(picImgPrincipal, 10, 10, 10, 10);
         }
         private void LabelCRUD_Paint(object sender, PaintEventArgs e)
         {
+            PicArredondarBordas(picImgPrincipal, 10, 10, 10, 10);
+            PicArredondarBordas(picEditar, 10, 10, 10, 10);
+            PicArredondarBordas(picDeletar, 10, 10, 10, 10);
+            PicArredondarBordas(picExpandir, 10, 10, 10, 10);
             label1.Text = Texto;
+            label1.ForeColor = _corFontBackground;
+            this.BackColor = _corBackground;
+            Color darkerColor = PicDarkenColor(CorBackGround, DiferencaCor);
+            picEditar.BackColor = darkerColor;
+            picDeletar.BackColor = darkerColor;
+            picExpandir.BackColor = darkerColor;
         }
         private void ToogleImg()
         {
@@ -160,10 +207,22 @@ namespace Jasper.NthControls
 
             if(WithExpand) {picExpandir.Location = posicoes[0]; posicoes.RemoveAt(0);}
             if(WithDelete) {picDeletar.Location = posicoes[0]; posicoes.RemoveAt(0);}
-            if(WithEdit) {picEditar.Location = posicoes[0]; posicoes.RemoveAt(0);}
+            if(WithEdit) {picEditar.Location = posicoes[0];}
 
-            if(WithImg){label1.Location = new Point(75, 3);}
+            label1.Size = new Size(posicoes[0].X - 6 - (label1.Location.X), 50);
+
+            if (WithImg){label1.Location = new Point(75, 3);}
             else {label1.Location = new Point(3, 3);}
+        }
+        private static Color PicDarkenColor(Color color, float factor)
+        {
+            factor = Math.Clamp(factor, 0, 1);
+
+            int r = (int)(color.R * factor);
+            int g = (int)(color.G * factor);
+            int b = (int)(color.B * factor);
+
+            return Color.FromArgb(color.A, r, g, b);
         }
         private void PicDefinirCorDeFundo(Image imgData, PictureBox pic)
         {
@@ -244,11 +303,18 @@ namespace Jasper.NthControls
         {
             base.OnResize(e);
 
-            int primeiraPosition = this.Size.Width - 54;
-            picExpandir.Location = new Point(primeiraPosition, 3);
-            picDeletar.Location = new Point(picExpandir.Location.X - 56, 3);
-            picEditar.Location = new Point(picDeletar.Location.X - 56, 3);
-            label1.Size = new Size(picEditar.Location.X - 6 - (label1.Location.X), 50);
+            List<Point> posicoes =
+            [
+                new Point(this.Size.Width - 54, 3),
+                new Point(this.Size.Width - 110, 3),
+                new Point(this.Size.Width - 166, 3),
+            ];
+
+            if (WithExpand) { picExpandir.Location = posicoes[0]; posicoes.RemoveAt(0); }
+            if (WithDelete) { picDeletar.Location = posicoes[0]; posicoes.RemoveAt(0); }
+            if (WithEdit) { picEditar.Location = posicoes[0]; }
+
+            label1.Size = new Size(posicoes[0].X - 6 - (label1.Location.X), 50);
             
             this.Invalidate();
         }

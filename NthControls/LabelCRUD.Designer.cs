@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LabelCRUD));
             picImgPrincipal = new PictureBox();
             label1 = new Label();
             picDeletar = new PictureBox();
@@ -64,7 +65,8 @@
             // 
             // picDeletar
             // 
-            picDeletar.BackColor = Color.IndianRed;
+            picDeletar.BackColor = Color.Transparent;
+            picDeletar.Image = (Image)resources.GetObject("picDeletar.Image");
             picDeletar.Location = new Point(742, 3);
             picDeletar.Name = "picDeletar";
             picDeletar.Size = new Size(50, 50);
@@ -75,7 +77,8 @@
             // 
             // picEditar
             // 
-            picEditar.BackColor = Color.LightBlue;
+            picEditar.BackColor = Color.Transparent;
+            picEditar.Image = (Image)resources.GetObject("picEditar.Image");
             picEditar.Location = new Point(686, 3);
             picEditar.Name = "picEditar";
             picEditar.Size = new Size(50, 50);
@@ -86,7 +89,8 @@
             // 
             // picExpandir
             // 
-            picExpandir.BackColor = Color.Gainsboro;
+            picExpandir.BackColor = Color.Transparent;
+            picExpandir.Image = (Image)resources.GetObject("picExpandir.Image");
             picExpandir.Location = new Point(798, 3);
             picExpandir.Name = "picExpandir";
             picExpandir.Size = new Size(50, 50);

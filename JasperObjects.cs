@@ -671,6 +671,18 @@ public class Playlists{
 }
 public class Referencias{
     public static string caminhoImgPadrao = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Morgan.jpg");
+    public static string caminhoImgRandom = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Aleatorizar.png");
+    public static string caminhoImgRandom1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Aleatorizar1.png");
+    public static string caminhoImgRandomD = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "AleatorizarDesabilitado.png");
+    public static string caminhoImgRepeat = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Repetir.png");
+    public static string caminhoImgRepeat1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Repetir1.png");
+    public static string caminhoImgRepeatD = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "RepetirDesabilitado.png");
+    public static string caminhoImgPlay = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Play.png");
+    public static string caminhoImgPause = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Pausar.png");
+    public static string caminhoImgMudo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Mudo.png");
+    public static string caminhoImgVolume1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Volume1.png");
+    public static string caminhoImgVolume2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Volume2.png");
+    public static string caminhoImgVolume3 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Volume3.png");
     public Referencias(){
 
     }

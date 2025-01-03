@@ -16,6 +16,10 @@ public class Slider : Control
     private int _thumbSize = 16;
     private bool _withPoint = true;
     private bool _habilitado = true;
+    private Color _corPreenchido1 = Color.FromArgb(98, 51, 175);
+    private Color _corPreenchido2 = Color.FromArgb(160, 160, 160);
+    private Color _corVazio = Color.FromArgb(120, 120, 120);
+    private Color _corBotao = Color.FromArgb(191, 195, 198);
 
     public event EventHandler ValueChanged;
     public event EventHandler ValueMouseChanged;
@@ -107,6 +111,42 @@ public class Slider : Control
             Invalidate();
         }
     }
+    public Color CorPreenchido1
+    {
+        get => _corPreenchido1;
+        set
+        {
+            _corPreenchido1 = value;
+            Invalidate();
+        }
+    }
+    public Color CorPreenchido2
+    {
+        get => _corPreenchido2;
+        set
+        {
+            _corPreenchido2 = value;
+            Invalidate();
+        }
+    }
+    public Color CorVazio
+    {
+        get => _corVazio;
+        set
+        {
+            _corVazio = value;
+            Invalidate();
+        }
+    }
+    public Color CorBotao
+    {
+        get => _corBotao;
+        set
+        {
+            _corBotao = value;
+            Invalidate();
+        }
+    }
 
     public Slider()
     {
@@ -116,9 +156,9 @@ public class Slider : Control
 
     protected override void OnPaint(PaintEventArgs e)
     {
-        Brush vazio = new SolidBrush(Color.FromArgb(255, 160, 160, 160)); // Cor do trilho
-        LinearGradientBrush preenchido = new LinearGradientBrush(new PointF(0, 0), new PointF(Width, 0), Color.FromArgb(98, 51, 175), Color.FromArgb(255, 120, 120, 120));
-        Brush polegar = new SolidBrush(Color.FromArgb(255, 191, 195, 198)); // Cor do polegar
+        Brush vazio = new SolidBrush(CorVazio); // Cor do trilho
+        LinearGradientBrush preenchido = new LinearGradientBrush(new PointF(0, 0), new PointF(Width, 0), CorPreenchido1, CorPreenchido2);
+        Brush polegar = new SolidBrush(CorBotao); // Cor do polegar
 
         int fillWidth = (int)((float)(ValueMouse - Minimum) / (Maximum - Minimum) * (Width - 20));
         Rectangle fillRect = new Rectangle(10, Height / 2 - TrackHeight / 2, fillWidth, TrackHeight);

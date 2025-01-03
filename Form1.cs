@@ -78,7 +78,9 @@ public partial class Form1 : Form
                 Id = msc.getIdMusica(),
                 ImgPrincipal = msc.getImgMusica(),
                 Size = new Size(flwpnlListMusic.Size.Width - 6, 56),
-                Name = "lblCrud>" + msc.getIdMusica()
+                Name = "lblCrud>" + msc.getIdMusica(),
+                CorBackGround = Color.FromArgb(44, 44, 44),
+                CorFontBackGround = Color.Silver
             };
             lbl.ImgPrincipalClick += SelecionarMusicaClick;
             lbl.LabelClick += SelecionarMusicaClick;
@@ -92,7 +94,7 @@ public partial class Form1 : Form
 
         LabelCRUD lblAtual = FindControlByName(flwpnlListMusic, "lblCrud>" + musicaAtual.getIdMusica());
         if(lblAtual != null && vendoPlaylist == playlistAtual){
-            lblAtual.BackColor = Color.AliceBlue;
+            lblAtual.CorBackGround = Color.FromArgb(36, 40, 81);
         }
 
         PegarIds();
@@ -207,7 +209,9 @@ public partial class Form1 : Form
                 Size = new Size(flwpnlPlaylistsAdicionar.Size.Width - 6, 56),
                 Name = "lblCrud>" + lblClicado.Id,
                 WithEdit = false,
-                WithDelete = false
+                WithDelete = false,
+                CorBackGround = Color.FromArgb(44, 44, 44),
+                CorFontBackGround = Color.Silver
             };
             lblPly.ImgPrincipalClick += SalvarNaPlaylistClick;
             lblPly.LabelClick += SalvarNaPlaylistClick;
@@ -295,10 +299,12 @@ public partial class Form1 : Form
                 Texto = ply.getNomePlaylist(),
                 Id = ply.getIdPlaylist(),
                 ImgPrincipal = ply.getImgPlaylist(),
-                Margin = new Padding(0, 3, 0, 3),
+                Margin = new Padding(0, 3, 0, 0),
                 Size = new Size(flwpnlPlaylists.Size.Width, 56),
                 Name = "lblCrud>" + ply.getIdPlaylist(),
-                WithExpand = false
+                WithExpand = false,
+                CorBackGround = Color.FromArgb(44, 44, 44),
+                CorFontBackGround = Color.Silver
             };
             lblPly.ImgPrincipalClick += (s, e) => DefinirPlaylist(ply.getIdPlaylist());
             lblPly.LabelClick += (s, e) => DefinirPlaylist(ply.getIdPlaylist());
@@ -359,12 +365,15 @@ public partial class Form1 : Form
             switch(aleatorio){
                 case 0:
                     aleatorio = 1;
+                    picBtnAleatorioMusic.Image = Image.FromFile(Referencias.caminhoImgRandom);
                     break;
                 case 1:
                     aleatorio = 2;
+                    picBtnAleatorioMusic.Image = Image.FromFile(Referencias.caminhoImgRandom1);
                     break;
                 case 2:
                     aleatorio = 0;
+                    picBtnAleatorioMusic.Image = Image.FromFile(Referencias.caminhoImgRandomD);
                     break;
             }
         };
@@ -373,12 +382,15 @@ public partial class Form1 : Form
             switch(repetir){
                 case 0:
                     repetir = 1;
+                    picBtnRepetirMusic.Image = Image.FromFile(Referencias.caminhoImgRepeat);
                     break;
                 case 1:
                     repetir = 2;
+                    picBtnRepetirMusic.Image = Image.FromFile(Referencias.caminhoImgRepeat1);
                     break;
                 case 2:
                     repetir = 0;
+                    picBtnRepetirMusic.Image = Image.FromFile(Referencias.caminhoImgRepeatD);
                     break;
             }
         };
@@ -405,6 +417,22 @@ public partial class Form1 : Form
         {
             _volumeSource.Volume = volume; // Ajusta o volume em tempo real
         }
+
+        DefinirImageVolume(sldVolumeMusic.Value);
+    }
+    private void DefinirImageVolume(int Volume){
+        if(Volume <= 0){
+            picSoundMusic.Image = Image.FromFile(Referencias.caminhoImgMudo);
+        } else
+        if(Volume >= 1 && Volume <= 33){
+            picSoundMusic.Image = Image.FromFile(Referencias.caminhoImgVolume1);
+        } else
+        if(Volume >= 34 && Volume <= 66){
+            picSoundMusic.Image = Image.FromFile(Referencias.caminhoImgVolume2);
+        } else
+        if(Volume >= 67 && Volume <= 100){
+            picSoundMusic.Image = Image.FromFile(Referencias.caminhoImgVolume3);
+        }
     }
     private void AbrirCadastro(object sender, EventArgs e){
         Form2 telaCadastro = new Form2();
@@ -418,9 +446,11 @@ public partial class Form1 : Form
             if(_volumeSource.Volume != 0){
                 _volumeSource.Volume = 0;
                 sldVolumeMusic.Habilitado = false;
+                picSoundMusic.Image = Image.FromFile(Referencias.caminhoImgMudo);
             } else {
                 _volumeSource.Volume = volume;
                 sldVolumeMusic.Habilitado = true;
+                DefinirImageVolume(sldVolumeMusic.Value);
             }
         }
     }
@@ -566,6 +596,7 @@ public partial class Form1 : Form
                 {
                     _soundOut.Pause();
                     _isPlaying = false;
+                    picBtnPlayMusic.Image = Image.FromFile(Referencias.caminhoImgPlay);
                 }
             }
             else
@@ -582,6 +613,7 @@ public partial class Form1 : Form
                     _timer = new System.Threading.Timer(PerformActionWhileMusicPlays, null, 0, 500);    
                     sldTimelineMusic.Maximum = (int)Math.Round(_audioSource.GetLength().TotalSeconds);
                     _isPlaying = true;
+                    picBtnPlayMusic.Image = Image.FromFile(Referencias.caminhoImgPause);
                 }
             }
             MusicaAtual();
@@ -593,13 +625,13 @@ public partial class Form1 : Form
         LabelCRUD lblAtual = FindControlByName(flwpnlListMusic, "lblCrud>" + musicaAtual.getIdMusica());
         if (lblAtual != null && vendoPlaylist == playlistAtual) 
         {
-            lblAtual.BackColor = Color.DarkGray;
+            lblAtual.CorBackGround = Color.FromArgb(44, 44, 44);
         }
         musicaAtual = new Musicas(idAtual);
         lblAtual = FindControlByName(flwpnlListMusic, "lblCrud>" + musicaAtual.getIdMusica());
         if (lblAtual != null && vendoPlaylist == playlistAtual) 
         {
-            lblAtual.BackColor = Color.AliceBlue;
+            lblAtual.CorBackGround = Color.FromArgb(36, 40, 81);
         }
     }
     private async void PerformActionWhileMusicPlays(object state)
