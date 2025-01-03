@@ -59,9 +59,11 @@
             flowPanel1.FlowDirection = FlowDirection.TopDown;
             flowPanel1.Location = new Point(0, 28);
             flowPanel1.Margin = new Padding(0);
+            flowPanel1.MaximumSize = new Size(438, 116);
             flowPanel1.Name = "flowPanel1";
-            flowPanel1.Size = new Size(438, 112);
+            flowPanel1.Size = new Size(438, 29);
             flowPanel1.TabIndex = 2;
+            flowPanel1.WrapContents = false;
             // 
             // pictureBox1
             // 

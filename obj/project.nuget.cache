@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "O/a563pknoQ=",
+  "dgSpecHash": "5MW9dqErAcA=",
   "success": true,
   "projectFilePath": "H:\\Projects\\CSharp\\Jasper\\Jasper.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,9 @@
     "C:\\Users\\jhony\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\9.0.0\\microsoft.bcl.asyncinterfaces.9.0.0.nupkg.sha512",
     "C:\\Users\\jhony\\.nuget\\packages\\microsoft.data.sqlite\\9.0.0\\microsoft.data.sqlite.9.0.0.nupkg.sha512",
     "C:\\Users\\jhony\\.nuget\\packages\\microsoft.data.sqlite.core\\9.0.0\\microsoft.data.sqlite.core.9.0.0.nupkg.sha512",
+    "C:\\Users\\jhony\\.nuget\\packages\\skiasharp\\3.116.1\\skiasharp.3.116.1.nupkg.sha512",
+    "C:\\Users\\jhony\\.nuget\\packages\\skiasharp.nativeassets.macos\\3.116.1\\skiasharp.nativeassets.macos.3.116.1.nupkg.sha512",
+    "C:\\Users\\jhony\\.nuget\\packages\\skiasharp.nativeassets.win32\\3.116.1\\skiasharp.nativeassets.win32.3.116.1.nupkg.sha512",
     "C:\\Users\\jhony\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.10\\sqlitepclraw.bundle_e_sqlite3.2.1.10.nupkg.sha512",
     "C:\\Users\\jhony\\.nuget\\packages\\sqlitepclraw.core\\2.1.10\\sqlitepclraw.core.2.1.10.nupkg.sha512",
     "C:\\Users\\jhony\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.10\\sqlitepclraw.lib.e_sqlite3.2.1.10.nupkg.sha512",

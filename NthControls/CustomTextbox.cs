@@ -14,7 +14,8 @@ public partial class CustomTextbox : UserControl
     private bool _multiline = false;
     private Color _backColor = Color.White;
     private Color _textColor = Color.White;
-    public string _texto = "";
+    private string _texto = "";
+    public event EventHandler TextoChanged;
     public string LblPlaceholder
     {
         get { return _placeholder; }
@@ -30,7 +31,16 @@ public partial class CustomTextbox : UserControl
         set
         {
             _texto = value;
+            OnTextChanged(EventArgs.Empty);
             this.Invalidate();
+            textBox1.Text = _texto;
+            if (textBox1.Text != "") {
+                isFocused = true;
+                label1.Font = new Font("Segoe UI", 8);
+                int y = 0;
+                label1.Location = new Point(label1.Location.X, y);
+                label1.ForeColor = Color.Silver;
+            }
         }
     }
     public bool Password
@@ -73,6 +83,7 @@ public partial class CustomTextbox : UserControl
     public CustomTextbox()
     {
         InitializeComponent();
+        textBox1.KeyDown += TextBox1_KeyDown;
     }
 
     private void AoCarregar(object sender, EventArgs e)
@@ -80,6 +91,11 @@ public partial class CustomTextbox : UserControl
         if (Password == true)
         {
             textBox1.UseSystemPasswordChar = true;
+        }
+        if (!Texto.Equals(""))
+        {
+            textBox1.Text = Texto;
+            lblTimer.Start();
         }
     }
     private void CustomTextBox_Paint(object sender, PaintEventArgs e)
@@ -105,7 +121,6 @@ public partial class CustomTextbox : UserControl
             textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left;
             textBox1.Height = this.Height;
         }
-
         label1.ForeColor = textColor;
     }
 
@@ -122,6 +137,7 @@ public partial class CustomTextbox : UserControl
                 lblTimer.Stop();
                 label1.Font = new Font("Segoe UI", 8);
                 y = 0;
+                label1.Location = new Point(label1.Location.X, y);
                 label1.ForeColor = Color.Silver;
             }
         }
@@ -135,6 +151,7 @@ public partial class CustomTextbox : UserControl
                 lblTimer.Stop();
                 label1.Font = new Font("Segoe UI", 10);
                 y = 10;
+                label1.Location = new Point(label1.Location.X, y);
                 label1.ForeColor = textColor;
             }
         }
@@ -142,13 +159,35 @@ public partial class CustomTextbox : UserControl
 
     private void textBox1_EnterOrLeave(object sender, EventArgs e)
     {
-        if(textBox1.Text == "")
+        if (textBox1.Text == "")
         {
             lblTimer.Start();
         }
     }
+    private void label1_Click(object sender, EventArgs e)
+    {
+        textBox1.Focus();
+    }
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
         Texto = textBox1.Text;
+    }
+    protected virtual void OnTextChanged(EventArgs e)
+    {
+        TextoChanged?.Invoke(this, e);
+    }
+    private void TextBox1_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            e.SuppressKeyPress = true;
+            OnEnterPressed(EventArgs.Empty);
+        }
+    }
+    public event EventHandler EnterPressed;
+
+    protected virtual void OnEnterPressed(EventArgs e)
+    {
+        EnterPressed?.Invoke(this, e);
     }
 }

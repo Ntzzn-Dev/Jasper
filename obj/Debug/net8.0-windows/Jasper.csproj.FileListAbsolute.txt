@@ -56,3 +56,10 @@ H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Morgan.jpg
 H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\JasperMusic.db
 H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\CSCore.dll
 H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Musicas\audio.m4a
+H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\SkiaSharp.dll
+H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\runtimes\osx\native\libSkiaSharp.dylib
+H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\runtimes\win-arm64\native\libSkiaSharp.dll
+H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
+H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll
+H:\Projects\CSharp\Jasper\obj\Debug\net8.0-windows\Jasper.Form3.resources
+H:\Projects\CSharp\Jasper\obj\Debug\net8.0-windows\Jasper.NthControls.LabelCRUD.resources

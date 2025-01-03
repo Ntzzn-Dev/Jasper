@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             flwpnlPlaylists = new FlowLayoutPanel();
             lblPlaylists = new Label();
             pnlToolbox = new Panel();
@@ -49,7 +50,10 @@
             picBtnNextMusic = new PictureBox();
             picBtnPlayMusic = new PictureBox();
             flwpnlListMusic = new FlowLayoutPanel();
-            flwpnlPlaylists.SuspendLayout();
+            flwpnlPlaylistsTransition = new System.Windows.Forms.Timer(components);
+            lblCRUDTodasMusicas = new NthControls.LabelCRUD();
+            lblPlaylistAtual = new Label();
+            lblTocandoAgora = new Label();
             pnlToolbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picBtnAdicionarMusic).BeginInit();
             pnlDetailsMusic.SuspendLayout();
@@ -67,24 +71,23 @@
             // 
             // flwpnlPlaylists
             // 
+            flwpnlPlaylists.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             flwpnlPlaylists.BackColor = Color.FromArgb(2, 27, 51);
-            flwpnlPlaylists.Controls.Add(lblPlaylists);
-            flwpnlPlaylists.Dock = DockStyle.Left;
-            flwpnlPlaylists.Location = new Point(0, 0);
+            flwpnlPlaylists.Location = new Point(0, 100);
             flwpnlPlaylists.Margin = new Padding(0);
             flwpnlPlaylists.Name = "flwpnlPlaylists";
-            flwpnlPlaylists.Size = new Size(376, 924);
+            flwpnlPlaylists.Size = new Size(376, 824);
             flwpnlPlaylists.TabIndex = 0;
             // 
             // lblPlaylists
             // 
-            lblPlaylists.BackColor = Color.Transparent;
+            lblPlaylists.BackColor = Color.FromArgb(3, 20, 36);
             lblPlaylists.Font = new Font("Verdana", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblPlaylists.ForeColor = SystemColors.ButtonFace;
             lblPlaylists.Location = new Point(0, 0);
             lblPlaylists.Margin = new Padding(0);
             lblPlaylists.Name = "lblPlaylists";
-            lblPlaylists.Size = new Size(373, 45);
+            lblPlaylists.Size = new Size(376, 45);
             lblPlaylists.TabIndex = 0;
             lblPlaylists.Text = "Playlists:...";
             // 
@@ -111,6 +114,8 @@
             // pnlDetailsMusic
             // 
             pnlDetailsMusic.BackColor = Color.FromArgb(2, 27, 51);
+            pnlDetailsMusic.Controls.Add(lblTocandoAgora);
+            pnlDetailsMusic.Controls.Add(lblPlaylistAtual);
             pnlDetailsMusic.Controls.Add(sldVolumeMusic);
             pnlDetailsMusic.Controls.Add(lblArtistaMusic);
             pnlDetailsMusic.Controls.Add(lblDuracaoMusic);
@@ -126,6 +131,7 @@
             // sldVolumeMusic
             // 
             sldVolumeMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            sldVolumeMusic.Habilitado = true;
             sldVolumeMusic.Location = new Point(104, 858);
             sldVolumeMusic.Maximum = 100;
             sldVolumeMusic.Minimum = 0;
@@ -136,6 +142,7 @@
             sldVolumeMusic.ThumbSize = 16;
             sldVolumeMusic.TrackHeight = 4;
             sldVolumeMusic.Value = 50;
+            sldVolumeMusic.ValueMouse = 50;
             sldVolumeMusic.WithPoint = true;
             // 
             // lblArtistaMusic
@@ -193,6 +200,7 @@
             picImgMusic.Location = new Point(75, 162);
             picImgMusic.Name = "picImgMusic";
             picImgMusic.Size = new Size(300, 300);
+            picImgMusic.SizeMode = PictureBoxSizeMode.Zoom;
             picImgMusic.TabIndex = 0;
             picImgMusic.TabStop = false;
             // 
@@ -215,6 +223,7 @@
             // 
             // sldTimelineMusic
             // 
+            sldTimelineMusic.Habilitado = true;
             sldTimelineMusic.Location = new Point(-10, 0);
             sldTimelineMusic.Maximum = 100;
             sldTimelineMusic.Minimum = 0;
@@ -225,6 +234,7 @@
             sldTimelineMusic.ThumbSize = 16;
             sldTimelineMusic.TrackHeight = 5;
             sldTimelineMusic.Value = 40;
+            sldTimelineMusic.ValueMouse = 40;
             sldTimelineMusic.WithPoint = false;
             // 
             // picBtnAvancarMusic
@@ -300,6 +310,8 @@
             // flwpnlListMusic
             // 
             flwpnlListMusic.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            flwpnlListMusic.AutoScroll = true;
+            flwpnlListMusic.AutoSize = true;
             flwpnlListMusic.BackColor = Color.FromArgb(217, 217, 217);
             flwpnlListMusic.Location = new Point(376, 100);
             flwpnlListMusic.Margin = new Padding(0);
@@ -307,12 +319,64 @@
             flwpnlListMusic.Size = new Size(893, 714);
             flwpnlListMusic.TabIndex = 3;
             // 
+            // flwpnlPlaylistsTransition
+            // 
+            flwpnlPlaylistsTransition.Interval = 10;
+            flwpnlPlaylistsTransition.Tick += TransicaoPlaylistsAbrir;
+            // 
+            // lblCRUDTodasMusicas
+            // 
+            lblCRUDTodasMusicas.BackColor = Color.DarkGray;
+            lblCRUDTodasMusicas.Id = 0;
+            lblCRUDTodasMusicas.ImgDeletar = null;
+            lblCRUDTodasMusicas.ImgEditar = null;
+            lblCRUDTodasMusicas.ImgExpandir = null;
+            lblCRUDTodasMusicas.ImgPrincipal = null;
+            lblCRUDTodasMusicas.Location = new Point(0, 44);
+            lblCRUDTodasMusicas.Margin = new Padding(0);
+            lblCRUDTodasMusicas.Name = "lblCRUDTodasMusicas";
+            lblCRUDTodasMusicas.Size = new Size(376, 56);
+            lblCRUDTodasMusicas.TabIndex = 4;
+            lblCRUDTodasMusicas.Texto = "Todas";
+            lblCRUDTodasMusicas.WithDelete = false;
+            lblCRUDTodasMusicas.WithEdit = false;
+            lblCRUDTodasMusicas.WithExpand = false;
+            lblCRUDTodasMusicas.WithImg = true;
+            // 
+            // lblPlaylistAtual
+            // 
+            lblPlaylistAtual.BackColor = Color.Transparent;
+            lblPlaylistAtual.Font = new Font("Verdana", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPlaylistAtual.ForeColor = SystemColors.ButtonFace;
+            lblPlaylistAtual.Location = new Point(42, 42);
+            lblPlaylistAtual.Margin = new Padding(0);
+            lblPlaylistAtual.Name = "lblPlaylistAtual";
+            lblPlaylistAtual.Size = new Size(373, 45);
+            lblPlaylistAtual.TabIndex = 12;
+            lblPlaylistAtual.Text = "Nome da Playlist";
+            lblPlaylistAtual.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblTocandoAgora
+            // 
+            lblTocandoAgora.BackColor = Color.Transparent;
+            lblTocandoAgora.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTocandoAgora.ForeColor = SystemColors.AppWorkspace;
+            lblTocandoAgora.Location = new Point(42, 22);
+            lblTocandoAgora.Margin = new Padding(0);
+            lblTocandoAgora.Name = "lblTocandoAgora";
+            lblTocandoAgora.Size = new Size(373, 31);
+            lblTocandoAgora.TabIndex = 13;
+            lblTocandoAgora.Text = "Tocando agora...";
+            lblTocandoAgora.TextAlign = ContentAlignment.BottomCenter;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(1719, 924);
+            Controls.Add(lblCRUDTodasMusicas);
+            Controls.Add(lblPlaylists);
             Controls.Add(pnlControlMusic);
             Controls.Add(flwpnlListMusic);
             Controls.Add(pnlDetailsMusic);
@@ -321,7 +385,6 @@
             ForeColor = SystemColors.ControlText;
             Name = "Form1";
             Text = "ArpeggioMain";
-            flwpnlPlaylists.ResumeLayout(false);
             pnlToolbox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picBtnAdicionarMusic).EndInit();
             pnlDetailsMusic.ResumeLayout(false);
@@ -336,6 +399,7 @@
             ((System.ComponentModel.ISupportInitialize)picBtnNextMusic).EndInit();
             ((System.ComponentModel.ISupportInitialize)picBtnPlayMusic).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         /*
@@ -379,5 +443,9 @@
         private Label lblDuracaoMusic;
         private NthControls.Slider sldTimelineMusic;
         private NthControls.Slider sldVolumeMusic;
+        private System.Windows.Forms.Timer flwpnlPlaylistsTransition;
+        private NthControls.LabelCRUD lblCRUDTodasMusicas;
+        private Label lblTocandoAgora;
+        private Label lblPlaylistAtual;
     }
 }

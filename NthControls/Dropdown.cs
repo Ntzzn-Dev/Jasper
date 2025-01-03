@@ -14,6 +14,7 @@ public partial class Dropdown : UserControl
     private bool isFocused = false;
     private string _textDropdown = "Text";
     private List<Elementos> _elementos;
+    private int _idElemento;
     public string TextDropdown
     {
         get
@@ -23,6 +24,19 @@ public partial class Dropdown : UserControl
         set
         {
             _textDropdown = value;
+            this.Validate();
+        }
+    }
+    public int IdElemento
+    {
+        get
+        {
+            return _idElemento;
+        }
+        set
+        {
+            _idElemento = value;
+            label1.Text = TextDropdown;
             this.Validate();
         }
     }
@@ -61,16 +75,24 @@ public partial class Dropdown : UserControl
             if (Elementos == null) return;
 
             int ateOndeDescer = 28;
-
+            int pixelsAMenos = -6;
+            if (Elementos.Count > 4)
+            {
+                pixelsAMenos = -23;
+            }
             foreach (Elementos elementos in Elementos)
             {
-                ateOndeDescer += 23 + 6;
+                if (ateOndeDescer <= 140)
+                {
+                    ateOndeDescer += 23 + 6;
+                }
+                
                 Label lblElemento = new Label()
                 {
                     BackColor = Color.Gray,
                     Margin = new Padding(3),
-                    Name = "lbl" + elementos.NomeArtista,
-                    Size = new Size(flowPanel1.Size.Width - 6, 23),
+                    Name = "lbl_" + elementos.NomeArtista + ">" + elementos.IdArtista,
+                    Size = new Size(flowPanel1.Size.Width + pixelsAMenos, 23),
                     TabIndex = 0,
                     Text = elementos.NomeArtista,
                     TextAlign = ContentAlignment.MiddleLeft
@@ -82,6 +104,7 @@ public partial class Dropdown : UserControl
             }
 
             this.Size = new Size(this.Width, ateOndeDescer);
+            flowPanel1.Size = new Size(this.Width, ateOndeDescer);
         } 
         else
         {
@@ -95,6 +118,8 @@ public partial class Dropdown : UserControl
         Label nome = sender as Label;
         TextDropdown = nome.Text;
         label1.Text = TextDropdown;
+
+        IdElemento = int.Parse(nome.Name.Split('>')[1]);
 
         this.Size = new Size(this.Width, 28);
         flowPanel1.Controls.Clear();
@@ -140,6 +165,7 @@ public partial class Dropdown : UserControl
 public class Elementos
 {
     public string NomeArtista { get; set; } = string.Empty;
+    public int IdArtista { get; set; } = 0;
     public Elementos()
     {
 

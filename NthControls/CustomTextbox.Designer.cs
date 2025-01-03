@@ -54,6 +54,7 @@
             label1.Size = new Size(31, 17);
             label1.TabIndex = 2;
             label1.Text = "Text";
+            label1.Click += label1_Click;
             // 
             // lblTimer
             // 

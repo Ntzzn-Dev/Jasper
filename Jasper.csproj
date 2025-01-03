@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="CSCore" Version="1.2.1.2" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+    <PackageReference Include="SkiaSharp" Version="3.116.1" />
     <PackageReference Include="YoutubeExplode" Version="6.5.0" />
   </ItemGroup>
 

@@ -15,8 +15,10 @@ public class Slider : Control
     private int _trackHeight = 4;
     private int _thumbSize = 16;
     private bool _withPoint = true;
+    private bool _habilitado = true;
 
     public event EventHandler ValueChanged;
+    public event EventHandler ValueMouseChanged;
 
     public int Minimum
     {
@@ -52,6 +54,20 @@ public class Slider : Control
             }
         }
     }
+    public int ValueMouse
+    {
+        get => _value;
+        set
+        {
+            int newValue = Math.Max(_minimum, Math.Min(_maximum, value));
+            if (_value != newValue)
+            {
+                _value = newValue;
+                OnValueMouseChanged(EventArgs.Empty); // Dispara o evento
+                Invalidate();
+            }
+        }
+    }
 
     public int TrackHeight
     {
@@ -82,6 +98,15 @@ public class Slider : Control
             Invalidate();
         }
     }
+    public bool Habilitado
+    {
+        get => _habilitado;
+        set
+        {
+            _habilitado = value;
+            Invalidate();
+        }
+    }
 
     public Slider()
     {
@@ -95,21 +120,34 @@ public class Slider : Control
         LinearGradientBrush preenchido = new LinearGradientBrush(new PointF(0, 0), new PointF(Width, 0), Color.FromArgb(98, 51, 175), Color.FromArgb(255, 120, 120, 120));
         Brush polegar = new SolidBrush(Color.FromArgb(255, 191, 195, 198)); // Cor do polegar
 
-        int fillWidth = (int)((float)(Value - Minimum) / (Maximum - Minimum) * (Width - 20));
+        int fillWidth = (int)((float)(ValueMouse - Minimum) / (Maximum - Minimum) * (Width - 20));
         Rectangle fillRect = new Rectangle(10, Height / 2 - TrackHeight / 2, fillWidth, TrackHeight);
 
         Rectangle trackRect = new Rectangle(10, Height / 2 - TrackHeight / 2, Width - 20, TrackHeight);
         e.Graphics.FillRectangle(vazio, trackRect); // Preenche o trilho com a cor definida
-        
-        e.Graphics.FillRectangle(preenchido, fillRect); // Preenche a parte preenchida do slider
-
-        if (WithPoint)
+        if(Habilitado)
         {
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            int thumbX = 10 + fillWidth - ThumbSize / 2;
-            Rectangle thumbRect = new Rectangle(thumbX, Height / 2 - ThumbSize / 2, ThumbSize, ThumbSize);
-            e.Graphics.FillEllipse(polegar, thumbRect);
+            e.Graphics.FillRectangle(preenchido, fillRect);
+            if (WithPoint)
+            {
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                int thumbX = 10 + fillWidth - ThumbSize / 2;
+                Rectangle thumbRect = new Rectangle(thumbX, Height / 2 - ThumbSize / 2, ThumbSize, ThumbSize);
+                e.Graphics.FillEllipse(polegar, thumbRect);
 
+            }
+        }
+        else
+        {
+            e.Graphics.FillRectangle(vazio, fillRect);
+            if (WithPoint)
+            {
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                int thumbX = 10 + fillWidth - ThumbSize / 2;
+                Rectangle thumbRect = new Rectangle(0, Height / 2 - ThumbSize / 2, ThumbSize, ThumbSize);
+                e.Graphics.FillEllipse(polegar, thumbRect);
+
+            }
         }
         
         base.OnPaint(e);
@@ -124,11 +162,11 @@ public class Slider : Control
         {
             int mouseX = Math.Max(10, Math.Min(Width - 10, e.X));
             int relativeX = mouseX - 10;
-            Value = Minimum + (int)((float)relativeX / (Width - 20) * (Maximum - Minimum));
+            ValueMouse = Minimum + (int)((float)relativeX / (Width - 20) * (Maximum - Minimum));
 
             // Verificar se o clique foi dentro do polegar para começar o arrasto
             Rectangle thumbRect = new Rectangle(
-                10 + (int)((float)(Value - Minimum) / (Maximum - Minimum) * (Width - 20)) - 8,
+                10 + (int)((float)(ValueMouse - Minimum) / (Maximum - Minimum) * (Width - 20)) - 8,
                 Height / 2 - 8, 16, 16);
 
             _isDragging = thumbRect.Contains(e.Location);
@@ -143,7 +181,7 @@ public class Slider : Control
         {
             int mouseX = Math.Max(10, Math.Min(Width - 10, e.X));
             int relativeX = mouseX - 10;
-            Value = Minimum + (int)((float)relativeX / (Width - 20) * (Maximum - Minimum));
+            ValueMouse = Minimum + (int)((float)relativeX / (Width - 20) * (Maximum - Minimum));
         }
     }
 
@@ -156,5 +194,9 @@ public class Slider : Control
     protected virtual void OnValueChanged(EventArgs e)
     {
         ValueChanged?.Invoke(this, e); // Invoca os assinantes do evento
+    }
+    protected virtual void OnValueMouseChanged(EventArgs e)
+    {
+        ValueMouseChanged?.Invoke(this, e); // Invoca os assinantes do evento
     }
 }

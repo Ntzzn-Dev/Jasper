@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[9.0.0, )"
             },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[3.116.1, )"
+            },
             "YoutubeExplode": {
               "target": "Package",
               "version": "[6.5.0, )"

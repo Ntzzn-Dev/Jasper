@@ -29,8 +29,6 @@ partial class Form2
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
-        Elementos elementos5 = new Elementos();
-        Elementos elementos6 = new Elementos();
         lblNomeMusica = new Label();
         lblURLMusica = new Label();
         btnSalvarMusica = new Button();
@@ -360,11 +358,7 @@ partial class Form2
         // 
         // dpdwnArtistaDaMusica
         // 
-        elementos5.NomeArtista = "LucasArt";
-        elementos6.NomeArtista = "Gabriel";
-        dpdwnArtistaDaMusica.Elementos.Add(elementos5);
-        dpdwnArtistaDaMusica.Elementos.Add(elementos6);
-        dpdwnArtistaDaMusica.Location = new Point(13, 156);
+        dpdwnArtistaDaMusica.Location = new Point(13, 155);
         dpdwnArtistaDaMusica.MinimumSize = new Size(148, 28);
         dpdwnArtistaDaMusica.Name = "dpdwnArtistaDaMusica";
         dpdwnArtistaDaMusica.Size = new Size(409, 28);
@@ -608,22 +602,16 @@ partial class Form2
     }
 
     #endregion
-    private OpenFileDialog openFileDialog1;
     private Label lblNomeMusica;
     private Label lblURLMusica;
     private Button btnSalvarMusica;
     private Button btnCancelarMusica;
     private Label lblArtistaMusica;
-    private TextBox txtbxArtistaMusica;
-    private Label imgdoJogo;
-    private TextBox imgGame;
-    private Button btnExpandirArtistas;
     private Button btnURLOnlineMusic;
     private PictureBox picImgMusica;
     private Button btnImgMusicaOnline;
     private Button btnImgMusicaLocal;
     private Label lblImgMusica;
-    private PictureBox pictureIconGame;
     private Label lblNomeArtista;
     private PictureBox picImgArtista;
     private Button btnImgArtistaOnline;
