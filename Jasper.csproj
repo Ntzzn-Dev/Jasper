@@ -33,18 +33,6 @@
   <ItemGroup>
     <Content Include="Assets\JasperMusic.db" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Morgan.jpg" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Aleatorizar.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Aleatorizar1.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\AleatorizarDesabilitado.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Repetir.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Repetir1.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\RepetirDesabilitado.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Play.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Pausar.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Mudo.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Volume1.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Volume2.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Volume3.png" CopyToOutputDirectory="Always" />
 
   </ItemGroup>
 

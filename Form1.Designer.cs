@@ -33,6 +33,7 @@
             flwpnlPlaylists = new FlowLayoutPanel();
             lblPlaylists = new Label();
             pnlToolbox = new Panel();
+            picBtnEsconder = new PictureBox();
             picBtnAdicionarMusic = new PictureBox();
             pnlDetailsMusic = new Panel();
             lblTocandoAgora = new Label();
@@ -56,6 +57,7 @@
             flwpnlPlaylistsTransition = new System.Windows.Forms.Timer(components);
             lblCRUDTodasMusicas = new NthControls.LabelCRUD();
             pnlToolbox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picBtnEsconder).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBtnAdicionarMusic).BeginInit();
             pnlDetailsMusic.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picSoundMusic).BeginInit();
@@ -96,11 +98,23 @@
             // 
             pnlToolbox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlToolbox.BackColor = Color.FromArgb(21, 22, 23);
+            pnlToolbox.Controls.Add(picBtnEsconder);
             pnlToolbox.Controls.Add(picBtnAdicionarMusic);
             pnlToolbox.Location = new Point(376, 0);
             pnlToolbox.Name = "pnlToolbox";
             pnlToolbox.Size = new Size(893, 100);
             pnlToolbox.TabIndex = 1;
+            // 
+            // picBtnEsconder
+            // 
+            picBtnEsconder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            picBtnEsconder.BackColor = Color.Transparent;
+            picBtnEsconder.Image = (Image)resources.GetObject("picBtnAdicionarMusic.Image");
+            picBtnEsconder.Location = new Point(724, 12);
+            picBtnEsconder.Name = "picBtnEsconder";
+            picBtnEsconder.Size = new Size(75, 75);
+            picBtnEsconder.TabIndex = 2;
+            picBtnEsconder.TabStop = false;
             // 
             // picBtnAdicionarMusic
             // 
@@ -220,7 +234,7 @@
             // 
             picSoundMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             picSoundMusic.BackColor = Color.Transparent;
-            picSoundMusic.Image = (Image)resources.GetObject("picSoundMusic.Image");
+            picSoundMusic.Image = Properties.Resources.Mudo;
             picSoundMusic.Location = new Point(23, 831);
             picSoundMusic.Name = "picSoundMusic";
             picSoundMusic.Size = new Size(75, 75);
@@ -305,7 +319,7 @@
             // 
             picBtnAleatorioMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             picBtnAleatorioMusic.BackColor = Color.Transparent;
-            picBtnAleatorioMusic.Image = (Image)resources.GetObject("picBtnAleatorioMusic.Image");
+            picBtnAleatorioMusic.Image = Properties.Resources.AleatorizarDesabilitado;
             picBtnAleatorioMusic.Location = new Point(221, 30);
             picBtnAleatorioMusic.Margin = new Padding(8);
             picBtnAleatorioMusic.Name = "picBtnAleatorioMusic";
@@ -318,7 +332,7 @@
             // 
             picBtnRepetirMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             picBtnRepetirMusic.BackColor = Color.Transparent;
-            picBtnRepetirMusic.Image = (Image)resources.GetObject("picBtnRepetirMusic.Image");
+            picBtnRepetirMusic.Image = Properties.Resources.RepetirDesabilitado;
             picBtnRepetirMusic.Location = new Point(630, 30);
             picBtnRepetirMusic.Margin = new Padding(8);
             picBtnRepetirMusic.Name = "picBtnRepetirMusic";
@@ -355,7 +369,7 @@
             // 
             picBtnPlayMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             picBtnPlayMusic.BackColor = Color.Transparent;
-            picBtnPlayMusic.Image = (Image)resources.GetObject("picBtnPlayMusic.Image");
+            picBtnPlayMusic.Image = Properties.Resources.Play;
             picBtnPlayMusic.Location = new Point(413, 17);
             picBtnPlayMusic.Name = "picBtnPlayMusic";
             picBtnPlayMusic.Size = new Size(75, 75);
@@ -420,6 +434,7 @@
             Name = "Form1";
             Text = "ArpeggioMain";
             pnlToolbox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picBtnEsconder).EndInit();
             ((System.ComponentModel.ISupportInitialize)picBtnAdicionarMusic).EndInit();
             pnlDetailsMusic.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picSoundMusic).EndInit();
@@ -481,5 +496,6 @@
         private NthControls.LabelCRUD lblCRUDTodasMusicas;
         private Label lblTocandoAgora;
         private Label lblPlaylistAtual;
+        private PictureBox picBtnEsconder;
     }
 }

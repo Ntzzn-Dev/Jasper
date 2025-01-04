@@ -63,15 +63,5 @@ H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\runtimes\win-x86\native\libSk
 H:\Projects\CSharp\Jasper\obj\Debug\net8.0-windows\Jasper.Form3.resources
 H:\Projects\CSharp\Jasper\obj\Debug\net8.0-windows\Jasper.NthControls.LabelCRUD.resources
 H:\Projects\CSharp\Jasper\obj\Debug\net8.0-windows\Jasper.sourcelink.json
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Aleatorizar.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Aleatorizar1.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\AleatorizarDesabilitado.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Repetir.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Repetir1.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\RepetirDesabilitado.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Play.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Pausar.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Mudo.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Volume1.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Volume2.png
-H:\Projects\CSharp\Jasper\bin\Debug\net8.0-windows\Assets\Volume3.png
+H:\Projects\CSharp\Jasper\obj\Debug\net8.0-windows\Jasper.Form4.resources
+H:\Projects\CSharp\Jasper\obj\Debug\net8.0-windows\Jasper.NthControls.TitleBarPersonalizada.resources
