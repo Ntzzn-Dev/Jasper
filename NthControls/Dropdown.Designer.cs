@@ -32,7 +32,9 @@
             label1 = new Label();
             flowPanel1 = new FlowLayoutPanel();
             pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -54,8 +56,7 @@
             // 
             flowPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             flowPanel1.AutoScroll = true;
-            flowPanel1.AutoSize = true;
-            flowPanel1.BackColor = Color.Transparent;
+            flowPanel1.BackColor = Color.Gray;
             flowPanel1.FlowDirection = FlowDirection.TopDown;
             flowPanel1.Location = new Point(0, 28);
             flowPanel1.Margin = new Padding(0);
@@ -80,20 +81,35 @@
             pictureBox1.MouseEnter += MouseEnterDropdown;
             pictureBox1.MouseLeave += MouseLeaveDropdown;
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Enabled = false;
+            pictureBox2.Location = new Point(0, 0);
+            pictureBox2.Margin = new Padding(0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(28, 28);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 3;
+            pictureBox2.TabStop = false;
+            pictureBox2.Visible = false;
+            // 
             // Dropdown
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.LightGray;
+            Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
             Controls.Add(flowPanel1);
             Controls.Add(label1);
             MinimumSize = new Size(148, 28);
             Name = "Dropdown";
             Size = new Size(438, 28);
-            Paint += Dropdown_Paint;
+            Load += Dropdown_Load;
+            Click += DropdownClick;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -101,5 +117,6 @@
         private Label label1;
         private FlowLayoutPanel flowPanel1;
         private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
     }
 }

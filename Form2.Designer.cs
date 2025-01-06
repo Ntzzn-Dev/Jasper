@@ -56,10 +56,11 @@ partial class Form2
         btnSalvarArtista = new Button();
         btnCancelarArtista = new Button();
         pnlCdtMusic = new Panel();
-        dpdwnArtistaDaMusica = new Dropdown();
+        lblNomeDosArtistas = new Label();
         txtbxImgMusica = new NthControls.CustomTextbox();
         txtbxURLMusica = new NthControls.CustomTextbox();
         txtbxNomeMusica = new NthControls.CustomTextbox();
+        dpdwnArtistaDaMusica1 = new Dropdown();
         pnlCdtArtista = new Panel();
         txtbxImgArtista = new NthControls.CustomTextbox();
         txtbxNomeArtista = new NthControls.CustomTextbox();
@@ -74,6 +75,15 @@ partial class Form2
         picPageArtista = new PictureBox();
         btnPageArtista = new Button();
         timer1 = new System.Windows.Forms.Timer(components);
+        lblNomeArtista1 = new Label();
+        lblNomeArtista2 = new Label();
+        dpdwnArtistaDaMusica2 = new Dropdown();
+        lblNomeArtista4 = new Label();
+        dpdwnArtistaDaMusica4 = new Dropdown();
+        lblNomeArtista3 = new Label();
+        dpdwnArtistaDaMusica3 = new Dropdown();
+        lblNomeArtista5 = new Label();
+        dpdwnArtistaDaMusica5 = new Dropdown();
         ((System.ComponentModel.ISupportInitialize)picImgMusica).BeginInit();
         ((System.ComponentModel.ISupportInitialize)picImgPlaylist).BeginInit();
         ((System.ComponentModel.ISupportInitialize)picImgArtista).BeginInit();
@@ -90,6 +100,7 @@ partial class Form2
         // 
         lblNomeMusica.AutoSize = true;
         lblNomeMusica.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeMusica.ForeColor = Color.Silver;
         lblNomeMusica.Location = new Point(13, 6);
         lblNomeMusica.Name = "lblNomeMusica";
         lblNomeMusica.Size = new Size(178, 30);
@@ -100,6 +111,7 @@ partial class Form2
         // 
         lblURLMusica.AutoSize = true;
         lblURLMusica.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblURLMusica.ForeColor = Color.Silver;
         lblURLMusica.Location = new Point(13, 65);
         lblURLMusica.Name = "lblURLMusica";
         lblURLMusica.Size = new Size(158, 30);
@@ -108,39 +120,45 @@ partial class Form2
         // 
         // btnSalvarMusica
         // 
+        btnSalvarMusica.BackColor = Color.FromArgb(59, 58, 58);
+        btnSalvarMusica.FlatStyle = FlatStyle.Flat;
         btnSalvarMusica.Location = new Point(396, 259);
         btnSalvarMusica.Name = "btnSalvarMusica";
         btnSalvarMusica.Size = new Size(119, 41);
         btnSalvarMusica.TabIndex = 11;
         btnSalvarMusica.Text = "Salvar";
-        btnSalvarMusica.UseVisualStyleBackColor = true;
+        btnSalvarMusica.UseVisualStyleBackColor = false;
         // 
         // btnCancelarMusica
         // 
+        btnCancelarMusica.BackColor = Color.FromArgb(59, 58, 58);
+        btnCancelarMusica.FlatStyle = FlatStyle.Flat;
         btnCancelarMusica.Location = new Point(521, 259);
         btnCancelarMusica.Name = "btnCancelarMusica";
         btnCancelarMusica.Size = new Size(119, 41);
         btnCancelarMusica.TabIndex = 12;
         btnCancelarMusica.Text = "Cancelar";
-        btnCancelarMusica.UseVisualStyleBackColor = true;
+        btnCancelarMusica.UseVisualStyleBackColor = false;
         // 
         // lblArtistaMusica
         // 
         lblArtistaMusica.AutoSize = true;
         lblArtistaMusica.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblArtistaMusica.ForeColor = Color.Silver;
         lblArtistaMusica.Location = new Point(11, 123);
         lblArtistaMusica.Name = "lblArtistaMusica";
-        lblArtistaMusica.Size = new Size(184, 30);
+        lblArtistaMusica.Size = new Size(193, 30);
         lblArtistaMusica.TabIndex = 7;
-        lblArtistaMusica.Text = "Artista da Musica";
+        lblArtistaMusica.Text = "Artistas da Musica";
         // 
         // btnURLOnlineMusic
         // 
-        btnURLOnlineMusic.BackColor = Color.LightGray;
+        btnURLOnlineMusic.BackColor = Color.FromArgb(59, 58, 58);
         btnURLOnlineMusic.FlatAppearance.BorderSize = 0;
-        btnURLOnlineMusic.Location = new Point(303, 99);
+        btnURLOnlineMusic.FlatStyle = FlatStyle.Flat;
+        btnURLOnlineMusic.Location = new Point(303, 100);
         btnURLOnlineMusic.Name = "btnURLOnlineMusic";
-        btnURLOnlineMusic.Size = new Size(119, 28);
+        btnURLOnlineMusic.Size = new Size(119, 25);
         btnURLOnlineMusic.TabIndex = 5;
         btnURLOnlineMusic.Text = "Pesquisar online";
         btnURLOnlineMusic.UseVisualStyleBackColor = false;
@@ -156,21 +174,24 @@ partial class Form2
         // 
         // btnImgMusicaOnline
         // 
-        btnImgMusicaOnline.BackColor = Color.LightGray;
+        btnImgMusicaOnline.BackColor = Color.FromArgb(59, 58, 58);
         btnImgMusicaOnline.FlatAppearance.BorderSize = 0;
-        btnImgMusicaOnline.Location = new Point(179, 214);
+        btnImgMusicaOnline.FlatStyle = FlatStyle.Flat;
+        btnImgMusicaOnline.Location = new Point(143, 247);
         btnImgMusicaOnline.Name = "btnImgMusicaOnline";
-        btnImgMusicaOnline.Size = new Size(119, 29);
+        btnImgMusicaOnline.Size = new Size(119, 25);
         btnImgMusicaOnline.TabIndex = 8;
         btnImgMusicaOnline.Text = "Pesquisar online";
         btnImgMusicaOnline.UseVisualStyleBackColor = false;
         // 
         // btnImgMusicaLocal
         // 
-        btnImgMusicaLocal.BackColor = Color.LightGray;
-        btnImgMusicaLocal.Location = new Point(303, 214);
+        btnImgMusicaLocal.BackColor = Color.FromArgb(59, 58, 58);
+        btnImgMusicaLocal.FlatAppearance.BorderSize = 0;
+        btnImgMusicaLocal.FlatStyle = FlatStyle.Flat;
+        btnImgMusicaLocal.Location = new Point(267, 247);
         btnImgMusicaLocal.Name = "btnImgMusicaLocal";
-        btnImgMusicaLocal.Size = new Size(119, 29);
+        btnImgMusicaLocal.Size = new Size(119, 25);
         btnImgMusicaLocal.TabIndex = 9;
         btnImgMusicaLocal.Text = "Procurar";
         btnImgMusicaLocal.UseVisualStyleBackColor = false;
@@ -179,7 +200,8 @@ partial class Form2
         // 
         lblImgMusica.AutoSize = true;
         lblImgMusica.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        lblImgMusica.Location = new Point(13, 181);
+        lblImgMusica.ForeColor = Color.Silver;
+        lblImgMusica.Location = new Point(13, 212);
         lblImgMusica.Name = "lblImgMusica";
         lblImgMusica.Size = new Size(197, 30);
         lblImgMusica.TabIndex = 16;
@@ -335,8 +357,8 @@ partial class Form2
         // 
         // pnlCdtMusic
         // 
-        pnlCdtMusic.BackColor = SystemColors.GrayText;
-        pnlCdtMusic.Controls.Add(dpdwnArtistaDaMusica);
+        pnlCdtMusic.BackColor = Color.FromArgb(44, 44, 44);
+        pnlCdtMusic.Controls.Add(lblNomeDosArtistas);
         pnlCdtMusic.Controls.Add(lblImgMusica);
         pnlCdtMusic.Controls.Add(txtbxImgMusica);
         pnlCdtMusic.Controls.Add(txtbxURLMusica);
@@ -356,31 +378,34 @@ partial class Form2
         pnlCdtMusic.Size = new Size(669, 313);
         pnlCdtMusic.TabIndex = 21;
         // 
-        // dpdwnArtistaDaMusica
+        // lblNomeDosArtistas
         // 
-        dpdwnArtistaDaMusica.Location = new Point(13, 155);
-        dpdwnArtistaDaMusica.MinimumSize = new Size(148, 28);
-        dpdwnArtistaDaMusica.Name = "dpdwnArtistaDaMusica";
-        dpdwnArtistaDaMusica.Size = new Size(409, 28);
-        dpdwnArtistaDaMusica.TabIndex = 20;
-        dpdwnArtistaDaMusica.TextDropdown = "Nome do artista";
+        lblNomeDosArtistas.BackColor = Color.FromArgb(59, 58, 58);
+        lblNomeDosArtistas.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeDosArtistas.ForeColor = Color.DimGray;
+        lblNomeDosArtistas.Location = new Point(13, 153);
+        lblNomeDosArtistas.Name = "lblNomeDosArtistas";
+        lblNomeDosArtistas.Size = new Size(409, 56);
+        lblNomeDosArtistas.TabIndex = 25;
+        lblNomeDosArtistas.Text = "Nome dos artistas";
+        lblNomeDosArtistas.TextAlign = ContentAlignment.MiddleLeft;
         // 
         // txtbxImgMusica
         // 
-        txtbxImgMusica.backColor = Color.LightGray;
+        txtbxImgMusica.backColor = Color.FromArgb(59, 58, 58);
         txtbxImgMusica.LblPlaceholder = "Thumbnail (padrão)";
-        txtbxImgMusica.Location = new Point(13, 208);
+        txtbxImgMusica.Location = new Point(13, 239);
         txtbxImgMusica.Multiline = false;
         txtbxImgMusica.Name = "txtbxImgMusica";
         txtbxImgMusica.Password = false;
-        txtbxImgMusica.Size = new Size(160, 36);
+        txtbxImgMusica.Size = new Size(124, 36);
         txtbxImgMusica.TabIndex = 19;
         txtbxImgMusica.textColor = Color.DimGray;
         txtbxImgMusica.Texto = "";
         // 
         // txtbxURLMusica
         // 
-        txtbxURLMusica.backColor = Color.LightGray;
+        txtbxURLMusica.backColor = Color.FromArgb(59, 58, 58);
         txtbxURLMusica.LblPlaceholder = "Link do youtube";
         txtbxURLMusica.Location = new Point(13, 92);
         txtbxURLMusica.Multiline = false;
@@ -393,7 +418,7 @@ partial class Form2
         // 
         // txtbxNomeMusica
         // 
-        txtbxNomeMusica.backColor = Color.LightGray;
+        txtbxNomeMusica.backColor = Color.FromArgb(59, 58, 58);
         txtbxNomeMusica.LblPlaceholder = "";
         txtbxNomeMusica.Location = new Point(13, 32);
         txtbxNomeMusica.Multiline = false;
@@ -403,6 +428,26 @@ partial class Form2
         txtbxNomeMusica.TabIndex = 17;
         txtbxNomeMusica.textColor = Color.DimGray;
         txtbxNomeMusica.Texto = "";
+        // 
+        // dpdwnArtistaDaMusica1
+        // 
+        dpdwnArtistaDaMusica1.BackColor = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica1.ColorDropdown = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica1.ColorElementoDropdown = Color.Silver;
+        dpdwnArtistaDaMusica1.ColorElementoTextDropdown = Color.Black;
+        dpdwnArtistaDaMusica1.ColorPanelDropdown = Color.Gray;
+        dpdwnArtistaDaMusica1.ColorTextDropdown = Color.Silver;
+        dpdwnArtistaDaMusica1.FontTexto = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        dpdwnArtistaDaMusica1.IdElemento = 0;
+        dpdwnArtistaDaMusica1.ImgDropdown = null;
+        dpdwnArtistaDaMusica1.Location = new Point(690, 48);
+        dpdwnArtistaDaMusica1.MinimumSize = new Size(148, 28);
+        dpdwnArtistaDaMusica1.Name = "dpdwnArtistaDaMusica1";
+        dpdwnArtistaDaMusica1.QntDeElementosVisiveis = 4;
+        dpdwnArtistaDaMusica1.Size = new Size(409, 28);
+        dpdwnArtistaDaMusica1.TabIndex = 20;
+        dpdwnArtistaDaMusica1.TamanhoDropdown = new Size(409, 28);
+        dpdwnArtistaDaMusica1.TextDropdown = "Nome do artista";
         // 
         // pnlCdtArtista
         // 
@@ -518,9 +563,10 @@ partial class Form2
         // 
         // btnPagePlaylist
         // 
-        btnPagePlaylist.BackColor = Color.Gray;
+        btnPagePlaylist.BackColor = Color.FromArgb(44, 44, 44);
         btnPagePlaylist.FlatAppearance.BorderSize = 0;
         btnPagePlaylist.FlatStyle = FlatStyle.Flat;
+        btnPagePlaylist.ForeColor = Color.Silver;
         btnPagePlaylist.Location = new Point(252, 0);
         btnPagePlaylist.Margin = new Padding(0, 3, 0, 3);
         btnPagePlaylist.Name = "btnPagePlaylist";
@@ -540,9 +586,10 @@ partial class Form2
         // 
         // btnPageMusica
         // 
-        btnPageMusica.BackColor = Color.Gray;
+        btnPageMusica.BackColor = Color.FromArgb(44, 44, 44);
         btnPageMusica.FlatAppearance.BorderSize = 0;
         btnPageMusica.FlatStyle = FlatStyle.Flat;
+        btnPageMusica.ForeColor = Color.Silver;
         btnPageMusica.Location = new Point(35, 0);
         btnPageMusica.Margin = new Padding(0, 3, 0, 3);
         btnPageMusica.Name = "btnPageMusica";
@@ -562,9 +609,10 @@ partial class Form2
         // 
         // btnPageArtista
         // 
-        btnPageArtista.BackColor = Color.Gray;
+        btnPageArtista.BackColor = Color.FromArgb(44, 44, 44);
         btnPageArtista.FlatAppearance.BorderSize = 0;
         btnPageArtista.FlatStyle = FlatStyle.Flat;
+        btnPageArtista.ForeColor = Color.Silver;
         btnPageArtista.Location = new Point(143, 0);
         btnPageArtista.Margin = new Padding(0, 3, 0, 3);
         btnPageArtista.Name = "btnPageArtista";
@@ -573,10 +621,156 @@ partial class Form2
         btnPageArtista.Text = "Artista";
         btnPageArtista.UseVisualStyleBackColor = false;
         // 
+        // lblNomeArtista1
+        // 
+        lblNomeArtista1.AutoSize = true;
+        lblNomeArtista1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeArtista1.ForeColor = Color.Silver;
+        lblNomeArtista1.Location = new Point(690, 12);
+        lblNomeArtista1.Name = "lblNomeArtista1";
+        lblNomeArtista1.Size = new Size(191, 30);
+        lblNomeArtista1.TabIndex = 26;
+        lblNomeArtista1.Text = "Nome do artista 1";
+        // 
+        // lblNomeArtista2
+        // 
+        lblNomeArtista2.AutoSize = true;
+        lblNomeArtista2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeArtista2.ForeColor = Color.Silver;
+        lblNomeArtista2.Location = new Point(690, 79);
+        lblNomeArtista2.Name = "lblNomeArtista2";
+        lblNomeArtista2.Size = new Size(191, 30);
+        lblNomeArtista2.TabIndex = 28;
+        lblNomeArtista2.Text = "Nome do artista 2";
+        // 
+        // dpdwnArtistaDaMusica2
+        // 
+        dpdwnArtistaDaMusica2.BackColor = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica2.ColorDropdown = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica2.ColorElementoDropdown = Color.Silver;
+        dpdwnArtistaDaMusica2.ColorElementoTextDropdown = Color.Black;
+        dpdwnArtistaDaMusica2.ColorPanelDropdown = Color.Gray;
+        dpdwnArtistaDaMusica2.ColorTextDropdown = Color.Silver;
+        dpdwnArtistaDaMusica2.FontTexto = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        dpdwnArtistaDaMusica2.IdElemento = 0;
+        dpdwnArtistaDaMusica2.ImgDropdown = null;
+        dpdwnArtistaDaMusica2.Location = new Point(690, 115);
+        dpdwnArtistaDaMusica2.MinimumSize = new Size(148, 28);
+        dpdwnArtistaDaMusica2.Name = "dpdwnArtistaDaMusica2";
+        dpdwnArtistaDaMusica2.QntDeElementosVisiveis = 4;
+        dpdwnArtistaDaMusica2.Size = new Size(409, 28);
+        dpdwnArtistaDaMusica2.TabIndex = 27;
+        dpdwnArtistaDaMusica2.TamanhoDropdown = new Size(409, 28);
+        dpdwnArtistaDaMusica2.TextDropdown = "Nome do artista";
+        // 
+        // lblNomeArtista4
+        // 
+        lblNomeArtista4.AutoSize = true;
+        lblNomeArtista4.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeArtista4.ForeColor = Color.Silver;
+        lblNomeArtista4.Location = new Point(690, 214);
+        lblNomeArtista4.Name = "lblNomeArtista4";
+        lblNomeArtista4.Size = new Size(191, 30);
+        lblNomeArtista4.TabIndex = 32;
+        lblNomeArtista4.Text = "Nome do artista 4";
+        // 
+        // dpdwnArtistaDaMusica4
+        // 
+        dpdwnArtistaDaMusica4.BackColor = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica4.ColorDropdown = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica4.ColorElementoDropdown = Color.Silver;
+        dpdwnArtistaDaMusica4.ColorElementoTextDropdown = Color.Black;
+        dpdwnArtistaDaMusica4.ColorPanelDropdown = Color.Gray;
+        dpdwnArtistaDaMusica4.ColorTextDropdown = Color.Silver;
+        dpdwnArtistaDaMusica4.FontTexto = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        dpdwnArtistaDaMusica4.IdElemento = 0;
+        dpdwnArtistaDaMusica4.ImgDropdown = null;
+        dpdwnArtistaDaMusica4.Location = new Point(690, 250);
+        dpdwnArtistaDaMusica4.MinimumSize = new Size(148, 28);
+        dpdwnArtistaDaMusica4.Name = "dpdwnArtistaDaMusica4";
+        dpdwnArtistaDaMusica4.QntDeElementosVisiveis = 3;
+        dpdwnArtistaDaMusica4.Size = new Size(409, 28);
+        dpdwnArtistaDaMusica4.TabIndex = 31;
+        dpdwnArtistaDaMusica4.TamanhoDropdown = new Size(409, 28);
+        dpdwnArtistaDaMusica4.TextDropdown = "Nome do artista";
+        // 
+        // lblNomeArtista3
+        // 
+        lblNomeArtista3.AutoSize = true;
+        lblNomeArtista3.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeArtista3.ForeColor = Color.Silver;
+        lblNomeArtista3.Location = new Point(690, 147);
+        lblNomeArtista3.Name = "lblNomeArtista3";
+        lblNomeArtista3.Size = new Size(191, 30);
+        lblNomeArtista3.TabIndex = 30;
+        lblNomeArtista3.Text = "Nome do artista 3";
+        // 
+        // dpdwnArtistaDaMusica3
+        // 
+        dpdwnArtistaDaMusica3.BackColor = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica3.ColorDropdown = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica3.ColorElementoDropdown = Color.Silver;
+        dpdwnArtistaDaMusica3.ColorElementoTextDropdown = Color.Black;
+        dpdwnArtistaDaMusica3.ColorPanelDropdown = Color.Gray;
+        dpdwnArtistaDaMusica3.ColorTextDropdown = Color.Silver;
+        dpdwnArtistaDaMusica3.FontTexto = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        dpdwnArtistaDaMusica3.IdElemento = 0;
+        dpdwnArtistaDaMusica3.ImgDropdown = null;
+        dpdwnArtistaDaMusica3.Location = new Point(690, 183);
+        dpdwnArtistaDaMusica3.MinimumSize = new Size(148, 28);
+        dpdwnArtistaDaMusica3.Name = "dpdwnArtistaDaMusica3";
+        dpdwnArtistaDaMusica3.QntDeElementosVisiveis = 4;
+        dpdwnArtistaDaMusica3.Size = new Size(409, 28);
+        dpdwnArtistaDaMusica3.TabIndex = 29;
+        dpdwnArtistaDaMusica3.TamanhoDropdown = new Size(409, 28);
+        dpdwnArtistaDaMusica3.TextDropdown = "Nome do artista";
+        // 
+        // lblNomeArtista5
+        // 
+        lblNomeArtista5.AutoSize = true;
+        lblNomeArtista5.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeArtista5.ForeColor = Color.Silver;
+        lblNomeArtista5.Location = new Point(690, 281);
+        lblNomeArtista5.Name = "lblNomeArtista5";
+        lblNomeArtista5.Size = new Size(191, 30);
+        lblNomeArtista5.TabIndex = 34;
+        lblNomeArtista5.Text = "Nome do artista 5";
+        // 
+        // dpdwnArtistaDaMusica5
+        // 
+        dpdwnArtistaDaMusica5.BackColor = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica5.ColorDropdown = Color.FromArgb(59, 58, 58);
+        dpdwnArtistaDaMusica5.ColorElementoDropdown = Color.Silver;
+        dpdwnArtistaDaMusica5.ColorElementoTextDropdown = Color.Black;
+        dpdwnArtistaDaMusica5.ColorPanelDropdown = Color.Gray;
+        dpdwnArtistaDaMusica5.ColorTextDropdown = Color.Silver;
+        dpdwnArtistaDaMusica5.FontTexto = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        dpdwnArtistaDaMusica5.ForeColor = SystemColors.ControlText;
+        dpdwnArtistaDaMusica5.IdElemento = 0;
+        dpdwnArtistaDaMusica5.ImgDropdown = null;
+        dpdwnArtistaDaMusica5.Location = new Point(690, 317);
+        dpdwnArtistaDaMusica5.MinimumSize = new Size(148, 28);
+        dpdwnArtistaDaMusica5.Name = "dpdwnArtistaDaMusica5";
+        dpdwnArtistaDaMusica5.QntDeElementosVisiveis = 1;
+        dpdwnArtistaDaMusica5.Size = new Size(409, 28);
+        dpdwnArtistaDaMusica5.TabIndex = 33;
+        dpdwnArtistaDaMusica5.TamanhoDropdown = new Size(409, 28);
+        dpdwnArtistaDaMusica5.TextDropdown = "Nome do artista";
+        // 
         // Form2
         // 
-        BackColor = SystemColors.WindowFrame;
-        ClientSize = new Size(679, 368);
+        BackColor = Color.FromArgb(21, 22, 23);
+        ClientSize = new Size(1130, 368);
+        Controls.Add(lblNomeArtista5);
+        Controls.Add(dpdwnArtistaDaMusica5);
+        Controls.Add(lblNomeArtista4);
+        Controls.Add(dpdwnArtistaDaMusica4);
+        Controls.Add(lblNomeArtista3);
+        Controls.Add(dpdwnArtistaDaMusica3);
+        Controls.Add(lblNomeArtista2);
+        Controls.Add(dpdwnArtistaDaMusica2);
+        Controls.Add(lblNomeArtista1);
+        Controls.Add(dpdwnArtistaDaMusica1);
         Controls.Add(pnlPageNav);
         Controls.Add(pnlCdtPlaylist);
         Controls.Add(pnlCdtArtista);
@@ -599,6 +793,7 @@ partial class Form2
         ((System.ComponentModel.ISupportInitialize)picPageMusic).EndInit();
         ((System.ComponentModel.ISupportInitialize)picPageArtista).EndInit();
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -646,5 +841,15 @@ partial class Form2
     private NthControls.CustomTextbox txtbxImgArtista;
     private NthControls.CustomTextbox txtbxNomePlaylist;
     private NthControls.CustomTextbox txtbxImgPlaylist;
-    private Dropdown dpdwnArtistaDaMusica;
+    private Dropdown dpdwnArtistaDaMusica1;
+    private Label lblNomeDosArtistas;
+    private Label lblNomeArtista1;
+    private Label lblNomeArtista2;
+    private Dropdown dpdwnArtistaDaMusica2;
+    private Label lblNomeArtista4;
+    private Dropdown dpdwnArtistaDaMusica4;
+    private Label lblNomeArtista3;
+    private Dropdown dpdwnArtistaDaMusica3;
+    private Label lblNomeArtista5;
+    private Dropdown dpdwnArtistaDaMusica5;
 }

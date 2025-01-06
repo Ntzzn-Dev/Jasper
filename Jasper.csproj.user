@@ -22,6 +22,9 @@
     <Compile Update="NthControls\LabelCRUD.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="NthControls\Popup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="NthControls\Slider.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -64,16 +64,19 @@
             // 
             titleBarPersonalizada1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             titleBarPersonalizada1.BackColor = Color.Transparent;
+            titleBarPersonalizada1.Fechar = true;
             titleBarPersonalizada1.LabelPosition = 1;
             titleBarPersonalizada1.Location = new Point(8, 8);
             titleBarPersonalizada1.Margin = new Padding(0);
+            titleBarPersonalizada1.Maximizar = false;
+            titleBarPersonalizada1.Minimizar = false;
             titleBarPersonalizada1.Name = "titleBarPersonalizada1";
             titleBarPersonalizada1.Size = new Size(700, 34);
             titleBarPersonalizada1.TabIndex = 17;
             titleBarPersonalizada1.Title = "JASPER CONTROL";
             titleBarPersonalizada1.WithFechar = true;
             titleBarPersonalizada1.WithMaximizar = false;
-            titleBarPersonalizada1.WithMinimizar = false;
+            titleBarPersonalizada1.WithMinimizar = true;
             // 
             // pnlWindow
             // 

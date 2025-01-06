@@ -26,11 +26,12 @@ using System.Text.RegularExpressions;
 public partial class Form2 : Form
 {
     private int idAtual = 0;
+    List<int> idsParaIgnorar = new List<int>(); 
     public Form2()
     {
         InitializeComponent();
         DefinirGatilhos();
-        CriarDropdown();
+        ArtistasJaEscolhidos();
         btnSalvarMusica.Click += SalvarMusica;
         btnSalvarArtista.Click += SalvarArtista;
         btnSalvarPlaylist.Click += SalvarPlaylist;
@@ -39,11 +40,11 @@ public partial class Form2 : Form
     {
         InitializeComponent();
         DefinirGatilhos();
-        CriarDropdown();
 
         txtbxNomeMusica.Texto = msc.getNomeMusica();
-        dpdwnArtistaDaMusica.TextDropdown = msc.getNomeArtistaMusica();
-        dpdwnArtistaDaMusica.IdElemento = msc.getIdArtistaMusica();
+        
+        ArrumarDropdownAlterar(msc);
+
         picImgMusica.Image = msc.getImgMusica();
 
         txtbxURLMusica.LblPlaceholder = "Deixe em branco para manter";
@@ -53,12 +54,13 @@ public partial class Form2 : Form
         idAtual = msc.getIdMusica();
 
         TrocarPage(1);
+        
+        ArtistasJaEscolhidos();
     }
     public Form2(Playlists ply)
     {
         InitializeComponent();
         DefinirGatilhos();
-        CriarDropdown();
 
         txtbxNomePlaylist.Texto = ply.getNomePlaylist();
         picImgPlaylist.Image = ply.getImgPlaylist();
@@ -96,19 +98,76 @@ public partial class Form2 : Form
         txtbxImgPlaylist.EnterPressed += (s, e) => { BaixarImgs(txtbxImgPlaylist.Texto, picImgPlaylist);}; 
 
         txtbxURLMusica.TextoChanged += IsValidUrlFormat;
+
+        dpdwnArtistaDaMusica1.Escolheu += (s, e) => ArtistasJaEscolhidos();
+        dpdwnArtistaDaMusica2.Escolheu += (s, e) => ArtistasJaEscolhidos();
+        dpdwnArtistaDaMusica3.Escolheu += (s, e) => ArtistasJaEscolhidos();
+        dpdwnArtistaDaMusica4.Escolheu += (s, e) => ArtistasJaEscolhidos();
+        dpdwnArtistaDaMusica5.Escolheu += (s, e) => ArtistasJaEscolhidos();
     }
-    
-    private void CriarDropdown(){
+    private void ArrumarDropdownAlterar(Musicas msc){
+        List<int> idsArtistas = msc.getIdsArtistasMusica();
+        List<Dropdown> dpdwnArtistas = new List<Dropdown> { dpdwnArtistaDaMusica1, dpdwnArtistaDaMusica2, dpdwnArtistaDaMusica3, dpdwnArtistaDaMusica4, dpdwnArtistaDaMusica5 };
+
+        foreach(int idDoArtista in idsArtistas){
+            dpdwnArtistas[0].IdElemento = idDoArtista;
+            dpdwnArtistas.RemoveAt(0);
+        }
+
+        List<string> nomesArtistas = msc.getNomesArtistasMusica();
+        dpdwnArtistas = new List<Dropdown> { dpdwnArtistaDaMusica1, dpdwnArtistaDaMusica2, dpdwnArtistaDaMusica3, dpdwnArtistaDaMusica4, dpdwnArtistaDaMusica5 };
+
+        foreach(string nomeDoArtista in nomesArtistas){
+            dpdwnArtistas[0].TextDropdown = nomeDoArtista;
+            dpdwnArtistas.RemoveAt(0);
+        }
+    }
+    private void CriarDropdown(Dropdown dpdw){
         List<Artistas> arts = Artistas.ConsultarArtistas();
         arts.Sort((a, b) => string.Compare(a.getNomeArtista(), b.getNomeArtista(), StringComparison.OrdinalIgnoreCase));
 
+        dpdw.Elementos.Clear();
+
         foreach (var art in arts)
         {
+            if ((idsParaIgnorar.Contains(art.getIdArtista()) && !(dpdw.IdElemento == art.getIdArtista())) || art.getIdArtista() == 0)
+            {
+                continue;
+            }
+
             Elementos elemento = new Elementos();
-            elemento.NomeArtista = art.getNomeArtista();
-            elemento.IdArtista = art.getIdArtista();
-            dpdwnArtistaDaMusica.Elementos.Add(elemento);
+            elemento.Nome = art.getNomeArtista();
+            elemento.Id = art.getIdArtista();
+            dpdw.Elementos.Add(elemento);
         }
+    }
+    private void ArtistasJaEscolhidos (){
+        idsParaIgnorar.Clear();
+        idsParaIgnorar.Add(dpdwnArtistaDaMusica1.IdElemento);
+        idsParaIgnorar.Add(dpdwnArtistaDaMusica2.IdElemento);
+        idsParaIgnorar.Add(dpdwnArtistaDaMusica3.IdElemento);
+        idsParaIgnorar.Add(dpdwnArtistaDaMusica4.IdElemento);
+        idsParaIgnorar.Add(dpdwnArtistaDaMusica5.IdElemento);
+
+        CriarDropdown(dpdwnArtistaDaMusica1);
+        CriarDropdown(dpdwnArtistaDaMusica2);
+        CriarDropdown(dpdwnArtistaDaMusica3);
+        CriarDropdown(dpdwnArtistaDaMusica4);
+        CriarDropdown(dpdwnArtistaDaMusica5);
+
+        lblNomesArtistas();
+    }
+    private void lblNomesArtistas(){
+        var dropdowns = new[] 
+        { 
+            dpdwnArtistaDaMusica1.TextDropdown, 
+            dpdwnArtistaDaMusica2.TextDropdown, 
+            dpdwnArtistaDaMusica3.TextDropdown, 
+            dpdwnArtistaDaMusica4.TextDropdown, 
+            dpdwnArtistaDaMusica5.TextDropdown 
+        };
+
+        lblNomeDosArtistas.Text = string.Join(", ", dropdowns.Where(text => text != "Nome do artista" && !string.IsNullOrEmpty(text)));
     }
     public void DadoRecebidoOnline(string urlRecebida, int labelEspecificado)
     {
@@ -128,11 +187,19 @@ public partial class Form2 : Form
     private async void SalvarMusica(object sender, EventArgs e)
     {
         byte[] bytesMusica = await AudioVideo();
+        var ids = new[] 
+        {
+            dpdwnArtistaDaMusica1.IdElemento,
+            dpdwnArtistaDaMusica2.IdElemento,
+            dpdwnArtistaDaMusica3.IdElemento,
+            dpdwnArtistaDaMusica4.IdElemento,
+            dpdwnArtistaDaMusica5.IdElemento
+        };
 
         Musicas musica = new Musicas();
         musica.setNomeMusica(txtbxNomeMusica.Texto);
         musica.setBytesMusica(bytesMusica);
-        musica.setIdArtistaMusica(dpdwnArtistaDaMusica.IdElemento);
+        musica.setIdsArtistasMusica(ids.Where(id => id != 0).ToList());
         musica.setImgMusica(picImgMusica.Image);
 
         Musicas.Salvar(musica);
@@ -140,11 +207,20 @@ public partial class Form2 : Form
     }
     private async void AlterarMusica(object sender, EventArgs e)
     {
+        var ids = new[] 
+        {
+            dpdwnArtistaDaMusica1.IdElemento,
+            dpdwnArtistaDaMusica2.IdElemento,
+            dpdwnArtistaDaMusica3.IdElemento,
+            dpdwnArtistaDaMusica4.IdElemento,
+            dpdwnArtistaDaMusica5.IdElemento
+        };
+
         Musicas musica = new Musicas();
         musica.setIdMusica(idAtual);
         musica.setNomeMusica(txtbxNomeMusica.Texto);
         musica.setBytesMusica(new byte[0]);
-        musica.setIdArtistaMusica(dpdwnArtistaDaMusica.IdElemento);
+        musica.setIdsArtistasMusica(ids.Where(id => id != 0).ToList());
         musica.setImgMusica(picImgMusica.Image);
         if(txtbxURLMusica.Texto != ""){
             byte[] bytesMusica = await AudioVideo();
@@ -198,22 +274,25 @@ public partial class Form2 : Form
     private void TrocarPage(int indice){
         int music = 0, artist = 0, playlist = 0;
         
-        btnPageMusica.BackColor = Color.Gray;
-        btnPageArtista.BackColor = Color.Gray;
-        btnPagePlaylist.BackColor = Color.Gray;
+        btnPageMusica.BackColor = Color.FromArgb(44, 44, 44);
+        btnPageArtista.BackColor = Color.FromArgb(44, 44, 44);
+        btnPagePlaylist.BackColor = Color.FromArgb(44, 44, 44);
 
         switch(indice){
             case 1:
             music = 313;
-            btnPageMusica.BackColor = Color.DarkGray;
+            btnPageMusica.BackColor = Color.FromArgb(26, 26, 26);
+            this.Size = new Size(1127, 407);
                 break;
             case 2:
             artist = 313;
-            btnPageArtista.BackColor = Color.DarkGray;
+            btnPageArtista.BackColor = Color.FromArgb(26, 26, 26);
+            this.Size = new Size(694, 407);
                 break;
             case 3:
             playlist = 313;
-            btnPagePlaylist.BackColor = Color.DarkGray;
+            btnPagePlaylist.BackColor = Color.FromArgb(26, 26, 26);
+            this.Size = new Size(694, 407);
                 break;
         }
 
@@ -361,7 +440,7 @@ public partial class Form2 : Form
         if (sender == btnImgMusicaOnline) { 
             acaoTelaCola = lblImgMusica.Text; 
             palavraChave = txtbxNomeMusica.Texto;
-            if(!dpdwnArtistaDaMusica.TextDropdown.Contains("desconhecido", StringComparison.OrdinalIgnoreCase)){ palavraChave = palavraChave + " " + dpdwnArtistaDaMusica.TextDropdown;}}
+            if(!dpdwnArtistaDaMusica1.TextDropdown.Contains("desconhecido", StringComparison.OrdinalIgnoreCase)){ palavraChave = palavraChave + " " + dpdwnArtistaDaMusica1.TextDropdown;}}
         else
         if (sender == btnImgArtistaOnline) { acaoTelaCola = lblImgArtista.Text; palavraChave = txtbxNomeArtista.Texto;}
         else

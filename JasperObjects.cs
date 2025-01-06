@@ -6,44 +6,51 @@ public class Musicas{
     private int id;
     private string nome;
     private byte[] musica;
-    private int id_artista;
+    private List<int> id_artista;
     private string nome_artista;
+    private List<string> nome_artistas;
     private Image thumbnail;
 
     public Musicas(){
 
     }
-    public Musicas(int idDePesquisa){
-        try{
+
+    public Musicas(int idDePesquisa)
+    {
+        try
+        {
             string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
 
             using (var connection = Referencias.CreateConnection(dbPath))
             {
                 connection.Open();
-                string selectCommand = @"SELECT Musicas.Nome, Musicas.Musica, Musicas.Id_Artista, Musicas.Thumbnail, Artista.Nome FROM Musicas INNER JOIN Artista ON Musicas.Id_Artista = Artista.Id WHERE Musicas.Id = @id";
+
+                string selectCommand = @"SELECT m.Nome, m.Musica, m.Thumbnail, a.Nome, a.Id FROM Musicas m LEFT JOIN Artistas_Musicas ON m.Id = Artistas_Musicas.Id_Musica LEFT JOIN Artista a ON Artistas_Musicas.Id_Artista = a.Id WHERE m.Id = @id";
+
                 using (var command = new SqliteCommand(selectCommand, connection))
                 {
                     command.Parameters.AddWithValue("@id", idDePesquisa);
+
                     using (var reader = command.ExecuteReader())
                     {
+                        List<string> nomesArtistas = new List<string>();
+                        List<int> idsArtistas = new List<int>();
+
                         while (reader.Read())
                         {
                             setIdMusica(idDePesquisa);
 
                             string nome = reader.GetString(0);
                             setNomeMusica(nome);
-                            
+
                             long tamanhoBlobMusica = reader.GetBytes(1, 0, null, 0, 0);
                             byte[] musica = new byte[tamanhoBlobMusica];
                             reader.GetBytes(1, 0, musica, 0, (int)tamanhoBlobMusica);
                             setBytesMusica(musica);
 
-                            int idArtista = reader.GetInt32(2);
-                            setIdArtistaMusica(idArtista);
-                            
-                            long tamanhoBlobImg = reader.GetBytes(3, 0, null, 0, 0);
+                            long tamanhoBlobImg = reader.GetBytes(2, 0, null, 0, 0);
                             byte[] bufferImg = new byte[tamanhoBlobImg];
-                            reader.GetBytes(3, 0, bufferImg, 0, (int)tamanhoBlobImg);
+                            reader.GetBytes(2, 0, bufferImg, 0, (int)tamanhoBlobImg);
 
                             using (MemoryStream ms = new MemoryStream(bufferImg))
                             {
@@ -51,92 +58,145 @@ public class Musicas{
                                 setImgMusica(img);
                             }
 
-                            string nomeArtista = reader.GetString(4);
-                            setNomeArtistaMusica(nomeArtista);
+                            if (!reader.IsDBNull(3))
+                            {
+                                string nomeArtista = reader.GetString(3);
+                                nomesArtistas.Add(nomeArtista);
+                            }
+                            int idArtista = reader.GetInt32(4);
+                            idsArtistas.Add(idArtista);
                         }
+                        setNomesArtistasMusica(nomesArtistas);
+                        setNomeArtistaMusica(string.Join(", ", nomesArtistas));
+                        setIdsArtistasMusica(idsArtistas);
                     }
                 }
+
                 connection.Close();
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Erro ao listar musica: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Erro ao listar música: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
-    public static void Salvar(Musicas music){
-        try{
-            string nome = music.getNomeMusica();
-            byte[] musica = music.getBytesMusica();
-            int idArtista = music.getIdArtistaMusica();
-            byte[] imgEmBytes = Referencias.ImageToByteArray(music.getImgMusica());
+    public static void Salvar(Musicas msc)
+    {
+        try
+        {
+            string nome = msc.getNomeMusica();
+            byte[] musica = msc.getBytesMusica();
+            byte[] imgEmBytes = Referencias.ImageToByteArray(msc.getImgMusica());
+            List<int> artistasIds = msc.getIdsArtistasMusica().Count > 0 ? msc.getIdsArtistasMusica() : new List<int> { 0 };
 
             string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
 
             using (var connection = Referencias.CreateConnection(dbPath))
             {
                 connection.Open();
+                string insertCommand = "INSERT INTO Musicas (Nome, Musica, Thumbnail) VALUES (@nome, @musica, @thumbnail); SELECT last_insert_rowid();";
+                long idMusica;
 
-                string insertCommand = "INSERT INTO Musicas (Nome, Musica, Id_Artista, Thumbnail) VALUES (@nome, @musica, @id_Artista, @thumbnail)";
                 using (var command = new SqliteCommand(insertCommand, connection))
                 {
                     command.Parameters.AddWithValue("@nome", nome);
                     command.Parameters.AddWithValue("@musica", musica);
-                    command.Parameters.AddWithValue("@id_Artista", idArtista);
                     command.Parameters.AddWithValue("@thumbnail", imgEmBytes);
 
-                    command.ExecuteNonQuery();
+                    idMusica = (long)command.ExecuteScalar();
                 }
+
+                if (artistasIds != null && artistasIds.Count > 0)
+                {
+                MessageBox.Show("1");
+                    string insertArtistaMusicaCommand = "INSERT INTO Artistas_Musicas (Id_Artista, Id_Musica) VALUES (@idArtista, @idMusica)";
+                MessageBox.Show("2");
+                    foreach (int idArtista in artistasIds)
+                    {
+                MessageBox.Show("3");
+                        using (var command = new SqliteCommand(insertArtistaMusicaCommand, connection))
+                        {
+                MessageBox.Show("4");
+                            command.Parameters.AddWithValue("@idArtista", idArtista);
+                MessageBox.Show("5");
+                            command.Parameters.AddWithValue("@idMusica", idMusica);
+                MessageBox.Show("6");
+                            command.ExecuteNonQuery();
+                MessageBox.Show("7");
+                        }
+                    }
+                }
+
+                connection.Close();
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Erro ao salvar musica: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Erro ao salvar música: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
-    public static void Alterar(Musicas msc){
+    public static void Alterar(Musicas msc)
+    {
         try
         {
             int idDeAlteracao = msc.getIdMusica();
             string nome = msc.getNomeMusica();
             byte[] musicaEmBytes = msc.getBytesMusica();
-            int idArtista = msc.getIdArtistaMusica();
+            List<int> idsArtistas = msc.getIdsArtistasMusica();
             byte[] imgEmBytes = Referencias.ImageToByteArray(msc.getImgMusica());
 
             string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-            string connectionString = $"Data Source={dbPath}";
-            
+
             using (var connection = Referencias.CreateConnection(dbPath))
             {
                 connection.Open();
 
-                string condicaoCommand = "";
-                
-                if (musicaEmBytes.Length != 0) { condicaoCommand = " Musica = @musica,"; }
+                List<string> camposParaAtualizar = new List<string> { "Nome = @nome" };
 
-                string insertCommand = $"UPDATE Musicas SET Nome = @nome,{condicaoCommand} Id_Artista = @idArtista";
+                if (musicaEmBytes.Length > 0) { camposParaAtualizar.Add("Musica = @musica"); }
 
-                if (imgEmBytes.Length != 0) { condicaoCommand = ", Thumbnail = @img"; }
+                if (imgEmBytes.Length > 0) { camposParaAtualizar.Add("Thumbnail = @img"); }
 
-                insertCommand = insertCommand + condicaoCommand + " WHERE Id = @id";
-                
-                using (var command = new SqliteCommand(insertCommand, connection))
+                string updateCommand = $"UPDATE Musicas SET {string.Join(", ", camposParaAtualizar)} WHERE Id = @id";
+
+                using (var command = new SqliteCommand(updateCommand, connection))
                 {
                     command.Parameters.AddWithValue("@nome", nome);
-                    if (musicaEmBytes.Length != 0) { command.Parameters.AddWithValue("@musica", musicaEmBytes); }
-                    command.Parameters.AddWithValue("@idArtista", idArtista);
-                    if (imgEmBytes.Length != 0) { command.Parameters.AddWithValue("@img", imgEmBytes); }
+                    if (musicaEmBytes.Length > 0) { command.Parameters.AddWithValue("@musica", musicaEmBytes); }
+                    if (imgEmBytes.Length > 0) { command.Parameters.AddWithValue("@img", imgEmBytes); }
                     command.Parameters.AddWithValue("@id", idDeAlteracao);
 
                     command.ExecuteNonQuery();
                 }
+
+                if (idsArtistas != null && idsArtistas.Count > 0)
+                {
+                    string deleteCommand_ArtMsc = "DELETE FROM Artistas_Musicas WHERE Id_Musica = @idMusica";
+                    using (var deleteCommand = new SqliteCommand(deleteCommand_ArtMsc, connection))
+                    {
+                        deleteCommand.Parameters.AddWithValue("@idMusica", idDeAlteracao);
+                        deleteCommand.ExecuteNonQuery();
+                    }
+
+                    string insertCommand_ArtMsc = "INSERT INTO Artistas_Musicas (Id_Artista, Id_Musica) VALUES (@idArtista, @idMusica)";
+                    foreach (int idArtista in idsArtistas)
+                    {
+                        using (var insertCommand = new SqliteCommand(insertCommand_ArtMsc, connection))
+                        {
+                            insertCommand.Parameters.AddWithValue("@idArtista", idArtista);
+                            insertCommand.Parameters.AddWithValue("@idMusica", idDeAlteracao);
+                            insertCommand.ExecuteNonQuery();
+                        }
+                    }
+                }
+
                 connection.Close();
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Erro ao alterar o atalho: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Erro ao alterar a música: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
     public static void Deletar(int idDeExclusao){
@@ -156,6 +216,15 @@ public class Musicas{
 
                     int rowsAffected = command.ExecuteNonQuery();
                 }
+
+                string deleteCommand_ArtMsc = "DELETE FROM Artistas_Musicas WHERE Id_Musica = @idMusica";
+
+                using (var deleteCommand2 = new SqliteCommand(deleteCommand_ArtMsc, connection))
+                {
+                    deleteCommand2.Parameters.AddWithValue("@idMusica", idDeExclusao);
+                    deleteCommand2.ExecuteNonQuery();
+                }
+
                 connection.Close();
             }
         }
@@ -164,7 +233,7 @@ public class Musicas{
             MessageBox.Show($"Erro ao excluir o atalho: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
-    public static ArrayList ConsultarIDs(int idPlaylist){
+    public static ArrayList ConsultarIDs(int idPlaylist = 0, int idPlaylistArtista = -1){
         ArrayList idsApps = new ArrayList();
         try
         {
@@ -178,9 +247,13 @@ public class Musicas{
                 if(idPlaylist != 0){
                     selectCommand = "SELECT Musicas.Id FROM Playlist_Musicas INNER JOIN Musicas ON Playlist_Musicas.Id_Musica = Musicas.Id WHERE Playlist_Musicas.Id_Playlist = @idplaylist";
                 }
+                if(idPlaylistArtista != -1){
+                    selectCommand = "SELECT Musicas.Id FROM Artistas_Musicas INNER JOIN Musicas ON Artistas_Musicas.Id_Musica = Musicas.Id WHERE Artistas_Musicas.Id_Artista = @idplaylistArtista";
+                }
                 
                 using (var command = new SqliteCommand(selectCommand, connection)){
                     if(idPlaylist != 0){command.Parameters.AddWithValue("@idplaylist", idPlaylist);}
+                    if(idPlaylistArtista != -1){command.Parameters.AddWithValue("@idplaylistArtista", idPlaylistArtista);}
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -199,7 +272,7 @@ public class Musicas{
         }
         return idsApps;
     }
-    public static List<Musicas> ConsultarMusicas(int idPlaylist){
+    public static List<Musicas> ConsultarMusicas(int idPlaylist = 0, int idPlaylistArtista = -1){
         List<Musicas> mscs = new List<Musicas>();
         try
         {
@@ -209,26 +282,33 @@ public class Musicas{
             {
                 connection.Open();
 
-                string selectCommand = "SELECT Musicas.Id, Musicas.Nome, Musicas.Id_Artista, Musicas.Thumbnail, Artista.Nome FROM Musicas INNER JOIN Artista ON Musicas.Id_Artista = Artista.Id";
+                string selectCommand = "SELECT m.Id, m.Nome, m.Musica, m.Thumbnail FROM Musicas m";
                 if(idPlaylist != 0){
-                    selectCommand = "SELECT Musicas.Id, Musicas.Nome, Musicas.Id_Artista, Musicas.Thumbnail, Artista.Nome FROM Playlist_Musicas INNER JOIN Musicas ON Playlist_Musicas.Id_Musica = Musicas.Id INNER JOIN Artista ON Musicas.Id_Artista = Artista.Id WHERE Playlist_Musicas.Id_Playlist = @idplaylist";
+                    selectCommand = "SELECT m.Id, m.Nome, m.Musica, m.Thumbnail FROM Playlist_Musicas INNER JOIN Musicas m ON Playlist_Musicas.Id_Musica = m.Id WHERE Playlist_Musicas.Id_Playlist = @idplaylist";
+                }
+                if(idPlaylistArtista != -1){
+                    selectCommand = "SELECT m.Id, m.Nome, m.Musica, m.Thumbnail FROM Artistas_Musicas INNER JOIN Musicas m ON Artistas_Musicas.Id_Musica = m.Id WHERE Artistas_Musicas.Id_Artista = @idplaylistArtista";
                 }
                 using (var command = new SqliteCommand(selectCommand, connection)){
                     if(idPlaylist != 0){command.Parameters.AddWithValue("@idplaylist", idPlaylist);}
+                    if(idPlaylistArtista != -1){command.Parameters.AddWithValue("@idplaylistArtista", idPlaylistArtista);}
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
                             string nome = reader.GetString(1);
-                            int idArtista = reader.GetInt32(2);
-                            string nomeArtista = reader.GetString(4);
 
                             Musicas msc = new Musicas();
 
                             msc.setIdMusica(id);
                             msc.setNomeMusica(nome);
-                            msc.setIdArtistaMusica(idArtista);
+
+                            long tamanhoBlobMsc = reader.GetBytes(2, 0, null, 0, 0);
+                            byte[] bufferMsc = new byte[tamanhoBlobMsc];
+                            reader.GetBytes(2, 0, bufferMsc, 0, (int)tamanhoBlobMsc);
+                            
+                            msc.setBytesMusica(bufferMsc);
 
                             long tamanhoBlobImg = reader.GetBytes(3, 0, null, 0, 0);
                             byte[] bufferImg = new byte[tamanhoBlobImg];
@@ -239,9 +319,36 @@ public class Musicas{
                                 Image img = Image.FromStream(ms);
                                 msc.setImgMusica(img);
                             }
-                            msc.setNomeArtistaMusica(nomeArtista);
 
                             mscs.Add(msc);
+                        }
+                    }
+                }
+
+                //Pegar Artistas
+                string selectCommand_ArtMsc = "SELECT a.Nome, a.Id FROM Artistas_Musicas INNER JOIN Artista a ON Artistas_Musicas.Id_Artista = a.Id WHERE Artistas_Musicas.Id_Musica = @idMusica";
+
+                foreach(Musicas msc in mscs){
+                    using (var selectCommand2 = new SqliteCommand(selectCommand_ArtMsc, connection))
+                    {
+                        selectCommand2.Parameters.AddWithValue("@idMusica", msc.getIdMusica());
+                        using (var reader = selectCommand2.ExecuteReader())
+                        {
+                            List<string> nomesArtistas = new List<string>();
+                            List<int> idsArtistas = new List<int>();
+                            while (reader.Read())
+                            {
+                                if (!reader.IsDBNull(0))
+                                {
+                                    string nomeArtista = reader.GetString(0);
+                                    nomesArtistas.Add(nomeArtista);
+                                }
+                                int idArtista = reader.GetInt32(1);
+                                idsArtistas.Add(idArtista);
+                            }
+                            msc.setNomesArtistasMusica(nomesArtistas);
+                            msc.setNomeArtistaMusica(string.Join(", ", nomesArtistas));
+                            msc.setIdsArtistasMusica(idsArtistas);
                         }
                     }
                 }
@@ -272,10 +379,10 @@ public class Musicas{
     public void setBytesMusica(byte[] musica){
         this.musica = musica;
     }
-    public int getIdArtistaMusica(){
+    public List<int> getIdsArtistasMusica(){
         return this.id_artista;
     }
-    public void setIdArtistaMusica(int id_artista){
+    public void setIdsArtistasMusica(List<int> id_artista){
         this.id_artista = id_artista;
     }
     public string getNomeArtistaMusica(){
@@ -283,6 +390,12 @@ public class Musicas{
     }
     public void setNomeArtistaMusica(string nome_artista){
         this.nome_artista = nome_artista;
+    }
+    public List<string> getNomesArtistasMusica(){
+        return this.nome_artistas;
+    }
+    public void setNomesArtistasMusica(List<string> nome_artistas){
+        this.nome_artistas = nome_artistas;
     }
     public Image getImgMusica(){
         return this.thumbnail;
@@ -366,6 +479,42 @@ public class Artistas{
             MessageBox.Show($"Erro ao salvar musica: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+    public static void Alterar(Artistas art){
+        try
+        {
+            int idDeAlteracao = art.getIdArtista();
+            string nome = art.getNomeArtista();
+            byte[] imgEmBytes = Referencias.ImageToByteArray(art.getImgArtista());
+
+            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
+            string connectionString = $"Data Source={dbPath}";
+            
+            using (var connection = Referencias.CreateConnection(dbPath))
+            {
+                connection.Open();
+
+                string condicaoCommand = "";
+
+                if (imgEmBytes.Length != 0) {condicaoCommand = ", Imagem = @img "; }
+
+                string insertCommand = $"UPDATE Artista SET Nome = @nome{condicaoCommand} WHERE Id = @id";
+
+                using (var command = new SqliteCommand(insertCommand, connection))
+                {
+                    command.Parameters.AddWithValue("@nome", nome);
+                    if (imgEmBytes.Length != 0) { command.Parameters.AddWithValue("@img", imgEmBytes); }
+                    command.Parameters.AddWithValue("@id", idDeAlteracao);
+
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao alterar a playlist: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
     public static List<Artistas> ConsultarArtistas(){
         List<Artistas> arts = new List<Artistas>();
         try
@@ -376,7 +525,7 @@ public class Artistas{
             {
                 connection.Open();
 
-                string selectCommand = "SELECT Id, Nome FROM Artista";
+                string selectCommand = "SELECT Id, Nome, Imagem FROM Artista";
                 using (var command = new SqliteCommand(selectCommand, connection))
                 using (var reader = command.ExecuteReader())
                 {
@@ -389,6 +538,16 @@ public class Artistas{
 
                         art.setIdArtista(id);
                         art.setNomeArtista(nome);
+
+                        long tamanhoBlobImg = reader.GetBytes(2, 0, null, 0, 0);
+                        byte[] bufferImg = new byte[tamanhoBlobImg];
+                        reader.GetBytes(2, 0, bufferImg, 0, (int)tamanhoBlobImg);
+
+                        using (MemoryStream ms = new MemoryStream(bufferImg))
+                        {
+                            Image img = Image.FromStream(ms);
+                            art.setImgArtista(img);
+                        }
 
                         arts.Add(art);
                     }

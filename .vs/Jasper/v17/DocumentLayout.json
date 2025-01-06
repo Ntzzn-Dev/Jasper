@@ -3,40 +3,44 @@
   "WorkspaceRootPath": "H:\\Projects\\CSharp\\Jasper\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\nthcontrols\\dropdown.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\dropdown.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\form4.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:form4.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|H:\\Projects\\CSharp\\Jasper\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|H:\\Projects\\CSharp\\Jasper\\nthcontrols\\titlebarpersonalizada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\titlebarpersonalizada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\nthcontrols\\titlebarpersonalizada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\titlebarpersonalizada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|H:\\Projects\\CSharp\\Jasper\\nthcontrols\\dropdown.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\dropdown.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\nthcontrols\\labelcrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\labelcrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\nthcontrols\\popup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\popup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|H:\\Projects\\CSharp\\Jasper\\nthcontrols\\labelcrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\labelcrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\nthcontrols\\popup.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\popup.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|h:\\projects\\csharp\\jasper\\nthcontrols\\slider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\slider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|H:\\Projects\\CSharp\\Jasper\\nthcontrols\\popup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{252D6601-FF28-430A-AF50-3E5B942FF388}|Jasper.csproj|solutionrelative:nthcontrols\\popup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,111 +50,129 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Form4.Designer.cs",
-              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\Form4.Designer.cs",
-              "RelativeDocumentMoniker": "Form4.Designer.cs",
-              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\Form4.Designer.cs",
-              "RelativeToolTip": "Form4.Designer.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAowGAAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T03:18:28.926Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
+              "Title": "Form2.cs [Projeto]",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\Form2.cs",
+              "RelativeDocumentMoniker": "Form2.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\Form2.cs [Projeto]",
+              "RelativeToolTip": "Form2.cs [Projeto]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T00:30:48.019Z",
+              "EditorCaption": " [Projeto]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Form4.cs",
               "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\Form4.cs",
               "RelativeDocumentMoniker": "Form4.cs",
               "ToolTip": "H:\\Projects\\CSharp\\Jasper\\Form4.cs",
               "RelativeToolTip": "Form4.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAuwAYBAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAqwKEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T01:26:11.714Z",
+              "WhenOpened": "2025-01-05T23:54:18.765Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "LabelCRUD.cs",
-              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\LabelCRUD.cs",
-              "RelativeDocumentMoniker": "NthControls\\LabelCRUD.cs",
-              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\LabelCRUD.cs",
-              "RelativeToolTip": "NthControls\\LabelCRUD.cs",
-              "ViewState": "AgIAAAABAAAAAAAAAAAiwBUBAAAIAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "Form1.Designer.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\Form1.Designer.cs",
+              "RelativeToolTip": "Form1.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T01:11:40.446Z",
+              "WhenOpened": "2025-01-05T19:54:07.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Dropdown.cs",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Dropdown.cs",
+              "RelativeDocumentMoniker": "NthControls\\Dropdown.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Dropdown.cs",
+              "RelativeToolTip": "NthControls\\Dropdown.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAuwBgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T19:12:43.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\Form1.cs",
+              "RelativeToolTip": "Form1.cs",
+              "ViewState": "AgIAAPECAAAAAAAAAAAqwAwDAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T18:48:44.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Popup.Designer.cs",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Popup.Designer.cs",
+              "RelativeDocumentMoniker": "NthControls\\Popup.Designer.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Popup.Designer.cs",
+              "RelativeToolTip": "NthControls\\Popup.Designer.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAowEwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T17:09:06.267Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "LabelCRUD.cs [Projeto]",
-              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\LabelCRUD.cs",
-              "RelativeDocumentMoniker": "NthControls\\LabelCRUD.cs",
-              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\LabelCRUD.cs [Projeto]",
-              "RelativeToolTip": "NthControls\\LabelCRUD.cs [Projeto]",
+              "Title": "Popup.cs",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Popup.cs",
+              "RelativeDocumentMoniker": "NthControls\\Popup.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Popup.cs",
+              "RelativeToolTip": "NthControls\\Popup.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAQwKsAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T01:11:36.398Z",
-              "EditorCaption": " [Projeto]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "TitleBarPersonalizada.cs",
-              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\TitleBarPersonalizada.cs",
-              "RelativeDocumentMoniker": "NthControls\\TitleBarPersonalizada.cs",
-              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\TitleBarPersonalizada.cs",
-              "RelativeToolTip": "NthControls\\TitleBarPersonalizada.cs",
-              "ViewState": "AgIAAP0AAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T00:49:18.249Z",
+              "WhenOpened": "2025-01-05T16:57:08.132Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Popup.cs [Projeto]",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Popup.cs",
+              "RelativeDocumentMoniker": "NthControls\\Popup.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Popup.cs [Projeto]",
+              "RelativeToolTip": "NthControls\\Popup.cs [Projeto]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T16:56:56.933Z",
+              "EditorCaption": " [Projeto]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Dropdown.cs [Projeto]",
+              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Dropdown.cs",
+              "RelativeDocumentMoniker": "NthControls\\Dropdown.cs",
+              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Dropdown.cs [Projeto]",
+              "RelativeToolTip": "NthControls\\Dropdown.cs [Projeto]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T00:52:16.951Z",
+              "EditorCaption": " [Projeto]"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "TitleBarPersonalizada.cs [Projeto]",
-              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\TitleBarPersonalizada.cs",
-              "RelativeDocumentMoniker": "NthControls\\TitleBarPersonalizada.cs",
-              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\TitleBarPersonalizada.cs [Projeto]",
-              "RelativeToolTip": "NthControls\\TitleBarPersonalizada.cs [Projeto]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T00:48:26.289Z",
-              "EditorCaption": " [Projeto]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form4.cs [Projeto]",
-              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\Form4.cs",
-              "RelativeDocumentMoniker": "Form4.cs",
-              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\Form4.cs [Projeto]",
-              "RelativeToolTip": "Form4.cs [Projeto]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T00:07:43.187Z",
-              "EditorCaption": " [Projeto]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Slider.cs",
-              "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Slider.cs",
-              "RelativeDocumentMoniker": "NthControls\\Slider.cs",
-              "ToolTip": "H:\\Projects\\CSharp\\Jasper\\NthControls\\Slider.cs",
-              "RelativeToolTip": "NthControls\\Slider.cs",
-              "ViewState": "AgIAAHAAAAAAAAAAAAAQwJ8AAACJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T03:18:25.32Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Form1.cs [Projeto]",
               "DocumentMoniker": "H:\\Projects\\CSharp\\Jasper\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",

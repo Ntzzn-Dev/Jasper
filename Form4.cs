@@ -16,6 +16,7 @@ using CSCore.Streams;
 public partial class Form4 : Form
 {
     private Form1 formularioPai;
+    private NotifyIcon notifyIcon;
     public Form4()
     {
         InitializeComponent();
@@ -23,6 +24,41 @@ public partial class Form4 : Form
         this.Load += (s,e) => AoCarregar();
         DefinirGatilhos();
         this.TopMost = true;
+        titleBarPersonalizada1.MinimizarCustom += (s, e) => MandarParaBandeja();
+    }
+    private void CriarNotificacao()
+    {
+        notifyIcon = new NotifyIcon();
+        notifyIcon.Icon = SystemIcons.Information;
+        notifyIcon.Visible = true;
+
+        ContextMenuStrip contextMenu = new ContextMenuStrip();
+        contextMenu.Items.Add("Restaurar", null, RestaurarControl);
+        contextMenu.Items.Add("Sair", null, SairControl);
+        notifyIcon.ContextMenuStrip = contextMenu;
+    }
+    private void RestaurarControl(object sender, EventArgs e)
+    {
+        this.Show();
+        RemoverNotificacao();
+    }
+    private void SairControl(object sender, EventArgs e)
+    {
+        RemoverNotificacao();
+        Application.Exit();
+    }
+    private void RemoverNotificacao()
+    {
+        if (notifyIcon != null)
+        {
+            notifyIcon.Visible = false;
+            notifyIcon.Dispose();
+        }
+    }
+    private void MandarParaBandeja(){
+        CriarNotificacao();
+        this.Hide();
+        notifyIcon.ShowBalloonTip(10000, "Aplicativo Minimizado", "Clique para restaurar", ToolTipIcon.Info);
     }
     private void AoCarregar(){
         formularioPai = (Form1)this.Owner;
@@ -30,8 +66,8 @@ public partial class Form4 : Form
         formularioPai.RepetirNvl = Form1.ToogleSituacao(formularioPai.RepetirNvl -1, picBtnRepetirMusic, "Repetir"); 
         formularioPai.AleatorioNvl = Form1.ToogleSituacao(formularioPai.AleatorioNvl -1, picBtnAleatorioMusic, "Aleatorizar");
 
-        if(Form1.isPlaying){picBtnPlayMusic.Image = Properties.Resources.Play;}
-        else {picBtnPlayMusic.Image = Properties.Resources.Pausar;} 
+        if(Form1.isPlaying){picBtnPlayMusic.Image = Properties.Resources.Pausar;}
+        else {picBtnPlayMusic.Image = Properties.Resources.Play;} 
 
         Form1.timerWhileMusic?.Dispose();
         Form1.timerWhileMusic = new System.Threading.Timer(WhileMusic, null, 0, 500);
@@ -132,17 +168,17 @@ public partial class Form4 : Form
     }
     private async Task<bool> NextMusic(){
         try{
-            int indiceAtual = Form1.ids.IndexOf(Form1.idAtual);
+            int indiceAtual = Form1.filaAtual.IndexOf(Form1.idAtual);
             int proximoIndice = indiceAtual + 1;
 
             int Randomic(int valorpadrao){
                 Random random = new Random();
                 if(formularioPai.AleatorioNvl == 1){
-                    return random.Next(1, Form1.ids.Count);
+                    return random.Next(1, Form1.filaAtual.Count);
                 } else
                 if(formularioPai.AleatorioNvl == 2){
                     if(Form1.aleatorioSemRepeticao.Count == 0){
-                        Form1.aleatorioSemRepeticao = Enumerable.Range(0, Form1.ids.Count).ToList();
+                        Form1.aleatorioSemRepeticao = Enumerable.Range(0, Form1.filaAtual.Count).ToList();
                     }
                     int indiceAleatorio = random.Next(Form1.aleatorioSemRepeticao.Count);
                     var mscAleatoria = Form1.aleatorioSemRepeticao[indiceAleatorio];
@@ -152,14 +188,14 @@ public partial class Form4 : Form
                 return valorpadrao;
             }
             
-            if (indiceAtual < Form1.ids.Count - 1 && formularioPai.RepetirNvl != 2)
+            if (indiceAtual < Form1.filaAtual.Count - 1 && formularioPai.RepetirNvl != 2)
             {
                 proximoIndice = Randomic(indiceAtual + 1);
                 if (Form1._soundOut != null)
                 {
                     await Form1.FinalizarMusica();
                 }
-                Form1.idAtual = (int)Form1.ids[proximoIndice];
+                Form1.idAtual = (int)Form1.filaAtual[proximoIndice];
                 PlayMusica();
                 return true;
             } 
@@ -170,7 +206,7 @@ public partial class Form4 : Form
                     {
                         await Form1.FinalizarMusica();
                     }
-                    Form1.idAtual = (int)Form1.ids[proximoIndice];
+                    Form1.idAtual = (int)Form1.filaAtual[proximoIndice];
                     PlayMusica();
                 return true;
             }
@@ -190,14 +226,14 @@ public partial class Form4 : Form
     }
     private async Task<bool> PrevMusic(){
         try{
-            int indiceAtual = Form1.ids.IndexOf(Form1.idAtual);
+            int indiceAtual = Form1.filaAtual.IndexOf(Form1.idAtual);
             if (indiceAtual > 0)
             {
                 if (Form1._soundOut != null)
                 {
                     await Form1.FinalizarMusica();
                 }
-                Form1.idAtual = (int)Form1.ids[indiceAtual - 1];
+                Form1.idAtual = (int)Form1.filaAtual[indiceAtual - 1];
                 PlayMusica();
                 return true;
             }

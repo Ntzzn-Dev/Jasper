@@ -117,7 +117,7 @@
             BackColor = Color.Transparent;
             Controls.Add(titleBar);
             Name = "TitleBarPersonalizada";
-            Size = new Size(1228, 122);
+            Size = new Size(1228, 34);
             Load += TitleBarPersonalizada_Load;
             SizeChanged += TitleBarPersonalizada_Load;
             Paint += TitleBarPersonalizada_Paint;

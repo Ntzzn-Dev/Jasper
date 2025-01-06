@@ -21,7 +21,12 @@ public partial class TitleBarPersonalizada : UserControl
     private bool _withMinimizar = true;
     private int _labelPosition = 0;
     private string _title = "new window";
-
+    private bool _Fechar = true;
+    private bool _Maximizar = true;
+    private bool _Minimizar = true;
+    public EventHandler FecharCustom;
+    public EventHandler MaximizarCustom;
+    public EventHandler MinimizarCustom;
     public bool WithFechar
     {
         get => _withFechar;
@@ -78,6 +83,33 @@ public partial class TitleBarPersonalizada : UserControl
             Invalidate();
         }
     }
+    public bool Fechar
+    {
+        get => _Fechar;
+        set
+        {
+            _Fechar = value;
+            Invalidate();
+        }
+    }
+    public bool Maximizar
+    {
+        get => _Maximizar;
+        set
+        {
+            _Maximizar = value;
+            Invalidate();
+        }
+    }
+    public bool Minimizar
+    {
+        get => _Minimizar;
+        set
+        {
+            _Minimizar = value;
+            Invalidate();
+        }
+    }
 
     public TitleBarPersonalizada()
     {
@@ -120,10 +152,12 @@ public partial class TitleBarPersonalizada : UserControl
     }
     protected virtual void PicBtnFechar(object sender, EventArgs e)
     {
-        if(this.Parent is Form parentForm) { parentForm.Close(); }
+        if (Fechar == false) { FecharCustom?.Invoke(this, e); return; }
+        if (this.Parent is Form parentForm) { parentForm.Close(); }
     }
     protected virtual void PicBtnMaximizar(object sender, EventArgs e)
     {
+        if (Maximizar == false) { MaximizarCustom?.Invoke(this, e); return; }
         if (this.Parent is Form parentForm) {
             if (parentForm.WindowState == FormWindowState.Maximized)
                 parentForm.WindowState = FormWindowState.Normal;
@@ -133,6 +167,7 @@ public partial class TitleBarPersonalizada : UserControl
     }
     protected virtual void PicBtnMinimizar(object sender, EventArgs e)
     {
+        if (Minimizar == false) { MinimizarCustom?.Invoke(this, e); return; }
         if (this.Parent is Form parentForm) { parentForm.WindowState = FormWindowState.Minimized; }
     }
     private void TitleBarPersonalizada_Paint(object sender, PaintEventArgs e)
