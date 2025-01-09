@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Jasper")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b3a5f8e17d5c5954fb4b54d8f05dc1a9f5e346a3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04de01db638033d3f782f7fade0683a1588e2c73")]
 [assembly: System.Reflection.AssemblyProductAttribute("Jasper")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Jasper")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

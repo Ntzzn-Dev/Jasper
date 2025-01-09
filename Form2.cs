@@ -32,6 +32,7 @@ public partial class Form2 : Form
         InitializeComponent();
         DefinirGatilhos();
         ArtistasJaEscolhidos();
+        DefinirImgPadrao();
         btnSalvarMusica.Click += SalvarMusica;
         btnSalvarArtista.Click += SalvarArtista;
         btnSalvarPlaylist.Click += SalvarPlaylist;
@@ -40,6 +41,7 @@ public partial class Form2 : Form
     {
         InitializeComponent();
         DefinirGatilhos();
+        DefinirImgPadrao();
 
         txtbxNomeMusica.Texto = msc.getNomeMusica();
         
@@ -61,6 +63,7 @@ public partial class Form2 : Form
     {
         InitializeComponent();
         DefinirGatilhos();
+        DefinirImgPadrao();
 
         txtbxNomePlaylist.Texto = ply.getNomePlaylist();
         picImgPlaylist.Image = ply.getImgPlaylist();
@@ -71,6 +74,22 @@ public partial class Form2 : Form
         idAtual = ply.getIdPlaylist();
 
         TrocarPage(3);
+    }
+    public Form2(Artistas art)
+    {
+        InitializeComponent();
+        DefinirGatilhos();
+        DefinirImgPadrao();
+
+        txtbxNomeArtista.Texto = art.getNomeArtista();
+        picImgArtista.Image = art.getImgArtista();
+
+        txtbxImgArtista.LblPlaceholder = "Deixe em branco para manter";
+        btnSalvarArtista.Click += AlterarArtista;
+
+        idAtual = art.getIdArtista();
+
+        TrocarPage(2);
     }
     private void DefinirGatilhos()
     {
@@ -104,6 +123,11 @@ public partial class Form2 : Form
         dpdwnArtistaDaMusica3.Escolheu += (s, e) => ArtistasJaEscolhidos();
         dpdwnArtistaDaMusica4.Escolheu += (s, e) => ArtistasJaEscolhidos();
         dpdwnArtistaDaMusica5.Escolheu += (s, e) => ArtistasJaEscolhidos();
+    }
+    private void DefinirImgPadrao(){
+        picImgMusica.Image = Image.FromFile(Referencias.caminhoImgPadrao);
+        picImgArtista.Image = Image.FromFile(Referencias.caminhoImgPadrao);
+        picImgPlaylist.Image = Image.FromFile(Referencias.caminhoImgPadrao);
     }
     private void ArrumarDropdownAlterar(Musicas msc){
         List<int> idsArtistas = msc.getIdsArtistasMusica();
@@ -203,7 +227,7 @@ public partial class Form2 : Form
         musica.setImgMusica(picImgMusica.Image);
 
         Musicas.Salvar(musica);
-        this.Close();
+        FecharCadastro();
     }
     private async void AlterarMusica(object sender, EventArgs e)
     {
@@ -228,7 +252,7 @@ public partial class Form2 : Form
         }
 
         Musicas.Alterar(musica);
-        this.Close();
+        FecharCadastro();
     }
     private void SalvarArtista(object sender, EventArgs e)
     {
@@ -237,7 +261,17 @@ public partial class Form2 : Form
         art.setImgArtista(picImgArtista.Image);
 
         Artistas.Salvar(art);
-        this.Close();
+        FecharCadastro();
+    }
+    private void AlterarArtista(object sender, EventArgs e)
+    {
+        Artistas art = new Artistas();
+        art.setIdArtista(idAtual);
+        art.setNomeArtista(txtbxNomeArtista.Texto);
+        art.setImgArtista(picImgArtista.Image);
+
+        Artistas.Alterar(art);
+        FecharCadastro();
     }
     private void SalvarPlaylist(object sender, EventArgs e)
     {
@@ -246,9 +280,9 @@ public partial class Form2 : Form
         ply.setImgPlaylist(picImgPlaylist.Image);
 
         Playlists.Salvar(ply);
-        this.Close();
+        FecharCadastro();
     }
-    private async void AlterarPlaylist(object sender, EventArgs e)
+    private void AlterarPlaylist(object sender, EventArgs e)
     {
         Playlists ply = new Playlists();
         ply.setIdPlaylist(idAtual);
@@ -256,7 +290,7 @@ public partial class Form2 : Form
         ply.setImgPlaylist(picImgPlaylist.Image);
 
         Playlists.Alterar(ply);
-        this.Close();
+        FecharCadastro();
     }
     private void BtnTrocarPage(object sender, EventArgs e){
         int indice = 0;
@@ -280,19 +314,25 @@ public partial class Form2 : Form
 
         switch(indice){
             case 1:
-            music = 313;
-            btnPageMusica.BackColor = Color.FromArgb(26, 26, 26);
-            this.Size = new Size(1127, 407);
+                music = 313;
+                btnPageMusica.BackColor = Color.FromArgb(26, 26, 26);
+                titleWindow.Size = new Size(1130, titleWindow.Height);
+                titleBar.Size = new Size(1130, titleBar.Height);
+                this.Size = new Size(1146, 418);
                 break;
             case 2:
-            artist = 313;
-            btnPageArtista.BackColor = Color.FromArgb(26, 26, 26);
-            this.Size = new Size(694, 407);
+                artist = 313;
+                btnPageArtista.BackColor = Color.FromArgb(26, 26, 26);
+                titleWindow.Size = new Size(669, titleWindow.Height);
+                titleBar.Size = new Size(669, titleBar.Height);
+                this.Size = new Size(685, 418);
                 break;
             case 3:
-            playlist = 313;
-            btnPagePlaylist.BackColor = Color.FromArgb(26, 26, 26);
-            this.Size = new Size(694, 407);
+                playlist = 313;
+                btnPagePlaylist.BackColor = Color.FromArgb(26, 26, 26);
+                titleWindow.Size = new Size(669, titleWindow.Height);
+                titleBar.Size = new Size(669, titleBar.Height);
+                this.Size = new Size(685, 418);
                 break;
         }
 
@@ -301,6 +341,7 @@ public partial class Form2 : Form
         pnlCdtPlaylist.Size = new Size(669, playlist);
     }
     private void FecharCadastro(){
+        if(Musicas.QuantidadeMusicas() <= 0) { this.Owner.Close(); }
         this.Close();
     }
     private async Task<byte[]> AudioVideo()
@@ -449,7 +490,7 @@ public partial class Form2 : Form
 
         try
         {
-            string caminhoNavegador = GetDefaultBrowserPath();
+            string caminhoNavegador = @"C:\Program Files\Google\Chrome\Application\chrome.exe";//GetDefaultBrowserPath();
 
             Process navegadorAberto;
 

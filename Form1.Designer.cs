@@ -42,6 +42,7 @@
             picBtnAdicionarMusic = new PictureBox();
             picBtnEsconder = new PictureBox();
             pnlToolbox = new Panel();
+            picBtnVisualizarFila = new PictureBox();
             flwpnlPlaylists = new FlowLayoutPanel();
             picImgMusic = new PictureBox();
             picSoundMusic = new PictureBox();
@@ -62,6 +63,8 @@
             picBtnAvancarMusic = new PictureBox();
             sldTimelineMusic = new NthControls.Slider();
             pnlControlMusic = new Panel();
+            lblAllTimeMusic = new Label();
+            lblTimeMusic = new Label();
             lblCRUDTodasMusicas = new NthControls.LabelCRUD();
             dpdwOrganizar = new Dropdown();
             dpdwListar = new Dropdown();
@@ -70,6 +73,7 @@
             ((System.ComponentModel.ISupportInitialize)picBtnAdicionarMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBtnEsconder).BeginInit();
             pnlToolbox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picBtnVisualizarFila).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picImgMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picSoundMusic).BeginInit();
             pnlDetailsMusic.SuspendLayout();
@@ -105,9 +109,10 @@
             picBtnEsconder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             picBtnEsconder.BackColor = Color.Transparent;
             picBtnEsconder.Image = (Image)resources.GetObject("picBtnEsconder.Image");
-            picBtnEsconder.Location = new Point(724, 12);
+            picBtnEsconder.Location = new Point(749, 37);
             picBtnEsconder.Name = "picBtnEsconder";
-            picBtnEsconder.Size = new Size(75, 75);
+            picBtnEsconder.Size = new Size(50, 50);
+            picBtnEsconder.SizeMode = PictureBoxSizeMode.Zoom;
             picBtnEsconder.TabIndex = 2;
             picBtnEsconder.TabStop = false;
             // 
@@ -115,12 +120,25 @@
             // 
             pnlToolbox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlToolbox.BackColor = Color.FromArgb(21, 22, 23);
+            pnlToolbox.Controls.Add(picBtnVisualizarFila);
             pnlToolbox.Controls.Add(picBtnEsconder);
             pnlToolbox.Controls.Add(picBtnAdicionarMusic);
             pnlToolbox.Location = new Point(376, 0);
             pnlToolbox.Name = "pnlToolbox";
             pnlToolbox.Size = new Size(893, 100);
             pnlToolbox.TabIndex = 1;
+            // 
+            // picBtnVisualizarFila
+            // 
+            picBtnVisualizarFila.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            picBtnVisualizarFila.BackColor = Color.Transparent;
+            picBtnVisualizarFila.Image = Properties.Resources.AdicionarAFila;
+            picBtnVisualizarFila.Location = new Point(693, 37);
+            picBtnVisualizarFila.Name = "picBtnVisualizarFila";
+            picBtnVisualizarFila.Size = new Size(50, 50);
+            picBtnVisualizarFila.SizeMode = PictureBoxSizeMode.Zoom;
+            picBtnVisualizarFila.TabIndex = 3;
+            picBtnVisualizarFila.TabStop = false;
             // 
             // flwpnlPlaylists
             // 
@@ -270,7 +288,7 @@
             // 
             // picBtnPlayMusic
             // 
-            picBtnPlayMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            picBtnPlayMusic.Anchor = AnchorStyles.Bottom;
             picBtnPlayMusic.BackColor = Color.Transparent;
             picBtnPlayMusic.Image = Properties.Resources.Play;
             picBtnPlayMusic.Location = new Point(413, 17);
@@ -282,7 +300,7 @@
             // 
             // picBtnNextMusic
             // 
-            picBtnNextMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            picBtnNextMusic.Anchor = AnchorStyles.Bottom;
             picBtnNextMusic.BackColor = Color.Transparent;
             picBtnNextMusic.Image = (Image)resources.GetObject("picBtnNextMusic.Image");
             picBtnNextMusic.Location = new Point(503, 30);
@@ -294,7 +312,7 @@
             // 
             // picBtnPrevMusic
             // 
-            picBtnPrevMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            picBtnPrevMusic.Anchor = AnchorStyles.Bottom;
             picBtnPrevMusic.BackColor = Color.Transparent;
             picBtnPrevMusic.Image = (Image)resources.GetObject("picBtnPrevMusic.Image");
             picBtnPrevMusic.Location = new Point(348, 30);
@@ -306,7 +324,7 @@
             // 
             // picBtnRepetirMusic
             // 
-            picBtnRepetirMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            picBtnRepetirMusic.Anchor = AnchorStyles.Bottom;
             picBtnRepetirMusic.BackColor = Color.Transparent;
             picBtnRepetirMusic.Image = Properties.Resources.RepetirDesabilitado;
             picBtnRepetirMusic.Location = new Point(630, 30);
@@ -319,7 +337,7 @@
             // 
             // picBtnAleatorioMusic
             // 
-            picBtnAleatorioMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            picBtnAleatorioMusic.Anchor = AnchorStyles.Bottom;
             picBtnAleatorioMusic.BackColor = Color.Transparent;
             picBtnAleatorioMusic.Image = Properties.Resources.AleatorizarDesabilitado;
             picBtnAleatorioMusic.Location = new Point(221, 30);
@@ -332,7 +350,7 @@
             // 
             // picBtnRetroMusic
             // 
-            picBtnRetroMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            picBtnRetroMusic.Anchor = AnchorStyles.Bottom;
             picBtnRetroMusic.BackColor = Color.Transparent;
             picBtnRetroMusic.Image = (Image)resources.GetObject("picBtnRetroMusic.Image");
             picBtnRetroMusic.Location = new Point(287, 30);
@@ -345,7 +363,7 @@
             // 
             // picBtnAvancarMusic
             // 
-            picBtnAvancarMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            picBtnAvancarMusic.Anchor = AnchorStyles.Bottom;
             picBtnAvancarMusic.BackColor = Color.Transparent;
             picBtnAvancarMusic.Image = (Image)resources.GetObject("picBtnAvancarMusic.Image");
             picBtnAvancarMusic.Location = new Point(564, 30);
@@ -381,7 +399,9 @@
             // 
             pnlControlMusic.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pnlControlMusic.BackColor = Color.FromArgb(21, 22, 23);
+            pnlControlMusic.Controls.Add(lblAllTimeMusic);
             pnlControlMusic.Controls.Add(sldTimelineMusic);
+            pnlControlMusic.Controls.Add(lblTimeMusic);
             pnlControlMusic.Controls.Add(picBtnAvancarMusic);
             pnlControlMusic.Controls.Add(picBtnRetroMusic);
             pnlControlMusic.Controls.Add(picBtnAleatorioMusic);
@@ -393,6 +413,29 @@
             pnlControlMusic.Name = "pnlControlMusic";
             pnlControlMusic.Size = new Size(893, 110);
             pnlControlMusic.TabIndex = 2;
+            // 
+            // lblAllTimeMusic
+            // 
+            lblAllTimeMusic.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblAllTimeMusic.AutoSize = true;
+            lblAllTimeMusic.Font = new Font("Verdana", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAllTimeMusic.ForeColor = Color.Silver;
+            lblAllTimeMusic.Location = new Point(842, 8);
+            lblAllTimeMusic.Name = "lblAllTimeMusic";
+            lblAllTimeMusic.Size = new Size(48, 16);
+            lblAllTimeMusic.TabIndex = 39;
+            lblAllTimeMusic.Text = "00:00";
+            // 
+            // lblTimeMusic
+            // 
+            lblTimeMusic.AutoSize = true;
+            lblTimeMusic.Font = new Font("Verdana", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTimeMusic.ForeColor = Color.Silver;
+            lblTimeMusic.Location = new Point(3, 8);
+            lblTimeMusic.Name = "lblTimeMusic";
+            lblTimeMusic.Size = new Size(48, 16);
+            lblTimeMusic.TabIndex = 38;
+            lblTimeMusic.Text = "00:00";
             // 
             // lblCRUDTodasMusicas
             // 
@@ -530,6 +573,7 @@
             ((System.ComponentModel.ISupportInitialize)picBtnAdicionarMusic).EndInit();
             ((System.ComponentModel.ISupportInitialize)picBtnEsconder).EndInit();
             pnlToolbox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picBtnVisualizarFila).EndInit();
             ((System.ComponentModel.ISupportInitialize)picImgMusic).EndInit();
             ((System.ComponentModel.ISupportInitialize)picSoundMusic).EndInit();
             pnlDetailsMusic.ResumeLayout(false);
@@ -541,6 +585,7 @@
             ((System.ComponentModel.ISupportInitialize)picBtnRetroMusic).EndInit();
             ((System.ComponentModel.ISupportInitialize)picBtnAvancarMusic).EndInit();
             pnlControlMusic.ResumeLayout(false);
+            pnlControlMusic.PerformLayout();
             titleWindow.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -576,5 +621,8 @@
         private Dropdown dpdwListar;
         private Panel titleWindow;
         private NthControls.TitleBarPersonalizada titleBarPersonalizada1;
+        private PictureBox picBtnVisualizarFila;
+        private Label lblAllTimeMusic;
+        private Label lblTimeMusic;
     }
 }

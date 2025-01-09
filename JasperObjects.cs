@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Drawing.Drawing2D;
 using Microsoft.Data.Sqlite;
 
@@ -14,14 +13,11 @@ public class Musicas{
     public Musicas(){
 
     }
-
     public Musicas(int idDePesquisa)
     {
         try
         {
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -88,11 +84,9 @@ public class Musicas{
             string nome = msc.getNomeMusica();
             byte[] musica = msc.getBytesMusica();
             byte[] imgEmBytes = Referencias.ImageToByteArray(msc.getImgMusica());
-            List<int> artistasIds = msc.getIdsArtistasMusica().Count > 0 ? msc.getIdsArtistasMusica() : new List<int> { 0 };
+            List<int> artistasIds = msc.getIdsArtistasMusica().Count > 0 ? msc.getIdsArtistasMusica() : new List<int> { 1 };
 
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
                 string insertCommand = "INSERT INTO Musicas (Nome, Musica, Thumbnail) VALUES (@nome, @musica, @thumbnail); SELECT last_insert_rowid();";
@@ -109,21 +103,14 @@ public class Musicas{
 
                 if (artistasIds != null && artistasIds.Count > 0)
                 {
-                MessageBox.Show("1");
                     string insertArtistaMusicaCommand = "INSERT INTO Artistas_Musicas (Id_Artista, Id_Musica) VALUES (@idArtista, @idMusica)";
-                MessageBox.Show("2");
                     foreach (int idArtista in artistasIds)
                     {
-                MessageBox.Show("3");
                         using (var command = new SqliteCommand(insertArtistaMusicaCommand, connection))
                         {
-                MessageBox.Show("4");
                             command.Parameters.AddWithValue("@idArtista", idArtista);
-                MessageBox.Show("5");
                             command.Parameters.AddWithValue("@idMusica", idMusica);
-                MessageBox.Show("6");
                             command.ExecuteNonQuery();
-                MessageBox.Show("7");
                         }
                     }
                 }
@@ -146,9 +133,7 @@ public class Musicas{
             List<int> idsArtistas = msc.getIdsArtistasMusica();
             byte[] imgEmBytes = Referencias.ImageToByteArray(msc.getImgMusica());
 
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -202,10 +187,7 @@ public class Musicas{
     public static void Deletar(int idDeExclusao){
         try
         {
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-            string connectionString = $"Data Source={dbPath}";
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
                 string deleteCommand = "DELETE FROM Musicas WHERE id = @id";
@@ -233,65 +215,24 @@ public class Musicas{
             MessageBox.Show($"Erro ao excluir o atalho: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
-    public static ArrayList ConsultarIDs(int idPlaylist = 0, int idPlaylistArtista = -1){
-        ArrayList idsApps = new ArrayList();
-        try
-        {
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
-            {
-                connection.Open();
-
-                string selectCommand = "SELECT Id FROM Musicas";
-                if(idPlaylist != 0){
-                    selectCommand = "SELECT Musicas.Id FROM Playlist_Musicas INNER JOIN Musicas ON Playlist_Musicas.Id_Musica = Musicas.Id WHERE Playlist_Musicas.Id_Playlist = @idplaylist";
-                }
-                if(idPlaylistArtista != -1){
-                    selectCommand = "SELECT Musicas.Id FROM Artistas_Musicas INNER JOIN Musicas ON Artistas_Musicas.Id_Musica = Musicas.Id WHERE Artistas_Musicas.Id_Artista = @idplaylistArtista";
-                }
-                
-                using (var command = new SqliteCommand(selectCommand, connection)){
-                    if(idPlaylist != 0){command.Parameters.AddWithValue("@idplaylist", idPlaylist);}
-                    if(idPlaylistArtista != -1){command.Parameters.AddWithValue("@idplaylistArtista", idPlaylistArtista);}
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = reader.GetInt32(0);
-
-                            idsApps.Add(id);
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erro ao listar id das musicas: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        return idsApps;
-    }
-    public static List<Musicas> ConsultarMusicas(int idPlaylist = 0, int idPlaylistArtista = -1){
+    public static List<Musicas> ConsultarMusicas(int idPlaylist = 0){
         List<Musicas> mscs = new List<Musicas>();
         try
         {
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
                 string selectCommand = "SELECT m.Id, m.Nome, m.Musica, m.Thumbnail FROM Musicas m";
-                if(idPlaylist != 0){
+                if(idPlaylist > 0){
                     selectCommand = "SELECT m.Id, m.Nome, m.Musica, m.Thumbnail FROM Playlist_Musicas INNER JOIN Musicas m ON Playlist_Musicas.Id_Musica = m.Id WHERE Playlist_Musicas.Id_Playlist = @idplaylist";
                 }
-                if(idPlaylistArtista != -1){
+                if(idPlaylist < 0){
                     selectCommand = "SELECT m.Id, m.Nome, m.Musica, m.Thumbnail FROM Artistas_Musicas INNER JOIN Musicas m ON Artistas_Musicas.Id_Musica = m.Id WHERE Artistas_Musicas.Id_Artista = @idplaylistArtista";
                 }
                 using (var command = new SqliteCommand(selectCommand, connection)){
-                    if(idPlaylist != 0){command.Parameters.AddWithValue("@idplaylist", idPlaylist);}
-                    if(idPlaylistArtista != -1){command.Parameters.AddWithValue("@idplaylistArtista", idPlaylistArtista);}
+                    if(idPlaylist > 0){command.Parameters.AddWithValue("@idplaylist", idPlaylist);}
+                    if(idPlaylist < 0){command.Parameters.AddWithValue("@idplaylistArtista", -idPlaylist);}
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -360,6 +301,106 @@ public class Musicas{
         }
         return mscs;
     }
+    public static List<Musicas> ConsultarMusicas(List<int> idsNaFila){
+        List<Musicas> mscs = new List<Musicas>();
+        try
+        {
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
+            {
+                connection.Open();
+
+                string ids = string.Join(",", idsNaFila);
+                string selectCommand = $"SELECT m.Id, m.Nome, m.Musica, m.Thumbnail FROM Musicas m WHERE m.Id IN ({ids})";
+                using (var command = new SqliteCommand(selectCommand, connection)){
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            string nome = reader.GetString(1);
+
+                            Musicas msc = new Musicas();
+
+                            msc.setIdMusica(id);
+                            msc.setNomeMusica(nome);
+
+                            long tamanhoBlobMsc = reader.GetBytes(2, 0, null, 0, 0);
+                            byte[] bufferMsc = new byte[tamanhoBlobMsc];
+                            reader.GetBytes(2, 0, bufferMsc, 0, (int)tamanhoBlobMsc);
+                            
+                            msc.setBytesMusica(bufferMsc);
+
+                            long tamanhoBlobImg = reader.GetBytes(3, 0, null, 0, 0);
+                            byte[] bufferImg = new byte[tamanhoBlobImg];
+                            reader.GetBytes(3, 0, bufferImg, 0, (int)tamanhoBlobImg);
+
+                            using (MemoryStream ms = new MemoryStream(bufferImg))
+                            {
+                                Image img = Image.FromStream(ms);
+                                msc.setImgMusica(img);
+                            }
+
+                            mscs.Add(msc);
+                        }
+                    }
+                }
+
+                //Pegar Artistas
+                string selectCommand_ArtMsc = "SELECT a.Nome, a.Id FROM Artistas_Musicas INNER JOIN Artista a ON Artistas_Musicas.Id_Artista = a.Id WHERE Artistas_Musicas.Id_Musica = @idMusica";
+
+                foreach(Musicas msc in mscs){
+                    using (var selectCommand2 = new SqliteCommand(selectCommand_ArtMsc, connection))
+                    {
+                        selectCommand2.Parameters.AddWithValue("@idMusica", msc.getIdMusica());
+                        using (var reader = selectCommand2.ExecuteReader())
+                        {
+                            List<string> nomesArtistas = new List<string>();
+                            List<int> idsArtistas = new List<int>();
+                            while (reader.Read())
+                            {
+                                if (!reader.IsDBNull(0))
+                                {
+                                    string nomeArtista = reader.GetString(0);
+                                    nomesArtistas.Add(nomeArtista);
+                                }
+                                int idArtista = reader.GetInt32(1);
+                                idsArtistas.Add(idArtista);
+                            }
+                            msc.setNomesArtistasMusica(nomesArtistas);
+                            msc.setNomeArtistaMusica(string.Join(", ", nomesArtistas));
+                            msc.setIdsArtistasMusica(idsArtistas);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao listar musicas: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        return mscs;
+    }
+    public static int QuantidadeMusicas(){
+        int qntd = 0;
+        try{
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM Musicas";
+
+                using (var command = new SqliteCommand(query, connection))
+                {
+                    long count = (long)command.ExecuteScalar();
+                    qntd = (int)count;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao listar musicas: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        return qntd;
+    }
 
     public int getIdMusica(){
         return this.id;
@@ -414,9 +455,7 @@ public class Artistas{
     }
     public Artistas(int idDePesquisa){
         try{
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
                 string selectCommand = "SELECT Nome, Imagem FROM Artista WHERE Id = @id";
@@ -458,9 +497,7 @@ public class Artistas{
             string nome = art.getNomeArtista();
             byte[] imgEmBytes = Referencias.ImageToByteArray(art.getImgArtista());
 
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -486,10 +523,7 @@ public class Artistas{
             string nome = art.getNomeArtista();
             byte[] imgEmBytes = Referencias.ImageToByteArray(art.getImgArtista());
 
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-            string connectionString = $"Data Source={dbPath}";
-            
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -497,9 +531,9 @@ public class Artistas{
 
                 if (imgEmBytes.Length != 0) {condicaoCommand = ", Imagem = @img "; }
 
-                string insertCommand = $"UPDATE Artista SET Nome = @nome{condicaoCommand} WHERE Id = @id";
+                string updateCommand = $"UPDATE Artista SET Nome = @nome{condicaoCommand} WHERE Id = @id";
 
-                using (var command = new SqliteCommand(insertCommand, connection))
+                using (var command = new SqliteCommand(updateCommand, connection))
                 {
                     command.Parameters.AddWithValue("@nome", nome);
                     if (imgEmBytes.Length != 0) { command.Parameters.AddWithValue("@img", imgEmBytes); }
@@ -515,13 +549,54 @@ public class Artistas{
             MessageBox.Show($"Erro ao alterar a playlist: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+    public static void Deletar(int idDeExclusao){
+        try
+        {
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
+            {
+                connection.Open();
+ 
+                string getMusicasCommand = "SELECT Id_Musica FROM Artistas_Musicas WHERE Id_Musica IN (SELECT Id_Musica FROM Artistas_Musicas GROUP BY Id_Musica HAVING COUNT(*) < 2) AND Id_Artista = @idArtista;";
+                using (var getMusicasCmd = new SqliteCommand(getMusicasCommand, connection))
+                {
+                    getMusicasCmd.Parameters.AddWithValue("@idArtista", idDeExclusao);
+                    using (var reader = getMusicasCmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int idMusica = reader.GetInt32(0);
+
+                            string updateCommand_ArtMsc = "UPDATE Artistas_Musicas SET Id_Artista = 1 WHERE Id_Musica = @idMusica AND Id_Artista = @idArtista ";
+                            using (var updateCmd = new SqliteCommand(updateCommand_ArtMsc, connection))
+                            {
+                                updateCmd.Parameters.AddWithValue("@idMusica", idMusica);
+                                updateCmd.Parameters.AddWithValue("@idArtista", idDeExclusao);
+                                updateCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+
+                string deleteCommand = "DELETE FROM Artista WHERE id = @id";
+                using (var command = new SqliteCommand(deleteCommand, connection))
+                {
+                    command.Parameters.AddWithValue("@id", idDeExclusao);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao excluir o atalho: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
     public static List<Artistas> ConsultarArtistas(){
         List<Artistas> arts = new List<Artistas>();
         try
         {
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -590,9 +665,7 @@ public class Playlists{
     }
     public Playlists(int idDePesquisa){
         try{
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
                 string selectCommand = "SELECT Nome, Imagem FROM Playlist WHERE Id = @id";
@@ -634,9 +707,7 @@ public class Playlists{
             string nome = ply.getNomePlaylist();
             byte[] imgEmBytes = Referencias.ImageToByteArray(ply.getImgPlaylist());
 
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -662,10 +733,7 @@ public class Playlists{
             string nome = ply.getNomePlaylist();
             byte[] imgEmBytes = Referencias.ImageToByteArray(ply.getImgPlaylist());
 
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-            string connectionString = $"Data Source={dbPath}";
-            
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -694,10 +762,7 @@ public class Playlists{
     public static void Deletar(int idDeExclusao){
         try
         {
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-            string connectionString = $"Data Source={dbPath}";
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
                 string deleteCommand = "DELETE FROM Playlist WHERE id = @id";
@@ -720,9 +785,7 @@ public class Playlists{
         List<Playlists> plys = new List<Playlists>();
         try
         {
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -764,9 +827,7 @@ public class Playlists{
 
     public static void SalvarMusica(int idPlaylist, int idMusica){
         try{
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -787,9 +848,7 @@ public class Playlists{
     }
     public static void TirarMusica(int idPlaylist, int idMusica){
         try{
-            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
-
-            using (var connection = Referencias.CreateConnection(dbPath))
+            using (var connection = Referencias.CreateConnection(Referencias.dbPath))
             {
                 connection.Open();
 
@@ -830,6 +889,7 @@ public class Playlists{
 }
 public class Referencias{
     public static string caminhoImgPadrao = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Morgan.jpg");
+    public static string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "JasperMusic.db");
     public Referencias(){
 
     }

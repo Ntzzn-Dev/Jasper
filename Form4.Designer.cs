@@ -31,10 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form4));
             titleBarPersonalizada1 = new NthControls.TitleBarPersonalizada();
             pnlWindow = new Panel();
+            lblTimeMusic = new Label();
             picSoundMusic = new PictureBox();
             sldVolume = new NthControls.Slider();
-            lblDuracaoAtual = new Label();
-            lblDuracaoFinal = new Label();
             lblNomePlaylist = new Label();
             lblPlaylist = new Label();
             lblNomeArtista = new Label();
@@ -48,6 +47,7 @@
             picBtnPrevMusic = new PictureBox();
             picBtnAleatorioMusic = new PictureBox();
             picBtnRepetirMusic = new PictureBox();
+            lblAllTimeMusic = new Label();
             pnlWindow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picSoundMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picImgMusica).BeginInit();
@@ -82,10 +82,10 @@
             // 
             pnlWindow.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pnlWindow.BackColor = Color.FromArgb(44, 44, 44);
+            pnlWindow.Controls.Add(lblAllTimeMusic);
+            pnlWindow.Controls.Add(lblTimeMusic);
             pnlWindow.Controls.Add(picSoundMusic);
             pnlWindow.Controls.Add(sldVolume);
-            pnlWindow.Controls.Add(lblDuracaoAtual);
-            pnlWindow.Controls.Add(lblDuracaoFinal);
             pnlWindow.Controls.Add(lblNomePlaylist);
             pnlWindow.Controls.Add(lblPlaylist);
             pnlWindow.Controls.Add(lblNomeArtista);
@@ -104,6 +104,17 @@
             pnlWindow.Name = "pnlWindow";
             pnlWindow.Size = new Size(700, 149);
             pnlWindow.TabIndex = 18;
+            // 
+            // lblTimeMusic
+            // 
+            lblTimeMusic.AutoSize = true;
+            lblTimeMusic.Font = new Font("Verdana", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTimeMusic.ForeColor = Color.Silver;
+            lblTimeMusic.Location = new Point(126, 69);
+            lblTimeMusic.Name = "lblTimeMusic";
+            lblTimeMusic.Size = new Size(48, 16);
+            lblTimeMusic.TabIndex = 36;
+            lblTimeMusic.Text = "00:00";
             // 
             // picSoundMusic
             // 
@@ -134,28 +145,6 @@
             sldVolume.Value = 70;
             sldVolume.ValueMouse = 70;
             sldVolume.WithPoint = false;
-            // 
-            // lblDuracaoAtual
-            // 
-            lblDuracaoAtual.AutoSize = true;
-            lblDuracaoAtual.Font = new Font("Verdana", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDuracaoAtual.ForeColor = Color.Gray;
-            lblDuracaoAtual.Location = new Point(126, 69);
-            lblDuracaoAtual.Name = "lblDuracaoAtual";
-            lblDuracaoAtual.Size = new Size(48, 16);
-            lblDuracaoAtual.TabIndex = 33;
-            lblDuracaoAtual.Text = "00:00";
-            // 
-            // lblDuracaoFinal
-            // 
-            lblDuracaoFinal.AutoSize = true;
-            lblDuracaoFinal.Font = new Font("Verdana", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDuracaoFinal.ForeColor = Color.Gray;
-            lblDuracaoFinal.Location = new Point(637, 69);
-            lblDuracaoFinal.Name = "lblDuracaoFinal";
-            lblDuracaoFinal.Size = new Size(48, 16);
-            lblDuracaoFinal.TabIndex = 32;
-            lblDuracaoFinal.Text = "12:34";
             // 
             // lblNomePlaylist
             // 
@@ -312,6 +301,17 @@
             picBtnRepetirMusic.TabIndex = 22;
             picBtnRepetirMusic.TabStop = false;
             // 
+            // lblAllTimeMusic
+            // 
+            lblAllTimeMusic.AutoSize = true;
+            lblAllTimeMusic.Font = new Font("Verdana", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAllTimeMusic.ForeColor = Color.Silver;
+            lblAllTimeMusic.Location = new Point(636, 69);
+            lblAllTimeMusic.Name = "lblAllTimeMusic";
+            lblAllTimeMusic.Size = new Size(48, 16);
+            lblAllTimeMusic.TabIndex = 37;
+            lblAllTimeMusic.Text = "00:00";
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -353,9 +353,9 @@
         private Label lblPlaylist;
         private Label lblNomeArtista;
         private Label lblNomePlaylist;
-        private Label lblDuracaoFinal;
-        private Label lblDuracaoAtual;
         private NthControls.Slider sldVolume;
         private PictureBox picSoundMusic;
+        private Label lblTimeMusic;
+        private Label lblAllTimeMusic;
     }
 }

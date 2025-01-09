@@ -28,6 +28,9 @@
     <Compile Update="NthControls\Slider.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="NthControls\teste.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="NthControls\TitleBarPersonalizada.cs">
       <SubType>UserControl</SubType>
     </Compile>

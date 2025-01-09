@@ -84,6 +84,8 @@ partial class Form2
         dpdwnArtistaDaMusica3 = new Dropdown();
         lblNomeArtista5 = new Label();
         dpdwnArtistaDaMusica5 = new Dropdown();
+        titleWindow = new Panel();
+        titleBar = new NthControls.TitleBarPersonalizada();
         ((System.ComponentModel.ISupportInitialize)picImgMusica).BeginInit();
         ((System.ComponentModel.ISupportInitialize)picImgPlaylist).BeginInit();
         ((System.ComponentModel.ISupportInitialize)picImgArtista).BeginInit();
@@ -94,6 +96,7 @@ partial class Form2
         ((System.ComponentModel.ISupportInitialize)picPagePlaylist).BeginInit();
         ((System.ComponentModel.ISupportInitialize)picPageMusic).BeginInit();
         ((System.ComponentModel.ISupportInitialize)picPageArtista).BeginInit();
+        titleWindow.SuspendLayout();
         SuspendLayout();
         // 
         // lblNomeMusica
@@ -209,17 +212,20 @@ partial class Form2
         // 
         // btnAjudaPlaylist
         // 
+        btnAjudaPlaylist.BackColor = Color.FromArgb(59, 58, 58);
+        btnAjudaPlaylist.FlatStyle = FlatStyle.Flat;
         btnAjudaPlaylist.Location = new Point(396, 212);
         btnAjudaPlaylist.Name = "btnAjudaPlaylist";
         btnAjudaPlaylist.Size = new Size(244, 41);
         btnAjudaPlaylist.TabIndex = 37;
         btnAjudaPlaylist.Text = "Ajuda";
-        btnAjudaPlaylist.UseVisualStyleBackColor = true;
+        btnAjudaPlaylist.UseVisualStyleBackColor = false;
         // 
         // lblNomePlaylist
         // 
         lblNomePlaylist.AutoSize = true;
         lblNomePlaylist.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomePlaylist.ForeColor = Color.Silver;
         lblNomePlaylist.Location = new Point(13, 6);
         lblNomePlaylist.Name = "lblNomePlaylist";
         lblNomePlaylist.Size = new Size(179, 30);
@@ -228,6 +234,7 @@ partial class Form2
         // 
         // picImgPlaylist
         // 
+        picImgPlaylist.BackColor = Color.FromArgb(44, 44, 44);
         picImgPlaylist.Location = new Point(11, 141);
         picImgPlaylist.Name = "picImgPlaylist";
         picImgPlaylist.Size = new Size(160, 160);
@@ -237,26 +244,33 @@ partial class Form2
         // 
         // btnImgPlaylistOnline
         // 
+        btnImgPlaylistOnline.BackColor = Color.FromArgb(59, 58, 58);
+        btnImgPlaylistOnline.FlatAppearance.BorderSize = 0;
+        btnImgPlaylistOnline.FlatStyle = FlatStyle.Flat;
         btnImgPlaylistOnline.Location = new Point(396, 99);
         btnImgPlaylistOnline.Name = "btnImgPlaylistOnline";
         btnImgPlaylistOnline.Size = new Size(119, 28);
         btnImgPlaylistOnline.TabIndex = 35;
         btnImgPlaylistOnline.Text = "Pesquisar online";
-        btnImgPlaylistOnline.UseVisualStyleBackColor = true;
+        btnImgPlaylistOnline.UseVisualStyleBackColor = false;
         // 
         // btnImgPlaylistLocal
         // 
+        btnImgPlaylistLocal.BackColor = Color.FromArgb(59, 58, 58);
+        btnImgPlaylistLocal.FlatAppearance.BorderSize = 0;
+        btnImgPlaylistLocal.FlatStyle = FlatStyle.Flat;
         btnImgPlaylistLocal.Location = new Point(521, 99);
         btnImgPlaylistLocal.Name = "btnImgPlaylistLocal";
         btnImgPlaylistLocal.Size = new Size(119, 28);
         btnImgPlaylistLocal.TabIndex = 36;
         btnImgPlaylistLocal.Text = "Procurar";
-        btnImgPlaylistLocal.UseVisualStyleBackColor = true;
+        btnImgPlaylistLocal.UseVisualStyleBackColor = false;
         // 
         // lblImgPlaylist
         // 
         lblImgPlaylist.AutoSize = true;
         lblImgPlaylist.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblImgPlaylist.ForeColor = Color.Silver;
         lblImgPlaylist.Location = new Point(13, 65);
         lblImgPlaylist.Name = "lblImgPlaylist";
         lblImgPlaylist.Size = new Size(199, 30);
@@ -265,35 +279,42 @@ partial class Form2
         // 
         // btnSalvarPlaylist
         // 
+        btnSalvarPlaylist.BackColor = Color.FromArgb(59, 58, 58);
+        btnSalvarPlaylist.FlatStyle = FlatStyle.Flat;
         btnSalvarPlaylist.Location = new Point(396, 259);
         btnSalvarPlaylist.Name = "btnSalvarPlaylist";
         btnSalvarPlaylist.Size = new Size(119, 41);
         btnSalvarPlaylist.TabIndex = 38;
         btnSalvarPlaylist.Text = "Salvar";
-        btnSalvarPlaylist.UseVisualStyleBackColor = true;
+        btnSalvarPlaylist.UseVisualStyleBackColor = false;
         // 
         // btnCancelarPlaylist
         // 
+        btnCancelarPlaylist.BackColor = Color.FromArgb(59, 58, 58);
+        btnCancelarPlaylist.FlatStyle = FlatStyle.Flat;
         btnCancelarPlaylist.Location = new Point(521, 259);
         btnCancelarPlaylist.Name = "btnCancelarPlaylist";
         btnCancelarPlaylist.Size = new Size(119, 41);
         btnCancelarPlaylist.TabIndex = 39;
         btnCancelarPlaylist.Text = "Cancelar";
-        btnCancelarPlaylist.UseVisualStyleBackColor = true;
+        btnCancelarPlaylist.UseVisualStyleBackColor = false;
         // 
         // btnAjudaArtista
         // 
+        btnAjudaArtista.BackColor = Color.FromArgb(59, 58, 58);
+        btnAjudaArtista.FlatStyle = FlatStyle.Flat;
         btnAjudaArtista.Location = new Point(396, 212);
         btnAjudaArtista.Name = "btnAjudaArtista";
         btnAjudaArtista.Size = new Size(244, 41);
         btnAjudaArtista.TabIndex = 6;
         btnAjudaArtista.Text = "Ajuda";
-        btnAjudaArtista.UseVisualStyleBackColor = true;
+        btnAjudaArtista.UseVisualStyleBackColor = false;
         // 
         // lblNomeArtista
         // 
         lblNomeArtista.AutoSize = true;
         lblNomeArtista.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblNomeArtista.ForeColor = Color.Silver;
         lblNomeArtista.Location = new Point(13, 6);
         lblNomeArtista.Name = "lblNomeArtista";
         lblNomeArtista.Size = new Size(177, 30);
@@ -311,26 +332,33 @@ partial class Form2
         // 
         // btnImgArtistaOnline
         // 
+        btnImgArtistaOnline.BackColor = Color.FromArgb(59, 58, 58);
+        btnImgArtistaOnline.FlatAppearance.BorderSize = 0;
+        btnImgArtistaOnline.FlatStyle = FlatStyle.Flat;
         btnImgArtistaOnline.Location = new Point(396, 99);
         btnImgArtistaOnline.Name = "btnImgArtistaOnline";
         btnImgArtistaOnline.Size = new Size(119, 28);
         btnImgArtistaOnline.TabIndex = 4;
         btnImgArtistaOnline.Text = "Pesquisar online";
-        btnImgArtistaOnline.UseVisualStyleBackColor = true;
+        btnImgArtistaOnline.UseVisualStyleBackColor = false;
         // 
         // btnImgArtistaLocal
         // 
+        btnImgArtistaLocal.BackColor = Color.FromArgb(59, 58, 58);
+        btnImgArtistaLocal.FlatAppearance.BorderSize = 0;
+        btnImgArtistaLocal.FlatStyle = FlatStyle.Flat;
         btnImgArtistaLocal.Location = new Point(521, 99);
         btnImgArtistaLocal.Name = "btnImgArtistaLocal";
         btnImgArtistaLocal.Size = new Size(119, 28);
         btnImgArtistaLocal.TabIndex = 5;
         btnImgArtistaLocal.Text = "Procurar";
-        btnImgArtistaLocal.UseVisualStyleBackColor = true;
+        btnImgArtistaLocal.UseVisualStyleBackColor = false;
         // 
         // lblImgArtista
         // 
         lblImgArtista.AutoSize = true;
         lblImgArtista.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        lblImgArtista.ForeColor = Color.Silver;
         lblImgArtista.Location = new Point(13, 65);
         lblImgArtista.Name = "lblImgArtista";
         lblImgArtista.Size = new Size(197, 30);
@@ -339,21 +367,25 @@ partial class Form2
         // 
         // btnSalvarArtista
         // 
+        btnSalvarArtista.BackColor = Color.FromArgb(59, 58, 58);
+        btnSalvarArtista.FlatStyle = FlatStyle.Flat;
         btnSalvarArtista.Location = new Point(396, 259);
         btnSalvarArtista.Name = "btnSalvarArtista";
         btnSalvarArtista.Size = new Size(119, 41);
         btnSalvarArtista.TabIndex = 7;
         btnSalvarArtista.Text = "Salvar";
-        btnSalvarArtista.UseVisualStyleBackColor = true;
+        btnSalvarArtista.UseVisualStyleBackColor = false;
         // 
         // btnCancelarArtista
         // 
+        btnCancelarArtista.BackColor = Color.FromArgb(59, 58, 58);
+        btnCancelarArtista.FlatStyle = FlatStyle.Flat;
         btnCancelarArtista.Location = new Point(521, 259);
         btnCancelarArtista.Name = "btnCancelarArtista";
         btnCancelarArtista.Size = new Size(119, 41);
         btnCancelarArtista.TabIndex = 8;
         btnCancelarArtista.Text = "Cancelar";
-        btnCancelarArtista.UseVisualStyleBackColor = true;
+        btnCancelarArtista.UseVisualStyleBackColor = false;
         // 
         // pnlCdtMusic
         // 
@@ -451,7 +483,7 @@ partial class Form2
         // 
         // pnlCdtArtista
         // 
-        pnlCdtArtista.BackColor = SystemColors.GrayText;
+        pnlCdtArtista.BackColor = Color.FromArgb(44, 44, 44);
         pnlCdtArtista.Controls.Add(lblImgArtista);
         pnlCdtArtista.Controls.Add(txtbxImgArtista);
         pnlCdtArtista.Controls.Add(txtbxNomeArtista);
@@ -470,7 +502,7 @@ partial class Form2
         // 
         // txtbxImgArtista
         // 
-        txtbxImgArtista.backColor = Color.LightGray;
+        txtbxImgArtista.backColor = Color.FromArgb(59, 58, 58);
         txtbxImgArtista.LblPlaceholder = "Representação do artista";
         txtbxImgArtista.Location = new Point(13, 92);
         txtbxImgArtista.Multiline = false;
@@ -483,20 +515,20 @@ partial class Form2
         // 
         // txtbxNomeArtista
         // 
-        txtbxNomeArtista.backColor = Color.LightGray;
+        txtbxNomeArtista.backColor = Color.FromArgb(59, 58, 58);
         txtbxNomeArtista.LblPlaceholder = "Nome artístico";
         txtbxNomeArtista.Location = new Point(13, 32);
         txtbxNomeArtista.Multiline = false;
         txtbxNomeArtista.Name = "txtbxNomeArtista";
         txtbxNomeArtista.Password = false;
-        txtbxNomeArtista.Size = new Size(644, 36);
+        txtbxNomeArtista.Size = new Size(627, 36);
         txtbxNomeArtista.TabIndex = 33;
         txtbxNomeArtista.textColor = Color.DimGray;
         txtbxNomeArtista.Texto = "";
         // 
         // pnlCdtPlaylist
         // 
-        pnlCdtPlaylist.BackColor = SystemColors.GrayText;
+        pnlCdtPlaylist.BackColor = Color.FromArgb(44, 44, 44);
         pnlCdtPlaylist.Controls.Add(lblImgPlaylist);
         pnlCdtPlaylist.Controls.Add(txtbxImgPlaylist);
         pnlCdtPlaylist.Controls.Add(lblNomePlaylist);
@@ -515,7 +547,7 @@ partial class Form2
         // 
         // txtbxImgPlaylist
         // 
-        txtbxImgPlaylist.backColor = Color.LightGray;
+        txtbxImgPlaylist.backColor = Color.FromArgb(59, 58, 58);
         txtbxImgPlaylist.LblPlaceholder = "Imagem de exibição da Playlist";
         txtbxImgPlaylist.Location = new Point(13, 92);
         txtbxImgPlaylist.Multiline = false;
@@ -528,13 +560,13 @@ partial class Form2
         // 
         // txtbxNomePlaylist
         // 
-        txtbxNomePlaylist.backColor = Color.LightGray;
+        txtbxNomePlaylist.backColor = Color.FromArgb(59, 58, 58);
         txtbxNomePlaylist.LblPlaceholder = "";
         txtbxNomePlaylist.Location = new Point(13, 32);
         txtbxNomePlaylist.Multiline = false;
         txtbxNomePlaylist.Name = "txtbxNomePlaylist";
         txtbxNomePlaylist.Password = false;
-        txtbxNomePlaylist.Size = new Size(642, 36);
+        txtbxNomePlaylist.Size = new Size(627, 36);
         txtbxNomePlaylist.TabIndex = 43;
         txtbxNomePlaylist.textColor = Color.DimGray;
         txtbxNomePlaylist.Texto = "";
@@ -757,24 +789,52 @@ partial class Form2
         dpdwnArtistaDaMusica5.TamanhoDropdown = new Size(409, 28);
         dpdwnArtistaDaMusica5.TextDropdown = "Nome do artista";
         // 
+        // titleWindow
+        // 
+        titleWindow.BackColor = Color.FromArgb(27, 28, 29);
+        titleWindow.Controls.Add(lblNomeArtista5);
+        titleWindow.Controls.Add(dpdwnArtistaDaMusica5);
+        titleWindow.Controls.Add(lblNomeArtista4);
+        titleWindow.Controls.Add(dpdwnArtistaDaMusica4);
+        titleWindow.Controls.Add(lblNomeArtista3);
+        titleWindow.Controls.Add(dpdwnArtistaDaMusica3);
+        titleWindow.Controls.Add(lblNomeArtista2);
+        titleWindow.Controls.Add(dpdwnArtistaDaMusica2);
+        titleWindow.Controls.Add(lblNomeArtista1);
+        titleWindow.Controls.Add(dpdwnArtistaDaMusica1);
+        titleWindow.Controls.Add(pnlPageNav);
+        titleWindow.Controls.Add(pnlCdtPlaylist);
+        titleWindow.Controls.Add(pnlCdtArtista);
+        titleWindow.Controls.Add(pnlCdtMusic);
+        titleWindow.Location = new Point(8, 42);
+        titleWindow.Name = "titleWindow";
+        titleWindow.Size = new Size(1130, 368);
+        titleWindow.TabIndex = 35;
+        // 
+        // titleBar
+        // 
+        titleBar.BackColor = Color.Transparent;
+        titleBar.Fechar = false;
+        titleBar.LabelPosition = 1;
+        titleBar.Location = new Point(8, 8);
+        titleBar.Maximizar = true;
+        titleBar.Minimizar = true;
+        titleBar.Name = "titleBar";
+        titleBar.Size = new Size(1130, 34);
+        titleBar.TabIndex = 36;
+        titleBar.Title = "CADASTROS";
+        titleBar.WithFechar = true;
+        titleBar.WithMaximizar = false;
+        titleBar.WithMinimizar = false;
+        // 
         // Form2
         // 
         BackColor = Color.FromArgb(21, 22, 23);
-        ClientSize = new Size(1130, 368);
-        Controls.Add(lblNomeArtista5);
-        Controls.Add(dpdwnArtistaDaMusica5);
-        Controls.Add(lblNomeArtista4);
-        Controls.Add(dpdwnArtistaDaMusica4);
-        Controls.Add(lblNomeArtista3);
-        Controls.Add(dpdwnArtistaDaMusica3);
-        Controls.Add(lblNomeArtista2);
-        Controls.Add(dpdwnArtistaDaMusica2);
-        Controls.Add(lblNomeArtista1);
-        Controls.Add(dpdwnArtistaDaMusica1);
-        Controls.Add(pnlPageNav);
-        Controls.Add(pnlCdtPlaylist);
-        Controls.Add(pnlCdtArtista);
-        Controls.Add(pnlCdtMusic);
+        ClientSize = new Size(1146, 418);
+        Controls.Add(titleBar);
+        Controls.Add(titleWindow);
+        DoubleBuffered = true;
+        FormBorderStyle = FormBorderStyle.None;
         MaximizeBox = false;
         MinimizeBox = false;
         Name = "Form2";
@@ -792,8 +852,9 @@ partial class Form2
         ((System.ComponentModel.ISupportInitialize)picPagePlaylist).EndInit();
         ((System.ComponentModel.ISupportInitialize)picPageMusic).EndInit();
         ((System.ComponentModel.ISupportInitialize)picPageArtista).EndInit();
+        titleWindow.ResumeLayout(false);
+        titleWindow.PerformLayout();
         ResumeLayout(false);
-        PerformLayout();
     }
 
     #endregion
@@ -852,4 +913,6 @@ partial class Form2
     private Dropdown dpdwnArtistaDaMusica3;
     private Label lblNomeArtista5;
     private Dropdown dpdwnArtistaDaMusica5;
+    private Panel titleWindow;
+    private NthControls.TitleBarPersonalizada titleBar;
 }

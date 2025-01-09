@@ -16,25 +16,27 @@ public partial class Form1 : Form
     public static VolumeSource _volumeSource;
     private static float _volume = 1;
     public static string tempFilePath;
+    private SynchronizationContext _syncContext;
     // Musica ====================
     public static System.Threading.Timer timerWhileMusic;
     public static bool isPlaying = false, finalizandoMusica = false;
     public static Musicas musicaAtual;
     public static int idAtual = 1;
-    public static ArrayList filaAtual = new ArrayList();
+    public List<int> filaAtual = new List<int>();
     // Playlist =======================
     private bool playlistsArtista, filaPersonalizada;
-    public static int playlistAtual = 0;
+    public static int _playlistAtual = 0;
     private int vendoPlaylist = 0;
+    private int tipoDeOrganizacaoPlaylist = 0;
     private bool playlistsOcultas = true;
     private FlowLayoutPanel flwpnlPlaylistsAdicionar;
     private Popup pop;
     private int flwpnlPlaylistsHeight;
     private List<Control> controlesPermitidos = new List<Control>();
     // Controles ======================
-    private static int _repetir = 0;
-    private static int _aleatorio = 0;
-    public static List<int> aleatorioSemRepeticao = new List<int>();
+    private int _repetir = 0;
+    private int _aleatorio = 0;
+    public List<int> aleatorioSemRepeticao = new List<int>();
     // Getters and Setters ============
     public float VolumeNvl
     {
@@ -63,6 +65,18 @@ public partial class Form1 : Form
             _aleatorio = ToogleSituacao(_aleatorio - 1, picBtnAleatorioMusic, "Aleatorizar");
         }
     }
+    public int PlaylistAtual
+    {
+        get => _playlistAtual;
+        set
+        {
+            _playlistAtual = value;
+            FlowPanelPrincipalMusicas(_playlistAtual, true);
+        }
+    }
+    // Eventos ========================
+    public static event EventHandler musicaTrocada, musicNext, musicPrev, musicAdiantar, musicAtrasar, toogleMute;
+    public static event EventHandler btnPlayPause;
     // Hotkeys e DLL ==================
     private const int WM_NCHITTEST = 0x84;
     private const int HTLEFT = 10;
@@ -83,13 +97,21 @@ public partial class Form1 : Form
     public Form1()
     {
         InitializeComponent();
+        _syncContext = SynchronizationContext.Current;
         this.Load += AoCarregar;
 
         // Teclas de atalho
-        RegisterHotKey(this.Handle, 1, 0, (uint)Keys.NumPad8);                                              //Pausar ou despausar
-        RegisterHotKey(this.Handle, 2, 0, (uint)Keys.NumPad9);                                              //Passar
-        RegisterHotKey(this.Handle, 3, 0, (uint)Keys.NumPad7);                                              //Mutar e desmutar
+        RegisterHotKey(this.Handle, 1, (uint)ModifierKeys.Control, (uint)Keys.NumPad8);                     //Pausar ou despausar
+        RegisterHotKey(this.Handle, 2, (uint)ModifierKeys.Control, (uint)Keys.NumPad9);                     //Passar
+        RegisterHotKey(this.Handle, 3, (uint)ModifierKeys.Control, (uint)Keys.NumPad7);                     //Mutar e desmutar
         RegisterHotKey(this.Handle, 4, (uint)ModifierKeys.Control | (uint)ModifierKeys.Alt , (uint)Keys.Q); //Fechar
+
+        flwpnlListMusic.Resize += (s, e) => {
+            foreach (LabelCRUD lblCrud in flwpnlListMusic.Controls)
+            {
+                lblCrud.Size = new Size(flwpnlListMusic.Width - 29, lblCrud.Height);
+            }
+        };
 
         //*Garantia
         AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
@@ -115,24 +137,6 @@ public partial class Form1 : Form
     }
     protected override void WndProc(ref Message m)
     {
-        base.WndProc(ref m);
-
-        if (m.Msg == WM_HOTKEY)
-        {
-            int idDoAtalho = m.WParam.ToInt32();
-            if (idDoAtalho == 1) {
-                PlayMusica();
-            } else 
-            if (idDoAtalho == 2) {
-                NextMusic();
-            } else 
-            if (idDoAtalho == 3) {
-                ToggleSilenciar(null, null);
-            } else 
-            if (idDoAtalho == 4) {
-                Application.Exit();
-            }
-        }
         int gripSize = 8;
         if (m.Msg == WM_NCHITTEST)
         {
@@ -159,6 +163,22 @@ public partial class Form1 : Form
 
             return;
         }
+        else if (m.Msg == WM_HOTKEY)
+        {
+            int idDoAtalho = m.WParam.ToInt32();
+            if (idDoAtalho == 1) {
+                PlayMusica();
+            } else 
+            if (idDoAtalho == 2) {
+                MusicNext();
+            } else 
+            if (idDoAtalho == 3) {
+                ToggleMute();
+            } else 
+            if (idDoAtalho == 4) {
+                Application.Exit();
+            }
+        }
 
         base.WndProc(ref m);
     }
@@ -172,27 +192,33 @@ public partial class Form1 : Form
     }
     private void AoRecarregar()
     {
-        PegarIds();
+        FlowPanelPrincipalMusicas(vendoPlaylist);
         if (filaAtual.Count > 0){
             musicaAtual = new Musicas(idAtual);
 
             VolumeNvl = (float)sldVolumeMusic.Value / 100;
             DefinirImageVolume(sldVolumeMusic.Value);
             ExibicaoMusicaAtual();
-            FlowPanelPrincipalMusicas(playlistAtual);
-            ListarPlaylists();
+            if(dpdwListar.IdElemento == 0){
+                ListarPlaylists();
+                playlistsArtista = false;
+            }
+            if(dpdwListar.IdElemento == 1){
+                ListarArtistas();
+                playlistsArtista = true;
+            }
         }
     }
     private void DefinirGatilhos()
     {
         picBtnAdicionarMusic.Click += (s, e) => AbrirCadastro();
-        picBtnPlayMusic.Click += (s, e) => PlayMusica();
-        picBtnNextMusic.Click += (s, e) => NextMusic();
-        picBtnPrevMusic.Click += (s, e) => PrevMusic();
-        picSoundMusic.Click += ToggleSilenciar;
+        picBtnPlayMusic.Click += (s, e) => TogglePlay();
+        picBtnNextMusic.Click += (s, e) => MusicNext();
+        picBtnPrevMusic.Click += (s, e) => MusicPrev();
+        picSoundMusic.Click += (s, e) => ToggleMute();
 
-        picBtnAvancarMusic.Click += AdiantarMusica;
-        picBtnRetroMusic.Click += AtrasarMusica;
+        picBtnAvancarMusic.Click += (s, e) => MusicAdiantar();
+        picBtnRetroMusic.Click += (s, e) => MusicAtrasar();
 
         sldVolumeMusic.ValueMouseChanged += VolumeSlider;
         sldTimelineMusic.ValueMouseChanged += TimelineSlider;
@@ -214,42 +240,48 @@ public partial class Form1 : Form
             telaCadastro.Show();
         };
         
-        dpdwListar.Escolheu += (s, e) => {
-            if(dpdwListar.IdElemento == 0){
-                ListarPlaylists();
-                playlistsArtista = false;
-            }
-            if(dpdwListar.IdElemento == 1){
-                ListarArtistas();
-                playlistsArtista = true;
-            }
-        };
-    }
-    private void PegarIds()
-    {
-        filaAtual.Clear();
-        try
-        {
-            if(playlistsArtista){  filaAtual = Musicas.ConsultarIDs(0, playlistAtual);}
-            else { filaAtual = Musicas.ConsultarIDs(playlistAtual);}
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erro ao listar ids: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+        dpdwListar.Escolheu += (s, e) => EscolhaDpdwListar();
+        dpdwOrganizar.Escolheu += (s, e) => EscolhaDpdwOrganizar();
+        picBtnVisualizarFila.Click += (s, e) => VisualizarFila();
 
-        if (filaAtual.Count > 0)
-        {
-            if (!filaAtual.Contains(idAtual)) { idAtual = (int)filaAtual[0]; }
-        }
-        else 
-        {
-            AbrirCadastro();
-        }
+        // Eventos
+        musicNext += async (s,e) => await NextMusic();
+        musicPrev += async (s,e) => await PrevMusic();
+        musicAdiantar += (s,e) => AdiantarMusica();
+        musicAtrasar += (s,e) => AtrasarMusica();
+        toogleMute += (s,e) => ToggleSilenciar();
+
+        btnPlayPause += (s, e) => PlayMusica();
+    }
+
+    // Eventos ------------------------------------------------------------------------------------
+    public static void MusicNext()
+    {
+        musicNext?.Invoke(null, EventArgs.Empty);
+    }
+    public static void MusicPrev()
+    {
+        musicPrev?.Invoke(null, EventArgs.Empty);
+    }
+    public static void MusicAdiantar()
+    {
+        musicAdiantar?.Invoke(null, EventArgs.Empty);
+    }
+    public static void MusicAtrasar()
+    {
+        musicAtrasar?.Invoke(null, EventArgs.Empty);
+    }
+    public static void ToggleMute()
+    {
+        toogleMute?.Invoke(null, EventArgs.Empty);
+    }
+    public static void TogglePlay()
+    {
+        btnPlayPause?.Invoke(null, EventArgs.Empty);
     }
 
     // Musicas Audio ------------------------------------------------------------------------------
-    public static async Task CreateAudio()
+    public async Task CreateAudio()
     {
         try
         {
@@ -269,7 +301,7 @@ public partial class Form1 : Form
             MessageBox.Show($"Erro ao criar musica: {e.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
-    public static void InitializeAudio()
+    public void InitializeAudio()
     {
         try
         {
@@ -284,6 +316,8 @@ public partial class Form1 : Form
 
             _soundOut = new WasapiOut();
             _soundOut.Initialize(_volumeSource.ToWaveSource());
+            
+            musicaTrocada?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception e)
         {
@@ -306,6 +340,7 @@ public partial class Form1 : Form
                     _soundOut.Pause();
                     isPlaying = false;
                     picBtnPlayMusic.Image = Properties.Resources.Play;
+                    timerWhileMusic?.Dispose();
                 }
             }
             else
@@ -344,7 +379,7 @@ public partial class Form1 : Form
             else
             if (_soundOut.PlaybackState == PlaybackState.Playing)
             {
-                sldTimelineMusic.Value = (int)_audioSource.GetPosition().TotalSeconds;
+                AtualizarPosMusic();
             }
             else
             {
@@ -448,13 +483,17 @@ public partial class Form1 : Form
         }
         return false;
     }
-    private void AdiantarMusica(object sender, EventArgs e)
+    private void AdiantarMusica()
     {
         MudarTempoMusica((int)_audioSource.GetPosition().TotalSeconds + 10);
+        
+        AtualizarPosMusic();
     }
-    private void AtrasarMusica(object sender, EventArgs e)
+    private void AtrasarMusica()
     {
         MudarTempoMusica((int)_audioSource.GetPosition().TotalSeconds - 10);
+
+        AtualizarPosMusic();
     }
     private void VolumeSlider(object sender, EventArgs e)
     {
@@ -466,7 +505,7 @@ public partial class Form1 : Form
 
         DefinirImageVolume(sldVolumeMusic.Value);
     }
-    private void ToggleSilenciar(object sender, EventArgs e)
+    private void ToggleSilenciar()
     {
         if (_volumeSource != null)
         {
@@ -550,7 +589,7 @@ public partial class Form1 : Form
             lblAtual.CorBackGround = Color.FromArgb(44, 44, 44);
         }
         filaAtual.Add(idMusica);
-    }                           //////////////////////////////////////////////// adicionar visualizar fila
+    }
 
     // Musicas UI ---------------------------------------------------------------------------------
     private void TimelineSlider(object sender, EventArgs e)
@@ -559,35 +598,73 @@ public partial class Form1 : Form
     }
     private void TrocarSelecaoMusica()
     {
-        LabelCRUD lblAtual = FindControl(flwpnlListMusic, "lblCrud>" + musicaAtual.getIdMusica());
-        if (lblAtual != null && vendoPlaylist == playlistAtual && filaPersonalizada == false)
+        LabelCRUD lblAtual = flwpnlListMusic.Controls.OfType<LabelCRUD>().FirstOrDefault(lbl => lbl.CorBackGround == Color.FromArgb(36, 40, 81));
+        if (lblAtual != null && vendoPlaylist == _playlistAtual && filaPersonalizada == false)
         {
             lblAtual.CorBackGround = Color.FromArgb(44, 44, 44);
         }
         musicaAtual = new Musicas(idAtual);
         lblAtual = FindControl(flwpnlListMusic, "lblCrud>" + musicaAtual.getIdMusica());
-        if (lblAtual != null && vendoPlaylist == playlistAtual && filaPersonalizada == false)
+        if (lblAtual != null && vendoPlaylist == _playlistAtual && filaPersonalizada == false)
         {
             lblAtual.CorBackGround = Color.FromArgb(36, 40, 81);
         }
     }
-    private void FlowPanelPrincipalMusicas(int idPlaylist)
+    private void FlowPanelPrincipalMusicas(int idPlaylist, bool apenasIds = false)
     {
+        if(playlistsArtista){idPlaylist = idPlaylist * -1;}
+
+        List<Musicas> mscs = Musicas.ConsultarMusicas(idPlaylist);
+
+        switch(tipoDeOrganizacaoPlaylist){ // 0 = ordem de primeiro até ultimo
+            case 1: //Ordem de ultimo até primeiro
+                mscs.Reverse();
+                break;
+            case 2: //Nome A-Z
+                mscs.Sort((a, b) => string.Compare(a.getNomeMusica(), b.getNomeMusica(), StringComparison.OrdinalIgnoreCase));
+                break;
+            case 3: //Nome Z-A
+                mscs.Sort((a, b) => string.Compare(b.getNomeMusica(), a.getNomeMusica(), StringComparison.OrdinalIgnoreCase));
+                break;
+            case 4: //Nome artista A-Z
+                mscs.Sort((a, b) => string.Compare(a.getNomeArtistaMusica(), b.getNomeArtistaMusica(), StringComparison.OrdinalIgnoreCase));
+                break;
+            case 5: //Nome artista Z-A
+                mscs.Sort((a, b) => string.Compare(b.getNomeArtistaMusica(), a.getNomeArtistaMusica(), StringComparison.OrdinalIgnoreCase));
+                break;
+        }
+
+        if(_playlistAtual == idPlaylist){
+            filaAtual.Clear();
+            filaAtual = mscs.Select(m => m.getIdMusica()).ToList();
+            if (filaAtual.Count > 0)
+            {
+                if (!filaAtual.Contains(idAtual)) { idAtual = (int)filaAtual[0]; }
+            }
+            else 
+            {
+                AbrirCadastro();
+            }
+        }
+
+        if(apenasIds || filaAtual.Count <= 0){return;}
+
         foreach (Control control in flwpnlListMusic.Controls) { control.Dispose(); }
         flwpnlListMusic.Controls.Clear();
 
-        List<Musicas> mscs;
-        if(playlistsArtista){ mscs = Musicas.ConsultarMusicas(0, idPlaylist);}
-        else { mscs = Musicas.ConsultarMusicas(idPlaylist);}
-        
+        int tamanholbls = flwpnlListMusic.Size.Width - 6;
+        if(mscs.Count > 8){
+            tamanholbls -= 23;
+        }
         foreach (Musicas msc in mscs)
         {
             LabelCRUD lbl = new LabelCRUD()
             {
+                Anchor = AnchorStyles.Left | AnchorStyles.Right,
                 Texto = msc.getNomeMusica(),
                 Id = msc.getIdMusica(),
                 ImgPrincipal = msc.getImgMusica(),
-                Size = new Size(flwpnlListMusic.Size.Width - 6, 56),
+                Size = new Size(tamanholbls, 56),
                 Name = "lblCrud>" + msc.getIdMusica(),
                 CorBackGround = Color.FromArgb(44, 44, 44),
                 CorFontBackGround = Color.Silver
@@ -597,11 +674,10 @@ public partial class Form1 : Form
             lbl.Click += BtnSelecionarMusica;
             lbl.ImgEditarClick += BtnEditarMusica;
             lbl.ImgDeletarClick += BtnDeletarMusica;
-            lbl.ImgExpandirClick += BtnSalvarNaPlaylist;
+            lbl.ImgExpandirClick += PopupSalvarNaPlaylist;
 
             flwpnlListMusic.Controls.Add(lbl);
         }
-
         TrocarSelecaoMusica();
         ExibicaoMusicaAtual();
     }
@@ -614,11 +690,15 @@ public partial class Form1 : Form
             {
                 InitializeAudio();
             }
-            Referencias.PicDefinirCorDeFundo(musicaAtual.getImgMusica(), picImgMusic);
-            picImgMusic.Image = musicaAtual.getImgMusica();
-            lblNomeMusic.Text = musicaAtual.getNomeMusica();
-            lblArtistaMusic.Text = musicaAtual.getNomeArtistaMusica();
-            lblDuracaoMusic.Text = TimeSpan.FromSeconds(Math.Round(_audioSource.GetLength().TotalSeconds)).ToString(@"mm\:ss");
+            _syncContext.Post(_ =>
+            {
+                Referencias.PicDefinirCorDeFundo(musicaAtual.getImgMusica(), picImgMusic);
+                picImgMusic.Image = musicaAtual.getImgMusica();
+                lblNomeMusic.Text = musicaAtual.getNomeMusica();
+                lblArtistaMusic.Text = musicaAtual.getNomeArtistaMusica();
+                lblDuracaoMusic.Text = TimeSpan.FromSeconds(Math.Round(_audioSource.GetLength().TotalSeconds)).ToString(@"mm\:ss");
+                lblAllTimeMusic.Text = TimeSpan.FromSeconds(Math.Round(_audioSource.GetLength().TotalSeconds)).ToString(@"mm\:ss");
+            }, null);
         }
         catch (Exception e)
         {
@@ -635,6 +715,18 @@ public partial class Form1 : Form
             }
         }
         return null;
+    }
+    private void EscolhaDpdwOrganizar(){
+        tipoDeOrganizacaoPlaylist = dpdwOrganizar.IdElemento;
+
+        FlowPanelPrincipalMusicas(vendoPlaylist);
+    }
+    private void AtualizarPosMusic(){
+        sldTimelineMusic.Value = (int)_audioSource.GetPosition().TotalSeconds;
+        _syncContext.Post(_ =>
+        {
+            lblTimeMusic.Text = TimeSpan.FromSeconds(Math.Round(_audioSource.GetPosition().TotalSeconds)).ToString(@"mm\:ss");
+        }, null);
     }
 
     // Playlists UI -------------------------------------------------------------------------------
@@ -661,8 +753,8 @@ public partial class Form1 : Form
             lblArt.ImgPrincipalClick += (s, e) => DefinirPlaylist(art.getIdArtista());
             lblArt.LabelClick += (s, e) => DefinirPlaylist(art.getIdArtista());
             lblArt.Click += (s, e) => DefinirPlaylist(art.getIdArtista());
-            lblArt.ImgEditarClick += BtnEditarPlaylist;
-            lblArt.ImgDeletarClick += BtnDeletarPlaylist;
+            lblArt.ImgEditarClick += BtnEditarArtista;
+            lblArt.ImgDeletarClick += BtnDeletarArtista;
 
             flwpnlPlaylists.Controls.Add(lblArt);
         }
@@ -717,10 +809,41 @@ public partial class Form1 : Form
             FlowPanelPrincipalMusicas(vendoPlaylist);
         }
     }
+    private void BtnEditarArtista(object sender, EventArgs e)
+    {
+        LabelCRUD lblClicado = sender as LabelCRUD;
+        Artistas art = new Artistas(lblClicado.Id);
+
+        Form2 telaCadastro = new Form2(art);
+        telaCadastro.FormClosed += (s, e) => AoRecarregar();
+        telaCadastro.Owner = this;
+        telaCadastro.Show();
+    }
+    private void BtnDeletarArtista(object sender, EventArgs e)
+    {
+        LabelCRUD lblClicado = sender as LabelCRUD;
+        Artistas.Deletar(lblClicado.Id);
+        ListarArtistas();
+        if (vendoPlaylist == lblClicado.Id)
+        {
+            vendoPlaylist = 0;
+            FlowPanelPrincipalMusicas(vendoPlaylist);
+        }
+    }
     private void DefinirPlaylist(int idPly)
     {
         vendoPlaylist = idPly;
         FlowPanelPrincipalMusicas(idPly);
+    }
+    private void EscolhaDpdwListar(){
+        if(dpdwListar.IdElemento == 0){
+            ListarPlaylists();
+            playlistsArtista = false;
+        }
+        if(dpdwListar.IdElemento == 1){
+            ListarArtistas();
+            playlistsArtista = true;
+        }
     }
 
     // Botoes -------------------------------------------------------------------------------------
@@ -728,11 +851,10 @@ public partial class Form1 : Form
     {
         LabelCRUD lblClicado = sender as LabelCRUD;
         SelecionarMusica(lblClicado);
-        if (vendoPlaylist != playlistAtual || filaPersonalizada)
+        if (vendoPlaylist != _playlistAtual && filaPersonalizada == false)
         {
-            playlistAtual = vendoPlaylist;
-            PegarIds();
-            Playlists ply = new Playlists(playlistAtual);
+            PlaylistAtual = vendoPlaylist;
+            Playlists ply = new Playlists(_playlistAtual);
             lblPlaylistAtual.Text = string.IsNullOrEmpty(ply.getNomePlaylist()) ? "Todas" : ply.getNomePlaylist();
             TrocarSelecaoMusica();
         }
@@ -747,62 +869,72 @@ public partial class Form1 : Form
         LabelCRUD lblClicado = sender as LabelCRUD;
         DeletarMusica(lblClicado);
     }
-    private void BtnSalvarNaPlaylist(object sender, EventArgs e)
+    private void BtnSalvarNessaPlaylist(object sender, EventArgs e)
     {
         LabelCRUD lblClicado = sender as LabelCRUD;
+
+        int idMusica = int.Parse(lblClicado.Name.Split(">")[1]);
+        Playlists.SalvarMusica(lblClicado.Id, idMusica);
+
+        flwpnlPlaylistsTransition.Start();
+    }
+
+    // Popup --------------------------------------------------------------------------------------
+    private void PopupRetirarDaFila (object sender, EventArgs e){
+        LabelCRUD lblClicado = sender as LabelCRUD;
+
+        Boxes boxRetirarDaLista = new Boxes(){
+            IdBox = 3,
+            IdRepassar = lblClicado.Id,
+            Imagem = Properties.Resources.AdicionarAPlaylist,
+            Nome = "Retirar da lista"
+        };
+        List<Boxes> bxs = new List<Boxes>(){ boxRetirarDaLista };
+
+        CriarPopup(bxs);
+    }
+    private void PopupSalvarNaPlaylist(object sender, EventArgs e)
+    {
+        LabelCRUD lblClicado = sender as LabelCRUD;
+
+        Boxes boxAdicionarALista = new Boxes(){
+            IdBox = 1,
+            IdRepassar = lblClicado.Id,
+            Imagem = Properties.Resources.AdicionarAFila,
+            Nome = "Adicionar a fila"
+        };
+        List<Boxes> bxs = new List<Boxes>();
+        bxs.Add(boxAdicionarALista);
 
         //Retirar da Playlist
         if (vendoPlaylist != 0)
         {
-            Playlists.TirarMusica(vendoPlaylist, lblClicado.Id);
-            if (vendoPlaylist == playlistAtual)
-            {
-                PegarIds();
-                NextMusic();
-            }
-            FlowPanelPrincipalMusicas(vendoPlaylist);
+            Boxes boxRetirarDaPlaylist = new Boxes(){
+                IdBox = 2,
+                IdRepassar = lblClicado.Id,
+                Imagem = Properties.Resources.Pausar,
+                Nome = "Retirar da playlist"
+            };
+            bxs.Add(boxRetirarDaPlaylist);
         }
 
         //Adicionar a Playlist
-        else { 
-            pop = new Popup(){
-                ColorElementoPopup = Color.FromArgb(44, 44, 44),
-                ColorPopup = Color.FromArgb(21, 22, 23),
-                ColorTextPopup = Color.Silver,
-                Location = this.PointToClient(Cursor.Position),
-                Name = "popup1",
-                Size = new Size(278, 170),
-                SizePopup = new Size(0, 0),
-                TabIndex = 0,
-            };
-            Boxes boxAdicionarALista = new Boxes(){
+        else {
+            Boxes boxAdicionarAPlaylist = new Boxes(){
                 IdBox = 0,
                 IdRepassar = lblClicado.Id,
                 Imagem = Properties.Resources.AdicionarAPlaylist,
                 Nome = "Adicionar a playlist"
             };
-            Boxes boxAdicionarAPlaylist = new Boxes(){
-                IdBox = 1,
-                IdRepassar = lblClicado.Id,
-                Imagem = Properties.Resources.AdicionarAFila,
-                Nome = "Adicionar a fila"
-            };
-            pop.ElementosPopup.Add(boxAdicionarALista);
-            pop.ElementosPopup.Add(boxAdicionarAPlaylist);
-            this.Controls.Add(pop);
-            pop.BringToFront();
-            
-            pop.BoxClicadoEvent += ReconhecerEscolhaPopup;
-
-            controlesPermitidos = GetAllControls(pop);
-            controlesPermitidos.Add(pop);
-
-            CriarDetectarCliqueForaPopup(true);
+            bxs.Add(boxAdicionarAPlaylist);
         }
+
+        CriarPopup(bxs);
     }
     private void ReconhecerEscolhaPopup(object sender, EventArgs e){
         int botaoClicado = -1;
         int valorRepassado = -1;
+
         if (sender is Label label)
         {
             botaoClicado = int.Parse(label.Name.Split(">")[1]);
@@ -816,16 +948,39 @@ public partial class Form1 : Form
 
         if(botaoClicado == 0){SalvarNaPlaylist(valorRepassado); }
         if(botaoClicado == 1){AdicionarAFila(valorRepassado); }
-        
+        if(botaoClicado == 2){RetirarDaPlaylist(valorRepassado); }
+        if(botaoClicado == 3){RetirarDaFila(valorRepassado); }
+
+        CriarDetectarCliqueForaPopup(false);
+        pop.Enabled = false;
+        pop.Dispose();
+        this.Controls.Remove(pop);
     }
-    private void BtnSalvarNessaPlaylist(object sender, EventArgs e)
-    {
-        LabelCRUD lblClicado = sender as LabelCRUD;
+    private void CriarPopup(List<Boxes> boxes){
+        pop = new Popup(){
+            ColorElementoPopup = Color.FromArgb(44, 44, 44),
+            ColorPopup = Color.FromArgb(21, 22, 23),
+            ColorTextPopup = Color.Silver,
+            Location = this.PointToClient(Cursor.Position),
+            Name = "popup1",
+            Size = new Size(278, 170),
+            SizePopup = new Size(0, 0),
+            TabIndex = 0,
+        };
 
-        int idMusica = int.Parse(lblClicado.Name.Split(">")[1]);
-        Playlists.SalvarMusica(lblClicado.Id, idMusica);
+        foreach(Boxes box in boxes){
+            pop.ElementosPopup.Add(box);
+        }
 
-        flwpnlPlaylistsTransition.Start();
+        this.Controls.Add(pop);
+        pop.BringToFront();
+        
+        pop.BoxClicadoEvent += ReconhecerEscolhaPopup;
+
+        controlesPermitidos = GetAllControls(pop);
+        controlesPermitidos.Add(pop);
+
+        CriarDetectarCliqueForaPopup(true);
     }
 
     // Acoes --------------------------------------------------------------------------------------
@@ -863,23 +1018,25 @@ public partial class Form1 : Form
         Musicas.Deletar(lblClicado.Id);
         if (idAtual == lblClicado.Id)
         {
-            if (_soundOut != null)
-            {
+            if (_soundOut != null) {
                 await FinalizarMusica();
             }
-            if (!(await NextMusic()))
-            {
+            if (!await NextMusic()) {
                 await PrevMusic();
             }
         }
-        FlowPanelPrincipalMusicas(vendoPlaylist);
+        //Recriar fila atual sem a musica deletada
+        if(filaAtual.Contains(lblClicado.Id)){
+            PlaylistAtual = _playlistAtual;
+        }
+
+        LabelCRUD lblDeletar = FindControl(flwpnlListMusic, "lblCrud>" + lblClicado.Id);
+        flwpnlListMusic.Controls.Remove(lblDeletar);
     }
-    private async Task SalvarNaPlaylist(int id)
+    private void SalvarNaPlaylist(int id)
     {
-        if (flwpnlPlaylistsAdicionar != null)
-        {
-            flwpnlPlaylistsTransition.Start();
-            return;
+        if(flwpnlPlaylistsAdicionar != null){
+            TogglePlaylistsOcultas(); return;
         }
 
         flwpnlPlaylistsAdicionar = new FlowLayoutPanel()
@@ -924,6 +1081,87 @@ public partial class Form1 : Form
         }
 
         controlesPermitidos = GetAllControls(flwpnlPlaylistsAdicionar);
+        controlesPermitidos.Add(flwpnlPlaylistsAdicionar);
+
+        TogglePlaylistsOcultas();
+    }
+    private async void RetirarDaPlaylist(int id){
+        Playlists.TirarMusica(vendoPlaylist, id);
+        if (vendoPlaylist == _playlistAtual)
+        {
+            if(!await NextMusic()) {
+                await PrevMusic();
+            }
+        }
+
+        if(filaAtual.Contains(id)){
+            PlaylistAtual = _playlistAtual;
+        }
+        LabelCRUD lblDeletar = FindControl(flwpnlListMusic, "lblCrud>" + id);
+        flwpnlListMusic.Controls.Remove(lblDeletar);
+    }
+    private async void RetirarDaFila(int id){
+        filaAtual.Remove(id);
+
+        if (id == idAtual)
+        {
+            if(!await NextMusic()){
+                await PrevMusic();
+            };
+        }
+        LabelCRUD lblDeletar = FindControl(flwpnlPlaylistsAdicionar, "lblCrudFila>" + id);
+        flwpnlPlaylistsAdicionar.Controls.Remove(lblDeletar);
+    }
+    private void VisualizarFila()
+    {
+        if(flwpnlPlaylistsAdicionar != null){
+            TogglePlaylistsOcultas(); return;
+        }
+
+        flwpnlPlaylistsAdicionar = new FlowLayoutPanel()
+        {
+            Size = new Size(pnlControlMusic.Size.Width, 500),
+            Location = new Point(pnlControlMusic.Location.X, this.Size.Height),
+            Name = "flwpnlPlaylistsAdicionar",
+            Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+            AutoScroll = true,
+            BackColor = Color.FromArgb(7, 12, 26)
+        };
+
+        titleWindow.Controls.Add(flwpnlPlaylistsAdicionar);
+
+        flwpnlPlaylistsAdicionar.BringToFront();
+        pnlControlMusic.BringToFront();
+        List<int> listInt = filaAtual.Cast<int>().ToList();
+        List<Musicas> mscs = Musicas.ConsultarMusicas(listInt);
+        int tamanholbls = flwpnlPlaylistsAdicionar.Size.Width - 6;
+        if(mscs.Count > 8){
+            tamanholbls -= 23;
+        }
+        foreach (Musicas msc in mscs)
+        {
+            LabelCRUD lblMsc = new LabelCRUD()
+            {
+                Texto = msc.getNomeMusica(),
+                Id = msc.getIdMusica(),
+                ImgPrincipal = msc.getImgMusica(),
+                Size = new Size(tamanholbls, 56),
+                Name = "lblCrudFila>"+ msc.getIdMusica(),
+                WithEdit = false,
+                WithDelete = false,
+                CorBackGround = Color.FromArgb(44, 44, 44),
+                CorFontBackGround = Color.Silver
+            };
+            lblMsc.ImgPrincipalClick += BtnSelecionarMusica;
+            lblMsc.LabelClick += BtnSelecionarMusica;
+            lblMsc.Click += BtnSelecionarMusica;
+            lblMsc.ImgExpandirClick += PopupRetirarDaFila;
+
+            flwpnlPlaylistsAdicionar.Controls.Add(lblMsc);
+        }
+
+        controlesPermitidos = GetAllControls(flwpnlPlaylistsAdicionar);
+        controlesPermitidos.AddRange(GetAllControls(pnlControlMusic));
         controlesPermitidos.Add(flwpnlPlaylistsAdicionar);
 
         TogglePlaylistsOcultas();
@@ -1066,10 +1304,19 @@ public partial class Form1 : Form
     }
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
-        tempFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Musicas", musicaAtual.getNomeMusica() + ".m4a");
+        if (!this.IsDisposed && this.Handle != IntPtr.Zero)
+        {
+            UnregisterHotKey(this.Handle, 1);
+            UnregisterHotKey(this.Handle, 2);
+            UnregisterHotKey(this.Handle, 3);
+            UnregisterHotKey(this.Handle, 4);
+        }
+        if(musicaAtual != null){
+            tempFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Musicas", musicaAtual.getNomeMusica() + ".m4a");
+        }
         if (_soundOut != null)
         {
-            _soundOut?.Stop();
+            //_soundOut?.Stop();
             _soundOut?.Dispose();
             _audioSource?.Dispose();
         }
@@ -1077,11 +1324,6 @@ public partial class Form1 : Form
         {
             File.Delete(tempFilePath);
         }
-
-        UnregisterHotKey(this.Handle, 1);
-        UnregisterHotKey(this.Handle, 2);
-        UnregisterHotKey(this.Handle, 3);
-        UnregisterHotKey(this.Handle, 4);
 
         base.OnFormClosing(e);
     }

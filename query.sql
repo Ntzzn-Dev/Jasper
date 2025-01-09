@@ -33,21 +33,10 @@ CREATE TABLE Artistas_Musicas (
         ON DELETE CASCADE
 );
 
-INSERT INTO Artista (Id, nome, imagem) VALUES (0, "desconhecido", "");
-
 SELECT * FROM Musicas;
 SELECT * FROM Artista;
 SELECT * FROM Playlist;
 SELECT * FROM Playlist_Musicas;
 SELECT * FROM Artistas_Musicas;
 
-DELETE FROM Artista WHERE id = 2;
 DELETE FROM sqlite_sequence WHERE name='Artista';
-
-INSERT INTO Artistas_Musicas (Id_Artista, Id_Musica) VALUES (0, 1)
-
-INSERT INTO Playlist_Musicas (Id_Playlist, Id_Musica) VALUES (1, 1);
-INSERT INTO Playlist_Musicas (Id_Playlist, Id_Musica) VALUES (1, 3);
-
-INSERT INTO Artistas_Musicas (Id_Artista, Id_Musica) VALUES (6, 1);
-INSERT INTO Artistas_Musicas (Id_Artista, Id_Musica) VALUES (5, 4);

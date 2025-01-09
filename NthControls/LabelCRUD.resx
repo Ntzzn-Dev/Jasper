@@ -121,7 +121,7 @@
   <data name="picDeletar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EgAACxIB0t1+/AAABZpJREFUeF7tmkeoZEUUhp85o46Yw8I8YxYxi4gJxbRy4cqFoIMuRBcqKhgwoWLO
+        EQAACxEBf2RfkQAABZpJREFUeF7tmkeoZEUUhp85o46Yw8I8YxYxi4gJxbRy4cqFoIMuRBcqKhgwoWLO
         OaK4UJyBwREjuFFMmBOKOYE5x+/Dd6Bsbnff27zxVT/PDx/061e37q3TVeecOnUnUqlUKpVKpVKpVCqV
         SqVSqVQqNY1aHJaGDeEQOBpOh4vh0snPc8H/2ca2XvO/0WKwBhwKt8Cb8CP8NYQ/4Q24GQ4G+7CvGavl
         YDu4Gz6F0hBfw8fwDrw2iZ/97hv4FaL9J3AnbAv2OaPk0tkAroQvwQH/BM/CrXAGHAQOfl1YfhI/+53/
@@ -151,7 +151,7 @@
   <data name="picEditar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EgAACxIB0t1+/AAABIVJREFUeF7tmluoVVUUho9aZlpRChkVXSijkuyCplgWZCoIPaSldEOQlIIu+qAV
+        EQAACxEBf2RfkQAABIVJREFUeF7tmluoVVUUho9aZlpRChkVXSijkuyCplgWZCoIPaSldEOQlIIu+qAV
         2UsEXsgeolCIiiyNxF6iBMNELItCMslCQRMjy8IuaNHd/L6HAYvN2ev0WHOOHz7OYZ+9DsyfMcYcc8zV
         k0qlUqlUKpVKpVKpVCqVSqVS/0WdDDfD4/BUg8fgPOgPKTQIJsMmOAL/NPgB7obToWr1g3NgAWyHv6Bp
         VLATHobBUKVMK6NlOfwER+Fv+ALugVvhWfga/PwzMPqOh6pk2k2FF+BnMHo0bAWMhpCR9wAcBr9j9F0J
@@ -176,7 +176,7 @@
   <data name="picExpandir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EgAACxIB0t1+/AAAAKlJREFUeF7t2DEKwkAQhtHcw6sqXlmx0kZnMYGfsIUDVuE9+CAk3UDCZhYAAAAA
+        EQAACxEBf2RfkQAAAKlJREFUeF7t2DEKwkAQhtHcw6sqXlmx0kZnMYGfsIUDVuE9+CAk3UDCZhYAAAAA
         +DpV1+pRvdfG9bg3nhEu1avaBrX1rM4V4V7tB7V1qwizIWWE2YAywnjVZkMaeQ13xkfcB/5Hjg4AAMBB
         +d1psCltsCltmA0pI8wGlBFsShtsShscHQAAgIPyu9NgU9pgU9owG1JGmA0oI9iUNtiUNjg6AAAAAMBf
         LcsHc9Wm7QOiQ0EAAAAASUVORK5CYII=

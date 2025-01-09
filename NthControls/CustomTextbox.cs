@@ -32,7 +32,6 @@ public partial class CustomTextbox : UserControl
         {
             _texto = value;
             OnTextChanged(EventArgs.Empty);
-            this.Invalidate();
             textBox1.Text = _texto;
             if (textBox1.Text != "") {
                 isFocused = true;
@@ -41,6 +40,7 @@ public partial class CustomTextbox : UserControl
                 label1.Location = new Point(label1.Location.X, y);
                 label1.ForeColor = Color.Silver;
             }
+            this.Invalidate();
         }
     }
     public bool Password
